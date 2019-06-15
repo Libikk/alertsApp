@@ -33,20 +33,20 @@ let websites = [
     {
         name:"asda",
         link: 'https://groceries.asda.com/product/',
-        selector: '.discount-percentage',
+        selector: '#itemDetails .promoBanner',
         clientSideCheck: true,
         options: {
-          regexCheck: /save/i
+          regexCheck: /rollback/i
         },
         item: [
-            {
-                itemId: 'nicotine-gums/asda-nicotine-replace-2mg-gum-peppermint-flavour/910002911935' // no
-            },
             {
                 itemId: 'ham-pork-slices/asda-thick-dry-cured-ham-slices/910000226837' // yes
             },
             {
-                itemId: 'kids-yogurts/frubes-strawberry-flavour-yogurt/1000078555632' // yes
+                itemId: 'nicotine-gums/asda-nicotine-replace-2mg-gum-peppermint-flavour/910002911935' // no
+            },
+            {
+                itemId: 'fillets-grills/birds-eye-2-chicken-chargrills-periperi/910003005798' // no
             },
             {
                 itemId: 'kids-yogurts/yeo-valley-little-yeos-fruity-favourites-yogurt/1000000471824'// no
@@ -55,24 +55,29 @@ let websites = [
                 itemId: 'chicken-turkey/asda-4-lime-coriander-chicken-breast-sizzle-steaks/1000132169293'// no
             },
             {
-                itemId: 'fillets-grills/birds-eye-2-chicken-chargrills-periperi/910003005798' // no
+                itemId: 'kids-yogurts/frubes-strawberry-flavour-yogurt/1000078555632' //yes
+            },
+            {
+                itemId: 'oil/ktc-pure-butter-ghee/27535622' // yes
+            },
+            {
+                itemId: 'cooking-oils/east-end-pure-butter-ghee-for-cooking/910002823480' // no
             }
         ]
     }
 ]
 
 websites.forEach((singleWeb) => {
+    if (singleWeb.clientSideCheck) {
+        return clientSideScan.getClientSideCheck(singleWeb)
+    }
     singleWeb.item.forEach((singleItem) => {
-
-        if (singleWeb.clientSideCheck) {
-            return 0
-        }
 
     return serverSideScan.getServerSideCheck(
         singleWeb.link + singleItem.itemId,
         singleItem.selector || singleWeb.selector,
         singleItem.options || singleWeb.options
     )
-    .then(isPromo => console.log('isPromo: ', isPromo, 'for: ' + singleItem.itemId))
+    .then(isPromo => console.log('isPromo: ', isPromo, 'for: ' + singleWeb.link + singleItem.itemId))
     })
 })
