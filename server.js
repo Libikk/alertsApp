@@ -2,7 +2,7 @@ const app = require('express')();
 const server = require('http').Server(app);
 const next = require('next');
 
-const sql = require('./sql/serverMySQL');
+const sql = require('./sql/sqlServer');
 const dev = process.env.NODE_ENV === 'development';
 const nextApp = next({ dev });
 const handle = nextApp.getRequestHandler();
