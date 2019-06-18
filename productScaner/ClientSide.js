@@ -16,7 +16,7 @@ const getClientSideCheck = async (website) => {
         for (const singleProduct of website.item) {
            await executeCheck(website.link + singleProduct.itemId, website.selector, page, website.options)
         };
-    } catch( err){
+    } catch(err){
         console.error(err)
     }
 }
