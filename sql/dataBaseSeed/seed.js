@@ -1,4 +1,4 @@
-const sql = require('../sqlServer');
+const { sql, sqlQuery } = require('../sqlServer');
 const seedConfig = require('./seedConfig');
 const _ = require('lodash');
 
