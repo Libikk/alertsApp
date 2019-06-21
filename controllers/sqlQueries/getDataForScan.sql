@@ -4,6 +4,6 @@ SELECT
     CONCAT(web.urlToProduct, prod.productUrl) as "fullUrl",
     IFNULL(prod.regexCheck, web.regexCheck) as "regex",
     IFNULL(prod.selector, web.selector) as "selectorString",
-    IFNULL(prod.isClientSideCheck, web.isClientSideCheck) as "isClientSideCheck"
+    (case IFNULL(prod.isClientSideCheck, web.isClientSideCheck) when '0' then 0 when '1' then 1 end) as "isClientSideCheck"
 FROM discouthero.products prod
 JOIN discouthero.websites web on prod.websiteId = web.websiteId

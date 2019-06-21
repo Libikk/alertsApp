@@ -6,7 +6,9 @@ const executeCheck = async (link, selector, page, options) => {
     await page.waitForSelector(selector);
 
     const text = await page.$eval(selector, (el) => el.textContent);
-    console.log('isPromo: ', (options.regexCheck).test(text), link)
+    var a = (new RegExp(options.regexCheck, 'ig')).test(text)
+    console.log('isPromo clientSide: ', a, link)
+    return a;
 }
 
 const getClientSideCheck = async (website) => {
@@ -21,8 +23,27 @@ const getClientSideCheck = async (website) => {
     }
 }
 
+const getClientSideCheck2 = async (listOfProducts) => {
+    const prod = [];
+    try {
+        const browser = await puppeteer.launch({ headless: false });
+        const page = await browser.newPage();
+        for (const singleProduct of listOfProducts) {
+            if (singleProduct.isClientSideCheck) {
+                var isPromo = await executeCheck(singleProduct.fullUrl, singleProduct.selectorString, page, { regexCheck: singleProduct.regex })
+                prod.push(Object.assign({}, singleProduct, { isPromo }))
+            }
+
+        };
+    } catch( err){
+        console.error(err)
+    }
+    return prod;
+}
+
 module.exports = {
-    getClientSideCheck
+    getClientSideCheck,
+    getClientSideCheck2
 }
     // const page = await browser.newPage();
 
