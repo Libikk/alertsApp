@@ -11,19 +11,7 @@ const executeCheck = async (link, selector, page, options) => {
     return a;
 }
 
-const getClientSideCheck = async (website) => {
-    try {
-        const browser = await puppeteer.launch({ headless: false });
-        const page = await browser.newPage();
-        for (const singleProduct of website.item) {
-           await executeCheck(website.link + singleProduct.itemId, website.selector, page, website.options)
-        };
-    } catch( err){
-        console.error(err)
-    }
-}
-
-const getClientSideCheck2 = async (listOfProducts) => {
+const getClientSideCheck = async (listOfProducts) => {
     const prod = [];
     try {
         const browser = await puppeteer.launch({ headless: false });
@@ -42,10 +30,5 @@ const getClientSideCheck2 = async (listOfProducts) => {
 }
 
 module.exports = {
-    getClientSideCheck,
-    getClientSideCheck2
+    getClientSideCheck
 }
-    // const page = await browser.newPage();
-
-    //  console.log('-Go to first quered page...');
-    // await page.goto(urltoList, { waitUntil: 'domcontentloaded' });

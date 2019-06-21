@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "db:seed": "node ./sql/dataBaseSeed/seed.js",
-    "scan": "node productScanner/scan2"
+    "scan": "node ./productScaner/scan"
   },
   "keywords": [],
   "author": "",

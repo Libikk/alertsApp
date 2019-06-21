@@ -2,21 +2,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 const _ = require('lodash');
 
- getServerSideCheck = (link, selector, options) => {
-      return new Promise(function(resolve, reject){
-        request(link, (error, response, body) => {
-                const $ = cheerio.load(body)
-                const disc = $(selector)
-                if (options) {
-                    resolve((options.regexCheck).test(disc.text()))
-                }
-                resolve(disc.text())
-
-        });
-    });
-}
-
-getServerSideCheck2 = (listOfProducts) => {
+getServerSideCheck = (listOfProducts) => {
     const filteredProducts = _.cloneDeep(listOfProducts).filter(e => !e.isClientSideCheck);
     return filteredProducts.map(singleProduct => {
         return new Promise((resolve, reject) => {
@@ -36,6 +22,5 @@ getServerSideCheck2 = (listOfProducts) => {
 }
 
 module.exports = {
-    getServerSideCheck,
-    getServerSideCheck2
+    getServerSideCheck
 }
