@@ -39,6 +39,7 @@ createNewTables = () => {
         productId int NOT NULL,
         createdAt TIMESTAMP,
         isPromo BIT,
+        isError BIT,
         PRIMARY KEY (scanId)
       )`
     ]
