@@ -6,7 +6,7 @@ const seedConfig = {
             urlToProduct: '"https://4ecoshop.co.uk/gb/superfoods/"',
             selector: '".discount-percentage"',
             createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
-            regexCheck: '"/save/i"',
+            regexCheck: '"save"',
             isClientSideCheck: false
         },
         {
@@ -14,7 +14,7 @@ const seedConfig = {
             urlToProduct: '"https://groceries.asda.com/product/"',
             selector: '"#itemDetails .promoBanner"',
             createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
-            regexCheck: '"/rollback/i"',
+            regexCheck: '"rollback"',
             isClientSideCheck: true
         }
     ],
