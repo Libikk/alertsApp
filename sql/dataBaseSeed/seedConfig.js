@@ -7,7 +7,7 @@ const seedConfig = {
             selector: '".discount-percentage"',
             createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
             regexCheck: '"save"',
-            isClientSideCheck: false
+            isClientSideCheck: true
         },
         {
             url: '"https://groceries.asda.com"',
