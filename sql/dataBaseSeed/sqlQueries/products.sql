@@ -9,3 +9,4 @@ CREATE TABLE products (
         regexCheck varchar(255),
         isClientSideCheck BIT,
         PRIMARY KEY (productId)
+)
