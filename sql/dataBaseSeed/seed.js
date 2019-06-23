@@ -9,7 +9,7 @@ dropExistingTables = () => {
 }
 
 createNewTables = () => {
-    const websites = `CREATE TABLE websites (
+    const tables = [`CREATE TABLE websites (
         websiteId int NOT NULL AUTO_INCREMENT,
         name varchar(255),
         url varchar(10000),
@@ -19,9 +19,9 @@ createNewTables = () => {
         regexCheck varchar(255),
         isClientSideCheck BIT,
         PRIMARY KEY (websiteId)
-      )`
+      )`,
 
-      const products = `CREATE TABLE products (
+      `CREATE TABLE products (
         productId int NOT NULL AUTO_INCREMENT,
         websiteId int NOT NULL,
         productName varchar(255),
@@ -32,9 +32,20 @@ createNewTables = () => {
         regexCheck varchar(255),
         isClientSideCheck BIT,
         PRIMARY KEY (productId)
+      )`,
+
+      `CREATE TABLE productScans (
+        scanId int NOT NULL AUTO_INCREMENT,
+        productId int NOT NULL,
+        createdAt TIMESTAMP,
+        regexCheck varchar(255),
+        isPromo BIT,
+        PRIMARY KEY (scanId)
       )`
-      sql.query(products)
-      sql.query(websites)
+    ]
+
+    tables.forEach((singleTablein) => sqlQuery(singleTable)
+    );
 }
 
 createRows = () => {
