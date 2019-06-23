@@ -1,30 +1,46 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-const executeCheck = async (link, selector, page, options) => {
-    await page.goto(link)// || 'https://groceries.asda.com/product/ham-pork-slices/asda-thick-dry-cured-ham-slices/910000226837');
-    await page.waitForSelector(selector);
-
-    const text = await page.$eval(selector, (el) => el.textContent);
-    console.log('isPromo: ', (options.regexCheck).test(text), link)
+const opt = {
+    timeout: 6000
 }
 
-const getClientSideCheck = async (website) => {
+const executeCheck = async (link, selector, page, options) => {
+    const result = {
+        isPromo: false
+    }
     try {
-        const browser = await puppeteer.launch({ headless: false });
+        await page.goto(link)// || 'https://groceries.asda.com/product/ham-pork-slices/asda-thick-dry-cured-ham-slices/910000226837');
+        await page.waitForSelector(selector, opt);
+
+        const text = await page.$eval(selector, (el) => el.textContent);
+        result.isPromo = (new RegExp(options.regexCheck, 'ig')).test(text)
+        console.log('isPromo clientSide: ', result.isPromo, link)
+    } catch(err) {
+        console.error('err: ',link ,err);
+        result.isError = true
+    }
+    return result;
+}
+
+const getClientSideCheck = async (listOfProducts) => {
+    const prod = [];
+    try {
+        const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
-        for (const singleProduct of website.item) {
-           await executeCheck(website.link + singleProduct.itemId, website.selector, page, website.options)
+        for (const singleProduct of listOfProducts) {
+            if (singleProduct.isClientSideCheck) {
+                const checkResult = await executeCheck(singleProduct.fullUrl, singleProduct.selectorString, page, { regexCheck: singleProduct.regex })
+                prod.push(Object.assign({}, singleProduct, checkResult))
+            }
         };
-    } catch(err){
+        browser.close()
+    } catch( err){
         console.error(err)
     }
+    return prod;
 }
 
 module.exports = {
     getClientSideCheck
 }
-    // const page = await browser.newPage();
-
-    //  console.log('-Go to first quered page...');
-    // await page.goto(urltoList, { waitUntil: 'domcontentloaded' });

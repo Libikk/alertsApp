@@ -5,4 +5,13 @@ const sql = require('mysql').createConnection({
     database: 'discouthero'
 });
 
-module.exports = sql;
+const sqlQuery = (query, params) => {
+    return new Promise((resolve, reject) => {
+        sql.query(query, params, (error, response) => {
+            if (error) reject(error)
+            resolve(response)
+        });
+    });
+}
+
+module.exports = { sql, sqlQuery }

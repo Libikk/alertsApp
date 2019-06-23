@@ -4,17 +4,17 @@ const seedConfig = {
         {
             url: '"https://4ecoshop.co.uk"',
             urlToProduct: '"https://4ecoshop.co.uk/gb/superfoods/"',
-            selector: '".discount-percentage"',
+            selector: '".product-price .discount-percentage"',
             createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
-            regexCheck: '"/save/i"',
-            isClientSideCheck: false
+            regexCheck: '"save"',
+            isClientSideCheck: true
         },
         {
             url: '"https://groceries.asda.com"',
             urlToProduct: '"https://groceries.asda.com/product/"',
             selector: '"#itemDetails .promoBanner"',
             createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
-            regexCheck: '"/rollback/i"',
+            regexCheck: '"rollback"',
             isClientSideCheck: true
         }
     ],
@@ -99,7 +99,8 @@ const seedConfig = {
             isClientSideCheck: true,
             productUrl: '"cooking-oils/east-end-pure-butter-ghee-for-cooking/910002823480"' // no
         }
-    ]
+    ],
+    scans: []
 }
 
 module.exports = seedConfig;
