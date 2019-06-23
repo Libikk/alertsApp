@@ -27,4 +27,4 @@ scanProducts = () => {
         })
 
 }
-scanProducts()
+module.exports =  scanProducts
