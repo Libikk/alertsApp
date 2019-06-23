@@ -26,7 +26,7 @@ const executeCheck = async (link, selector, page, options) => {
 const getClientSideCheck = async (listOfProducts) => {
     const prod = [];
     try {
-        const browser = await puppeteer.launch({ headless: false });
+        const browser = await puppeteer.launch({ headless: true });
         const page = await browser.newPage();
         for (const singleProduct of listOfProducts) {
             if (singleProduct.isClientSideCheck) {
