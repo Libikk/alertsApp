@@ -100,7 +100,7 @@ const seedConfig = {
             productUrl: '"cooking-oils/east-end-pure-butter-ghee-for-cooking/910002823480"' // no
         }
     ],
-    productScans: []
+    scans: []
 }
 
 module.exports = seedConfig;

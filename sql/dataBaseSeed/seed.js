@@ -34,17 +34,16 @@ createNewTables = () => {
         PRIMARY KEY (productId)
       )`,
 
-      `CREATE TABLE productScans (
+      `CREATE TABLE scans (
         scanId int NOT NULL AUTO_INCREMENT,
         productId int NOT NULL,
         createdAt TIMESTAMP,
-        regexCheck varchar(255),
         isPromo BIT,
         PRIMARY KEY (scanId)
       )`
     ]
 
-    tables.forEach((singleTablein) => sqlQuery(singleTable)
+    tables.forEach((singleTable) => sqlQuery(singleTable)
     );
 }
 
