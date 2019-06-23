@@ -4,7 +4,7 @@ const seedConfig = {
         {
             url: '"https://4ecoshop.co.uk"',
             urlToProduct: '"https://4ecoshop.co.uk/gb/superfoods/"',
-            selector: '".discount-percentage"',
+            selector: '".product-price .discount-percentage"',
             createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
             regexCheck: '"save"',
             isClientSideCheck: true
