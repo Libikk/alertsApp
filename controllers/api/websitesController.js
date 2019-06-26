@@ -1,10 +1,11 @@
-const { sqlQuery} = require('../../sql/sqlServer');
+const { sqlQuery } = require('../../sql/sqlServer');
+const fs = require('fs');
 
 const websites = {
-    getWebsitesWithProducts: (params) => {
-        var sql = require('fs').readFileSync('./controllers/sqlQueries/getDataForScan.sql').toString();
-        return sqlQuery(sql, params)
-    }
-}
+  getWebsitesWithProducts: (params) => {
+    const sqlString = fs.readFileSync('./controllers/sqlQueries/getDataForScan.sql').toString();
+    return sqlQuery(sqlString, params);
+  },
+};
 
-module.exports = websites
+module.exports = websites;

@@ -2,14 +2,14 @@ const { sql, sqlQuery } = require('../sqlServer');
 const seedConfig = require('./seedConfig');
 const _ = require('lodash');
 
-dropExistingTables = () => {
-    Object.keys(seedConfig).forEach((singleTable) => {
-        sql.query(`DROP TABLE IF EXISTS ${singleTable}`)
-    })
-}
+const dropExistingTables = () => {
+  Object.keys(seedConfig).forEach((singleTable) => {
+    sql.query(`DROP TABLE IF EXISTS ${singleTable}`);
+  });
+};
 
-createNewTables = () => {
-    const tables = [`CREATE TABLE websites (
+const createNewTables = () => {
+  const tables = [`CREATE TABLE websites (
         websiteId int NOT NULL AUTO_INCREMENT,
         name varchar(255),
         url varchar(10000),
@@ -21,7 +21,7 @@ createNewTables = () => {
         PRIMARY KEY (websiteId)
       )`,
 
-      `CREATE TABLE products (
+  `CREATE TABLE products (
         productId int NOT NULL AUTO_INCREMENT,
         websiteId int NOT NULL,
         productName varchar(255),
@@ -34,34 +34,33 @@ createNewTables = () => {
         PRIMARY KEY (productId)
       )`,
 
-      `CREATE TABLE scans (
+  `CREATE TABLE scans (
         scanId int NOT NULL AUTO_INCREMENT,
         productId int NOT NULL,
         createdAt TIMESTAMP,
         isPromo BIT,
         isError BIT,
         PRIMARY KEY (scanId)
-      )`
-    ]
+      )`,
+  ];
 
-    tables.forEach((singleTable) => sqlQuery(singleTable)
-    );
-}
+  tables.forEach(singleTable => sqlQuery(singleTable));
+};
 
-createRows = () => {
-    _.mapKeys(seedConfig, (tableSeedValues, tableKey) => {
-        tableSeedValues.forEach(element => {
-            const stringOfColumns = Object.keys(element).reduce((acc, curColumn, index) => acc + (index === 0 ? `${curColumn}` : `, ${curColumn}`), '')
-            const stringOfValues = Object.keys(element).reduce((acc, curColumn, index) => acc + (index === 0 ? `${element[curColumn]}` : `, ${element[curColumn]}`), '')
-            const query = `INSERT INTO ${tableKey} (${stringOfColumns})
-            VALUES (${stringOfValues})`
-            sql.query(query)
-        });
-    })
-}
+const createRows = () => {
+  _.mapKeys(seedConfig, (tableSeedValues, tableKey) => {
+    tableSeedValues.forEach((element) => {
+      const stringOfColumns = Object.keys(element).reduce((acc, curColumn, index) => acc + (index === 0 ? `${curColumn}` : `, ${curColumn}`), '');
+      const stringOfValues = Object.keys(element).reduce((acc, curColumn, index) => acc + (index === 0 ? `${element[curColumn]}` : `, ${element[curColumn]}`), '');
+      const query = `INSERT INTO ${tableKey} (${stringOfColumns})
+            VALUES (${stringOfValues})`;
+      sql.query(query);
+    });
+  });
+};
 
-dropExistingTables()
-createNewTables()
-createRows()
+dropExistingTables();
+createNewTables();
+createRows();
 sql.end();
-console.log('DB seed has been completed!')
+console.log('DB seed has been completed!');

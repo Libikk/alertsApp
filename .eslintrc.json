@@ -19,6 +19,8 @@
     "node": true
   },
   "rules": {
+    "no-await-in-loop": "off",
+    "import/no-extraneous-dependencies": "off",
     "linebreak-style": "off",
     "react/prefer-stateless-function": "off",
     "react/prop-types": "off",
