@@ -1,9 +1,6 @@
 import React from 'react';
-import Box from '@material-ui/core/Box';
-import Icon from '@material-ui/core/Icon';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { Button, Icon, Box, IconButton } from '@material-ui/core';
+import { Visibility, Chat } from '@material-ui/icons';
 
 export default class Header extends React.Component {
 
@@ -19,7 +16,9 @@ export default class Header extends React.Component {
               <Button color="primary">One</Button>
               <Button color="secondary">Two</Button>
               <Button>Three</Button>
-
+              <Chat />
+              <Visibility />
+              <Icon>card_travel</Icon>
           <IconButton ></IconButton>
           <Icon>star</Icon>
         </Box>
