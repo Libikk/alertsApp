@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" height="100%" width="100%" viewBox="0 0 260 230">
+    <g id="svg-container" transform="matrix(4.75,0,0,4.75,22.009765625,75.33224368095398)"  transform-origin="7px 9px">
+        <g id="surrounding_shape" transform="matrix(1,0,0,1,27,1.6572184993796135)">;
+}>
+            <ellipse rx="10.208510593224878" ry="10.208510593224878" cx="0" cy="0" fill="#3fc23f" data-shape-id="custom" surrounded-groups="symbols" fill-type="opaque" id="surrounding_shape_0"></ellipse>
+        </g>
+        <g id="headline" transform="matrix(1,0,0,1,0,3.6601561193596837)">
+            <text data-font-id="1181" font-family="hk_grotesk__bold" id="headline_0" transform="matrix(1,0,0,1,0,22.27746135069162)" svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}">
+                <tspan id="headline_0_word_0" fill="#3fc23f" svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}">Discount</tspan>
+            </text>
+            <text data-font-id="1181" font-family="hk_grotesk__bold" id="headline_1" transform="matrix(1,0,0,1,9.5,34.46822685508635)" svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}">
+                <tspan id="headline_1_word_0" fill="#3fc23f" svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}">Hero</tspan>
+            </text>
+        </g>
+        <g id="symbols" transform="matrix(0.914372369349735,0,0,0.914372369349735,21.895610750684767,7.20274942403154)">
+            <text data-font-id="1213" font-family="heinberg__textured" id="symbols_0" transform="matrix(1.1620240729846216,0,0,1.1620240729846216,-0.9721444379077298,1.1341685108923514)" svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}">
+                <tspan id="symbols_0_word_0" fill="#ffffff" svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}">D</tspan>
+            </text>
+        </g>
+    </g>
+    <defs>
+        <style>@font-face {font-family: hk_grotesk__bold;src: url(https://pismo.tailorbrands.com/v2/px_fonts/hk_grotesk__bold)}</style>
+        <style>@font-face {font-family: heinberg__textured;src: url(https://pismo.tailorbrands.com/v2/px_fonts/heinberg__textured)}</style>
+    </defs>
+</svg>
