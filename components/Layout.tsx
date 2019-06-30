@@ -1,6 +1,8 @@
 import React from 'react';
 // import Footer from '../components/Footer';
 import Header from '../components/Header';
+import '../styles/globals.scss';
+
 type MyProps = {
     // using `interface` is also ok
     children: JSX.Element;
