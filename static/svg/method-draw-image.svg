@@ -1,0 +1,29 @@
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 113">
+ <defs>
+  <style>@font-face {font-family: hk_grotesk__bold;src: url(https://pismo.tailorbrands.com/v2/px_fonts/hk_grotesk__bold)}</style>
+  <style>@font-face {font-family: heinberg__textured;src: url(https://pismo.tailorbrands.com/v2/px_fonts/heinberg__textured)}</style>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="122" width="362" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g transform="matrix(4.366087332367897,0,0,4.414076521992683,138.77504680319714,84.70942035194585) " id="surrounding_shape">;
+}&gt;
+   <ellipse id="surrounding_shape_0" fill="#3fc23f" cy="-5.597868" cx="-19.495889" ry="10.208511" rx="10.208511"/></g>
+  <g transform="matrix(4.75,0,0,4.75,22.009765625,92.71798524791248) " id="headline">
+   <text x="18.188323" y="-31.368435" transform="matrix(1,0,0,1,0,22.27746135069162) " id="headline_0" font-family="hk_grotesk__bold">
+    <tspan fill="#3fc23f" id="headline_0_word_0">Discount</tspan>
+   </text>
+   <text x="18.188323" y="-31.368435" transform="matrix(1,0,0,1,9.5,34.46822685508635) " id="headline_1" font-family="hk_grotesk__bold">
+    <tspan fill="#3fc23f" id="headline_1_word_0">Hero</tspan>
+   </text>
+  </g>
+  <g transform="matrix(4.343268754411241,0,0,4.343268754411241,126.01391669075265,109.54530344510381) " id="symbols">
+   <text x="-19.735646" y="-5.247025" transform="matrix(1.1620240729846216,0,0,1.1620240729846216,-0.9721444379077298,1.1341685108923514) " id="symbols_0" font-family="heinberg__textured">
+    <tspan fill="#ffffff" id="symbols_0_word_0">D</tspan>
+   </text>
+  </g>
+ </g>
+</svg>

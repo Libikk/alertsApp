@@ -1,0 +1,25 @@
+@import './variables';
+
+.container__header {
+    position: static;
+
+    .header__tool-bar {
+        background: $white;
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 15px;
+
+        .tool-bar__options {
+            display: grid;
+            align-items: center;
+            grid-gap: 10px;
+            grid-template-columns: auto auto;
+
+            svg {
+                width: 200px;
+                margin-right: 20px;
+            }
+        }
+    }
+}

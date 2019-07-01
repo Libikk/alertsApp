@@ -1,4 +1,4 @@
-const serverSideScan = require('./ServerSide').default;
+const serverSideScan = require('./ServerSide');
 const clientSideScan = require('./ClientSide');
 const websitesController = require('../controllers/api/websitesController');
 const { sqlQuery } = require('../sql/sqlServer');

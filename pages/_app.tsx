@@ -1,21 +1,33 @@
-import App, { Container } from 'next/app'
-import React from 'react'
+import React from 'react';
+import App, { Container } from 'next/app';
+import Head from 'next/head';
+import { ThemeProvider } from '@material-ui/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from '../theme/theme';
 
-export default class MyApp extends App {
-  static async getInitialProps ({ Component, router, ctx }) {
-    let pageProps = {}
 
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx)
+class MyApp extends App {
+  componentDidMount() {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector('#jss-server-side');
+    if (jssStyles) {
+      jssStyles.parentNode.removeChild(jssStyles);
     }
-
-    return {pageProps}
   }
 
-  render () {
-    const {Component, pageProps} = this.props
-    return <Container>
-      <Component {...pageProps} />
-    </Container>
+  render() {
+    const { Component, pageProps } = this.props;
+
+    return (
+      <Container>
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </Container>
+    );
   }
 }
+
+export default MyApp;

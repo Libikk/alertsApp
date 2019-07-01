@@ -1,4 +1,5 @@
 import '../styles/styles.scss'
+import Layout from '../components/Layout';
 
 import React from 'react';
 export default class extends React.Component {
@@ -11,10 +12,13 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div className="title">
-        Hello Next.js this is testtt {this.state.a}
-        <button onClick={() => this.test(213)}></button>
-      </div>
+      <Layout>
+        <div className="title">
+          DISCOUT HERO
+          Hello Next.js this is testtt {this.state.a}
+          <button onClick={() => this.test(213)}></button>
+        </div>
+      </Layout>
     )
   }
 }

@@ -4,7 +4,7 @@ const next = require('next');
 // eslint-disable-next-line no-unused-vars
 const { sql, sqlQuery } = require('./sql/sqlServer');
 
-const dev = process.env.NODE_ENV === 'development';
+const dev = process.env.NODE_ENV !== 'development';
 const nextApp = next({ dev });
 const handle = nextApp.getRequestHandler();
 const scan = require('./productScaner/scan');
@@ -15,6 +15,10 @@ schedule.scheduleJob({ hour: 10, minute: 28 }, () => scan()); // every day, 10am
 
 nextApp.prepare()
   .then(() => {
+    app.get('/test', (req, res) => {
+      nextApp.render(req, res, '/test');
+    });
+
     app.get('*', (req, res) => handle(req, res));
 
     server.listen(3000, (err) => {
