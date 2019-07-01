@@ -14,7 +14,7 @@ export default class Header extends React.Component {
             <div className="header__tool-bar">
               <div className="tool-bar__options">
                 <ReactSVG src='../static/svg/method-draw-image.svg' />
-                <Button className="global__button--secondary">How it works?</Button>
+                <Button className="global__button--secondary">How it workss?</Button>
               </div>
               <Button className="global__button--primary">Login</Button>
             </div>
