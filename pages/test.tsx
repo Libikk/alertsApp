@@ -1,14 +1,21 @@
 import React from 'react'
 import Layout from '../components/Layout';
+import { connect } from 'react-redux';
 
-export default class Test extends React.Component {
+class Test extends React.Component {
+
   render () {
     return (
-        <Layout>
-            <div>
-                gunwo
-            </div>
-        </Layout>
+          <Layout>
+              <div>
+                  gunwo
+              </div>
+          </Layout>
     )
   }
 }
+const mapDispatchToProps = dispatch => ({
+
+});
+
+export default connect(state => state, mapDispatchToProps)(Test);
