@@ -5,11 +5,22 @@ import '../styles/styles.scss'
 import { getWebsitesWithProducts }from '../dispatchers/websitesDispatchers';
 
 import Layout from '../components/Layout';
+interface WebsitesList {
+  websitesList: Array<{
+    url: string,
+    createdAt: string,
+    websiteId: number
+  }> | null;
+}
 
+type MyProps = {
+  getWebsitesWithProducts: Function,
+  websites: WebsitesList,
+};
 
-class Index extends React.Component {
-  test = () => {
-    this.props.getWebsitesWithProducts();
+class Index extends React.Component<MyProps> {
+  test = (): object => {
+      return this.props.getWebsitesWithProducts();
    }
 
   render() {
@@ -25,7 +36,7 @@ class Index extends React.Component {
           <button onClick={() => this.test()}>ttttest</button>
           <button onClick={() => console.log(this.state, this.props)}>state</button>
           {
-            websites.websitesList ? websites.websitesList.map(singleWebsite => <div key={singleWebsite.websiteId}>{singleWebsite.createdAt}   ghagaga {singleWebsite.url}</div>) : null
+            websites.websitesList && websites.websitesList.map(singleWebsite => <div key={singleWebsite.websiteId}>{singleWebsite.createdAt}   ghagaga {singleWebsite.url}</div>)
           }
         </div>
       </Layout>
