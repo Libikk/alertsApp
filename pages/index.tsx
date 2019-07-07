@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import '../styles/styles.scss'
 import { getWebsitesWithProducts }from '../dispatchers/websitesDispatchers';
+import { WebsiteService } from '../api/websiteService';
 
 import Layout from '../components/Layout';
 interface WebsitesList {
@@ -19,9 +20,14 @@ type MyProps = {
 };
 
 class Index extends React.Component<MyProps> {
-  test = (): object => {
-      return this.props.getWebsitesWithProducts();
-   }
+  static async getInitialProps ({ query, store, isServer }) {
+    if (isServer) {
+      await getWebsitesWithProducts()(store.dispatch)
+    }
+    return { ...query }
+}
+
+  test = (): object => this.props.getWebsitesWithProducts();
 
   render() {
     const { websites } = this.props;
