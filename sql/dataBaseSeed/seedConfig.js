@@ -74,13 +74,13 @@ const seedConfig = {
       websiteId: 2,
       createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
       isClientSideCheck: true,
-      productUrl: '"kids-yogurts/yeo-valley-little-yeos-fruity-favourites-yogurt/1000000471824"',// no
+      productUrl: '"kids-yogurts/yeo-valley-little-yeos-fruity-favourites-yogurt/1000000471824"', // no
     },
     {
       websiteId: 2,
       createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
       isClientSideCheck: true,
-      productUrl: '"chicken-turkey/asda-4-lime-coriander-chicken-breast-sizzle-steaks/1000132169293"',// no
+      productUrl: '"chicken-turkey/asda-4-lime-coriander-chicken-breast-sizzle-steaks/1000132169293"', // no
     },
     {
       websiteId: 2,
@@ -112,6 +112,30 @@ const seedConfig = {
       createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
       isClientSideCheck: true,
       productUrl: '"olive-oil/farchioni-il-casolare-extra-virgin-olive-oil/910002433869"', // no
+    },
+    {
+      websiteId: 2,
+      createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
+      isClientSideCheck: true,
+      productUrl: '"duck-game-venison/asda-extra-special-whole-duck/1000005551124"', // no
+    },
+    {
+      websiteId: 2,
+      createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
+      isClientSideCheck: true,
+      productUrl: '"intensive-conditioner-masks/garnier-ultimate-blends-hair-food-banana-3in1-dry-hair-mask-treatment/1000109748224"', // no
+    },
+    {
+      websiteId: 2,
+      createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
+      isClientSideCheck: true,
+      productUrl: '"lamb-joints/asda-butchers-selection-lamb-leg-bone-in-joint-typically-2.15kg/6037108"', // no
+    },
+    {
+      websiteId: 2,
+      createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
+      isClientSideCheck: true,
+      productUrl: '"beef-joints/asda-butchers-selection-large-beef-joint-typically-1.8kg/5996903"', // no
     },
   ],
   scans: [],
