@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import '../styles/styles.scss'
 import { getWebsitesWithProducts }from '../dispatchers/websitesDispatchers';
-import { WebsiteService } from '../api/websiteService';
 
 import Layout from '../components/Layout';
 interface WebsitesList {
