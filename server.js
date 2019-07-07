@@ -10,11 +10,15 @@ const handle = nextApp.getRequestHandler();
 const scan = require('./productScaner/scan');
 const schedule = require('node-schedule');
 
+const websitesController = require('./controllers/api/websitesController2');
+
 schedule.scheduleJob({ hour: 10, minute: 28 }, () => scan()); // every day, 10am
 
 
 nextApp.prepare()
   .then(() => {
+    app.use('/api/websites', websitesController);
+
     app.get('/test', (req, res) => {
       nextApp.render(req, res, '/test');
     });
