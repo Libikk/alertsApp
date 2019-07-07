@@ -47,7 +47,13 @@ class Index extends React.Component<MyProps> {
           }
           <p>CURRENT DISCOUT HAHAH</p>
           {
-            scans.currentDiscounts && scans.currentDiscounts.map(singleProduct => <div key={singleProduct.productId}>{singleProduct.productUrl}  store ->> {singleProduct.websiteUrl}</div>)
+            scans.currentDiscounts && scans.currentDiscounts.map(singleProduct =>
+            <ul key={singleProduct.productId}>
+              <li>
+                <div><a href={singleProduct.productUrl}>{singleProduct.productUrl}</a> store ->>   <a href={singleProduct.websiteUrl}>{singleProduct.websiteUrl}</a></div>
+                <div>  at: {singleProduct.checkCreatedAt} </div>
+              </li>
+            </ul>)
           }
         </div>
       </Layout>

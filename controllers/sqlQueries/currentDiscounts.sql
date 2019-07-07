@@ -2,7 +2,8 @@ SELECT
   prod.productid "productId",
   CONCAT(website.urlToProduct, prod.productUrl) as "productUrl",
   website.name,
-  website.url as "websiteUrl"
+  website.url as "websiteUrl",
+  scan.createdat as "checkCreatedAt"
 FROM
   discouthero.products AS prod
   LEFT JOIN discouthero.scans scan ON scan.scanid = (
