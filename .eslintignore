@@ -1,2 +1,3 @@
 *.sql
+.next
 tsconfig.json
