@@ -100,6 +100,19 @@ const seedConfig = {
       isClientSideCheck: true,
       productUrl: '"cooking-oils/east-end-pure-butter-ghee-for-cooking/910002823480"', // no
     },
+
+    {
+      websiteId: 2,
+      createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
+      isClientSideCheck: true,
+      productUrl: '"washing-capsules-liquitabs/surf-tropical-lily-ylang-ylang-washing-capsules-30-washes/910003180806"', // yes
+    },
+    {
+      websiteId: 2,
+      createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
+      isClientSideCheck: true,
+      productUrl: '"olive-oil/farchioni-il-casolare-extra-virgin-olive-oil/910002433869"', // no
+    },
   ],
   scans: [],
 };
