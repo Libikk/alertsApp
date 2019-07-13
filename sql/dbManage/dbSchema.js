@@ -1,14 +1,3 @@
-// productId int NOT NULL AUTO_INCREMENT,
-// websiteId int NOT NULL,
-// productName varchar(255),
-// url varchar(10000),
-// productUrl varchar(10000),
-// createdAt TIMESTAMP,
-// selector varchar(255),
-// regexCheck varchar(255),
-// isClientSideCheck BIT,
-// PRIMARY KEY (productId)
-
 const DB_SCHEMA = {
   dbName: 'discountHero',
   tables: [
@@ -77,6 +66,44 @@ const DB_SCHEMA = {
         {
           columnName: 'createdAt',
           type: 'TIMESTAMP',
+        },
+        {
+          columnName: 'selector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'regexCheck',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'isClientSideCheck',
+          type: 'bit',
+        },
+      ],
+    },
+    {
+      tableName: 'scans',
+      columns: [
+        {
+          columnName: 'scanId',
+          type: 'int',
+          primary: true,
+        },
+        {
+          columnName: 'productId',
+          type: 'int',
+        },
+        {
+          columnName: 'createdAt',
+          type: 'timestamp',
+        },
+        {
+          columnName: 'isPromo',
+          type: 'bit',
+        },
+        {
+          columnName: 'isError',
+          type: 'bit',
         },
       ],
     },
