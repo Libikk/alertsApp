@@ -107,6 +107,36 @@ const DB_SCHEMA = {
         },
       ],
     },
+    {
+      tableName: 'users',
+      columns: [
+        {
+          columnName: 'userId',
+          type: 'int',
+          primary: true,
+        },
+        {
+          columnName: 'userName',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'password',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'email',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'lastLoggedIn',
+          type: 'timestamp',
+        },
+        {
+          columnName: 'createdAt',
+          type: 'timestamp',
+        },
+      ]
+    }
   ],
 };
 
