@@ -5,18 +5,18 @@ SELECT
   website.url as "websiteUrl",
   scan.createdat as "checkCreatedAt"
 FROM
-  discouthero.products AS prod
-  LEFT JOIN discouthero.scans scan ON scan.scanid = (
+  discounthero.products AS prod
+  LEFT JOIN discounthero.scans scan ON scan.scanid = (
     SELECT
       scanLoop.scanid
     FROM
-      discouthero.scans AS scanLoop
+      discounthero.scans AS scanLoop
     WHERE
       scanLoop.productid = prod.productid
     ORDER BY
       scanLoop.createdat DESC
     LIMIT 1
   )
-  JOIN discouthero.websites website on website.websiteId = prod.websiteId
+  JOIN discounthero.websites website on website.websiteId = prod.websiteId
 WHERE
   scan.ispromo

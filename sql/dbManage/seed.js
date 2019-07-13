@@ -5,7 +5,7 @@ const dbSchema = require('./dbSchema');
 
 const dropExistingTables = async () => {
   const promises = [];
-  dbSchema.tables.forEach(({ tableName }) => {
+  Object.keys(seedConfig).forEach((tableName) => {
     promises.push(sql.query(`DROP TABLE IF EXISTS ${tableName}`));
   });
   return Promise.all(promises);
@@ -68,16 +68,16 @@ const createOrUpdateTables = async () => {
 };
 
 const createRows = () => {
-  const promises = _.mapKeys(seedConfig, async (tableSeedValues, tableKey) => {
+  const promises = _.mapKeys(seedConfig, async (tableSeedValues, tableKey) =>
     // eslint-disable-next-line no-restricted-syntax
-    return tableSeedValues.map((element) => {
+     tableSeedValues.map((element) => {
       const stringOfColumns = Object.keys(element).reduce((acc, curColumn, index) => acc + (index === 0 ? `${curColumn}` : `, ${curColumn}`), '');
       const stringOfValues = Object.keys(element).reduce((acc, curColumn, index) => acc + (index === 0 ? `${element[curColumn]}` : `, ${element[curColumn]}`), '');
       const query = `INSERT INTO ${tableKey} (${stringOfColumns})
       VALUES (${stringOfValues})`;
       return sql.query(query);
-    });
-  });
+    })
+  );
   return Promise.all(promises).catch(console.error);
 };
 
