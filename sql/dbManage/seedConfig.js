@@ -3,6 +3,7 @@ const moment = require('moment');
 const seedConfig = {
   websites: [
     {
+      websiteId: null,
       url: '"https://4ecoshop.co.uk"',
       urlToProduct: '"https://4ecoshop.co.uk/gb/superfoods/"',
       selector: '".product-price .discount-percentage"',

@@ -2,7 +2,7 @@ const sql = require('mysql').createConnection({
   host: 'localhost',
   user: 'sytek',
   password: 'Cycki12345',
-  database: 'discouthero',
+  database: 'discounthero',
 });
 
 const sqlQuery = (query, params) => new Promise((resolve, reject) => {
