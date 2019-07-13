@@ -1,8 +1,11 @@
 const { sql, sqlQuery } = require('../sqlServer');
 const dbSchema = require('./dbSchema');
+const seedConfig = require('./seedConfig');
+const _ = require('lodash');
 
 const DB_UPDATE_CONFIG = {
-  dropExistingTables: true,
+  dropExistingTables: false,
+  createSeedRows: false,
 };
 
 const dropTable = (tableName) => {
@@ -30,6 +33,16 @@ const createColumnsForTable = async (tableName, columns) => {
   console.warn(`Created columns in ${tableName}: `, createdColumns.join(', '));
 };
 
+const createSeedRows = async () => {
+  await _.mapKeys(seedConfig, async (tableSeedValues, tableKey) =>
+    tableSeedValues.map(async (element) => {
+      const stringOfColumns = Object.keys(element).reduce((acc, curColumn, index) => acc + (index === 0 ? `${curColumn}` : `, ${curColumn}`), '');
+      const stringOfValues = Object.keys(element).reduce((acc, curColumn, index) => acc + (index === 0 ? `${element[curColumn]}` : `, ${element[curColumn]}`), '');
+      const query = `INSERT INTO ${tableKey} (${stringOfColumns}) VALUES (${stringOfValues})`;
+      await sqlQuery(query);
+    }));
+};
+
 
 const createOrUpdateTables = async () => {
   // eslint-disable-next-line no-restricted-syntax
@@ -38,7 +51,9 @@ const createOrUpdateTables = async () => {
     await createTableIfNotExist(tableName, columns);
     await createColumnsForTable(tableName, columns);
   }
+  if (DB_UPDATE_CONFIG.createSeedRows) await createSeedRows();
 };
+
 
 createOrUpdateTables().then(() => sql.end());
 
