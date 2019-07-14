@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const { sql, sqlQuery } = require('./sql/sqlServer');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const passport = require('./passportStrategy');
 
 const dev = process.env.NODE_ENV !== 'development';
 const nextApp = next({ dev });
@@ -24,6 +25,7 @@ nextApp.prepare()
   .then(() => {
     app.use(bodyParser.json());
     app.use(cookieParser());
+    app.use(passport.initialize());
 
     app.use('/api/websites', websitesController);
     app.use('/api/scans', scansController);
@@ -36,7 +38,12 @@ nextApp.prepare()
       const secret = 'FdsfDSF1dsfD__2..SFDS34)_;L;';
       const decoded = jwt.verify(token, secret);
       console.log('decoded: ', decoded);
-      res.send(decoded)
+      res.send(decoded);
+    });
+
+    app.get('/test2', passport.authenticate('jwt', { session: false }), (req, res) => {
+      console.log('VISTORY -------------------- VIcTORY')
+      res.send({LOL: 100})
     });
 
     app.get('*', (req, res) => handle(req, res));
