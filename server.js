@@ -7,6 +7,7 @@ const { sql, sqlQuery } = require('./sql/sqlServer');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const passport = require('./passportStrategy');
+const morgan = require('morgan');
 
 const dev = process.env.NODE_ENV !== 'development';
 const nextApp = next({ dev });
@@ -24,6 +25,7 @@ schedule.scheduleJob({ hour: 10, minute: 28 }, () => scan()); // every day, 10am
 
 nextApp.prepare()
   .then(() => {
+    app.use(morgan('dev'));
     app.use(bodyParser.json());
     app.use(cookieParser());
     app.use(passport.initialize());
@@ -35,9 +37,9 @@ nextApp.prepare()
 
     app.use((req, res, next) => {
       const error = new Error('Not found');
-      console.log('err KURWA----: ', Object.keys(err), err.message);
-      //next()
-      res.sendStatus(404).send({ msg: 'NO USER AT ALL' });
+      //console.log('err KURWA----: ', Object.keys(err), err.message);
+      next()
+      //res.sendStatus(404).send({ msg: 'NO USER AT ALL' });
     });
 
     app.get('/test', (req, res) => {
