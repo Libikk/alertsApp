@@ -17,6 +17,7 @@ const schedule = require('node-schedule');
 const websitesController = require('./controllers/api/websitesController2');
 const scansController = require('./controllers/api/scansController');
 const authController = require('./controllers/api/authController');
+const userController = require('./controllers/api/userController');
 
 schedule.scheduleJob({ hour: 10, minute: 28 }, () => scan()); // every day, 10am
 
@@ -30,6 +31,14 @@ nextApp.prepare()
     app.use('/api/websites', websitesController);
     app.use('/api/scans', scansController);
     app.use('/api/auth', authController);
+    app.use('/api/user', userController);
+
+    app.use((req, res, next) => {
+      const error = new Error('Not found');
+      console.log('err KURWA----: ', Object.keys(err), err.message);
+      //next()
+      res.sendStatus(404).send({ msg: 'NO USER AT ALL' });
+    });
 
     app.get('/test', (req, res) => {
       const token = req.cookies.access_token;

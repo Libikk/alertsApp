@@ -22,12 +22,12 @@ const jwtOptions = {
 const passportStrategy = new JwtStrategy(jwtOptions, (jwtPayload, next) => {
   sqlQuery('select * from users where userId = ? and userName = ?', [jwtPayload.id, jwtPayload.userName]).then((user) => {
     if (user[0]) {
-      next(null, user);
+      next(null, user[0]);
     } else {
       next(null, false);
     }
-  });
-});
+  }).catch(next);
+})
 
 passport.use(passportStrategy);
 
