@@ -33,7 +33,7 @@ nextApp.prepare()
     app.use('/api/websites', websitesController);
     app.use('/api/scans', scansController);
     app.use('/api/auth', authController);
-    app.use('/api/user', userController);
+    app.use('/api/user', passport.authenticate('jwt', { session: false }), userController);
 
     app.use((req, res, next) => {
       const error = new Error('Not found');
