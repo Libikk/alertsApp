@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 // eslint-disable-next-line no-unused-vars
 const { sql, sqlQuery } = require('./sql/sqlServer');
 const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
 const passport = require('./passportStrategy');
 const morgan = require('morgan');
 
@@ -35,32 +34,17 @@ nextApp.prepare()
     app.use('/api/auth', authController);
     app.use('/api/user', passport.authenticate('jwt', { session: false }), userController);
 
-    app.use((req, res, next) => {
-      const error = new Error('Not found');
-      //console.log('err KURWA----: ', Object.keys(err), err.message);
-      next()
-      //res.sendStatus(404).send({ msg: 'NO USER AT ALL' });
-    });
-
-    app.get('/test', (req, res) => {
-      const token = req.cookies.access_token;
-      console.log('req.cookies: ', req.cookies);
-      console.log('token: ', token);
-      const secret = 'FdsfDSF1dsfD__2..SFDS34)_;L;';
-      const decoded = jwt.verify(token, secret);
-      console.log('decoded: ', decoded);
-      res.send(decoded);
-    });
-
-    app.get('/test2', passport.authenticate('jwt', { session: false }), (req, res) => {
-      console.log('VISTORY -------------------- VIcTORY')
-      res.send({LOL: 100})
+    app.use((err, req, res, next) => {
+      res.status(err.status || 500);
+      res.json({
+        ...err,
+        msg: err.message,
+      });
     });
 
     app.get('*', (req, res) => handle(req, res));
 
     server.listen(3000, (err) => {
       if (err) throw err;
-
     });
   });
