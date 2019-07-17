@@ -1,6 +1,5 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 const { sqlQuery } = require('../../sql/sqlServer');
@@ -21,35 +20,19 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
   const { email, password } = req.body;
   if (email && password) {
-    const user = await sqlQuery('select password, userId, userName from users where email = ?', [email]).then(e => e[0]);
-    console.log('user: ', user);
+    const user = await sqlQuery('select * from users where email = ?', [email]).then(e => e[0]);
 
     if (!user) {
-      console.log('!user');
-      return res.sendStatus(404).send({ msg: 'Email or password wrong' });
+      return next(new Error('Wrong Email or Password'));
     }
 
-    const isSame = await bcrypt.compareSync(password, user.password);
-    console.log('isSame: ', isSame);
-    if (isSame) {
-      const secret = 'FdsfDSF1dsfD__2..SFDS34)_;L;';
-      const payload = {
-        id: user.userId,
-        userName: user.userName,
-      };
-      const token = jwt.sign(payload, secret, { expiresIn: '2d' });
-
-      res.cookie('access_token', token, {
-        httpOnly: true,
-      //  secure: true,
-      });
-      return res.send(payload);
+    if (bcrypt.compareSync(password, user.password)) {
+      sqlQuery('UPDATE users set lastLoggedIn = now() where email = ?', [email]);
+      return res.send({ userName: user.userName, userId: user.userId, email: user.email, lastLoggedIn: new Date() });
     }
-    console.log('HUUUJ');
-    return res.status(404).send({ msg: 'HUUUJ' });
+    return next(new Error('Wrong Password'));
   }
-  console.log('Invalid Data');
-  return res.status(404).send({ msg: 'Invalid Data' });
+  return next(new Error('Invalid data'));
 };
 
 router.post('/login', login);
