@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 // eslint-disable-next-line no-unused-vars
 const { sql, sqlQuery } = require('./sql/sqlServer');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 const passport = require('./passportStrategy');
 const morgan = require('morgan');
 
