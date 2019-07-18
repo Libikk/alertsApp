@@ -23,8 +23,8 @@ const login = async (req, res, next) => {
     }
 
     if (bcrypt.compareSync(password, user.password)) {
-      sqlQuery('UPDATE users set lastLoggedIn = now() where email = ?', [email]);
-      return res.send({ userName: user.userName, userId: user.userId, email: user.email, lastLoggedIn: new Date() }).catch(next);
+      sqlQuery('UPDATE users set lastLoggedIn = now() where email = ?', [email]).catch(next);
+      return res.send({ userName: user.userName, userId: user.userId, email: user.email, lastLoggedIn: new Date() });
     }
     return next(new Error('Wrong Password'));
   }
