@@ -32,12 +32,9 @@ export default class Header extends React.Component {
                   open={this.state.isModalOpen}
                   onClose={() => this.setState({ isModalOpen: false })}
                 >
-                  <div
-
-                    className='cycki'
-                  >
+                  <div>
                     <LoginRegisterPanel />
-                    <Button onClick={() => this.setState({ isModalOpen: false })}  className="global__button--primary">CLOSE</Button>
+                    {/* <Button onClick={() => this.setState({ isModalOpen: false })}  className="global__button--primary">CLOSE</Button> */}
                   </div>
                 </Modal>
               </div>
