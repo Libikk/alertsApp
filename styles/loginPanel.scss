@@ -3,12 +3,21 @@
 .login-panel {
     background: $white;
     max-width: 500px;
-    padding: 15px;
+    padding: 45px;
 
-}
+    .login-panel__sigle-input {
+        margin-bottom: 15px;
+        position: relative;
 
-.modal-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+        .input-switcher {
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 1;
+            cursor: pointer;
+            color: #1e70cd;
+            font-size: 85%;
+            font-weight: 400;
+        }
+    }
 }

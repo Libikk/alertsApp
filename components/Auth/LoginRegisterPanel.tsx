@@ -3,6 +3,7 @@ import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AuthService from '../../api/authService';
+import Icon from '@material-ui/core/Icon';
 import _ from 'lodash';
 import '../../styles/loginPanel.scss';
 
@@ -72,46 +73,61 @@ export default class LoginPanel extends React.Component {
         const { userName, email, password, formType } = this.state;
 
       return (
-        <Card className="login-panel">
+        <Card className="login-panel" tabIndex={-1}>
+            <Icon>lock-open</Icon>
             <h1>{formTypeOptions[formType].title}</h1>
-            {formTypeOptions[formType].links.email &&
-                <div onClick={() => this.changeFormType(formTypeOptions[formType].links.email)}>
-                    {formTypeOptions[formType].links.emailTitle}
-                </div>
-            }
-            <TextField
-                label="Email"
-                name="email"
-                type="email"
-                fullWidth
-                value={email}
-                onChange={this.handleInputChange}
-                InputLabelProps={{ shrink: true }}
-            />
-            {this.isFormType(['register']) && <TextField
-                label="User name"
-                name="userName"
-                fullWidth
-                value={userName}
-                onChange={this.handleInputChange}
-                InputLabelProps={{ shrink: true }}
-            />}
-            {formTypeOptions[formType].links.password &&
-                <div onClick={() => this.changeFormType(formTypeOptions[formType].links.password)}>
-                    {formTypeOptions[formType].links.passwordTitle}
-                </div>
-            }
-            {this.isFormType(['register', 'login']) && <TextField
-                fullWidth
-                label="Password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={this.handleInputChange}
-                InputLabelProps={{ shrink: true }}
-            />}
-            <Button onClick={this.handleClickLoginOrRegister}>{formTypeOptions[formType].buttonTitle}</Button>
+            <div className="login-panel__sigle-input">
+                {formTypeOptions[formType].links.email &&
+                    <span className="input-switcher" onClick={() => this.changeFormType(formTypeOptions[formType].links.email)}>
+                        {formTypeOptions[formType].links.emailTitle}
+                    </span>
+                }
+                <TextField
+                    label="Email"
+                    name="email"
+                    type="email"
+                    fullWidth
+                    value={email}
+                    onChange={this.handleInputChange}
+                    InputLabelProps={{ shrink: true }}
+                />
+            </div>
+
+                {this.isFormType(['register']) &&
+                    <div className="login-panel__sigle-input">
+                        <TextField
+                            label="User name"
+                            name="userName"
+                            fullWidth
+                            value={userName}
+                            onChange={this.handleInputChange}
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </div>
+                }
+
+
+            {this.isFormType(['register', 'login']) &&
+                <div className="login-panel__sigle-input">
+                {formTypeOptions[formType].links.password &&
+                    <span onClick={() => this.changeFormType(formTypeOptions[formType].links.password)} className="input-switcher">
+                        {formTypeOptions[formType].links.passwordTitle}
+                    </span>
+                }
+                <TextField
+                    fullWidth
+                    label="Password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={this.handleInputChange}
+                    InputLabelProps={{ shrink: true }}
+                />
+            </div>}
+
+            {this.props.modalCloseHandler &&
+            <Button onClick={this.handleClickLoginOrRegister}>{formTypeOptions[formType].buttonTitle}</Button>}
         </Card>
     );
   }

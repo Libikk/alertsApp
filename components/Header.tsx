@@ -17,6 +17,8 @@ export default class Header extends React.Component {
   test = () => {
     axios.get('http://localhost:3000/test').then(e => console.log(e))
   }
+  modalCloseHandler = () => this.setState({ isModalOpen: false })
+
     render() {
       return (
         <div className="container__header">
@@ -32,10 +34,7 @@ export default class Header extends React.Component {
                   open={this.state.isModalOpen}
                   onClose={() => this.setState({ isModalOpen: false })}
                 >
-                  <div>
-                    <LoginRegisterPanel />
-                    {/* <Button onClick={() => this.setState({ isModalOpen: false })}  className="global__button--primary">CLOSE</Button> */}
-                  </div>
+                  <LoginRegisterPanel />
                 </Modal>
               </div>
               <Button onClick={() => this.setState({ isModalOpen: true })}  className="global__button--primary">SIGN IN / SIGN UP</Button>
