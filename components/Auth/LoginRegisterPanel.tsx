@@ -3,8 +3,8 @@ import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AuthService from '../../api/authService';
-import Icon from '@material-ui/core/Icon';
 import _ from 'lodash';
+import AccessAlarmIcon from '@material-ui/icons/LockOpen';
 import '../../styles/loginPanel.scss';
 
 const formTypeOptions = {
@@ -74,7 +74,7 @@ export default class LoginPanel extends React.Component {
 
       return (
         <Card className="login-panel" tabIndex={-1}>
-            <Icon>lock-open</Icon>
+            <AccessAlarmIcon className="login-panel__icon"/>
             <h1>{formTypeOptions[formType].title}</h1>
             <div className="login-panel__sigle-input">
                 {formTypeOptions[formType].links.email &&
@@ -125,9 +125,9 @@ export default class LoginPanel extends React.Component {
                     InputLabelProps={{ shrink: true }}
                 />
             </div>}
-
-            {this.props.modalCloseHandler &&
-            <Button onClick={this.handleClickLoginOrRegister}>{formTypeOptions[formType].buttonTitle}</Button>}
+            <div className='login-panel__button-wrapper'>
+                <Button onClick={this.handleClickLoginOrRegister}>{formTypeOptions[formType].buttonTitle}</Button>
+            </div>
         </Card>
     );
   }

@@ -3,7 +3,8 @@
 .login-panel {
     background: $white;
     max-width: 500px;
-    padding: 45px;
+    padding: 30px 45px;
+    text-align: center;
 
     .login-panel__sigle-input {
         margin-bottom: 15px;
@@ -19,5 +20,13 @@
             font-size: 85%;
             font-weight: 400;
         }
+    }
+
+    .login-panel__icon {
+        font-size: 15vmin;
+    }
+
+    .login-panel__button-wrapper {
+        text-align: left;
     }
 }
