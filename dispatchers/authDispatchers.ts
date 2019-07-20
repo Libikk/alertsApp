@@ -1,5 +1,6 @@
 // const { sqlQuery } = require('../sql/sqlServer');
 import AuthService  from '../api/authService';
+import { logoutUser } from '../utils/auth'
 
 
 export const login = (personCredential) => (dispatch) => {
@@ -20,3 +21,8 @@ export const register = (personCredential) => (dispatch) => {
         })
     });
   };
+
+export const logout = () => (dispatch) => {
+    logoutUser()
+    return dispatch({ type: 'LOGOUT' })
+};

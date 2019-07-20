@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { logout } from '../dispatchers/authDispatchers';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
@@ -50,7 +52,7 @@ class Header extends React.Component {
               >
                 <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                 <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
               </Menu>
             </div>
           </AppBar>
@@ -59,4 +61,8 @@ class Header extends React.Component {
   }
 }
 
-export default connect(state => state)(Header)
+const mapDispatchToProps = dispatch => ({
+  logout: bindActionCreators(logout, dispatch),
+});
+
+export default connect(state => state, mapDispatchToProps)(Header)

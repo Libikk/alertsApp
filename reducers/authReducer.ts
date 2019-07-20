@@ -9,6 +9,11 @@ const initialState = {
         return Object.assign({}, state, {
             currentUser: action.payload,
         });
+      case 'LOGOUT':
+        console.log('LOGOUT: ');
+        return Object.assign({}, state, {
+            currentUser: null,
+        });
       default: return state;
     }
   };
