@@ -2,7 +2,9 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import AuthService from '../../api/authService';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { login, register } from '../../dispatchers/authDispatchers';
 import _ from 'lodash';
 import AccessAlarmIcon from '@material-ui/icons/LockOpen';
 import '../../styles/loginPanel.scss';
@@ -39,7 +41,7 @@ const formTypeOptions = {
     }
 }
 
-export default class LoginPanel extends React.Component {
+class LoginRegisterPanel extends React.Component {
     state = {
         formType: 'login',
         userName: '',
@@ -53,10 +55,10 @@ export default class LoginPanel extends React.Component {
     handleClickLoginOrRegister = () => {
         const { userName, email, password, formType } = this.state;
         if (formType === 'register' && userName && email && password ) {
-            AuthService.register({ userName, email, password })
+            this.props.register({ userName, email, password })
         }
         if (formType === 'login' && email && password ) {
-            AuthService.login({ email, password })
+            this.props.login({ email, password })
         }
         if (formType === 'resetpassword' && email) {
             // todo
@@ -132,3 +134,10 @@ export default class LoginPanel extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+    login: bindActionCreators(login, dispatch),
+    register: bindActionCreators(register, dispatch),
+  });
+
+  export default connect(state => state, mapDispatchToProps)(LoginRegisterPanel)

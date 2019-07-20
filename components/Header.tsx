@@ -1,25 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
-//import Icon from '../static/svg/logo.svg';
 import ReactSVG from 'react-svg'
 import LoginRegisterPanel from './Auth/LoginRegisterPanel'
+import Avatar from '@material-ui/core/Avatar';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import '../styles/header.scss';
-import axios from 'axios'
 
-
-export default class Header extends React.Component {
+class Header extends React.Component {
   state = {
-    isModalOpen: null
+    isModalOpen: null,
+    openMenu: false
   }
 
-  test = () => {
-    axios.get('http://localhost:3000/test').then(e => console.log(e))
-  }
+  handleClose = () => this.setState({ openMenu: false })
+
   modalCloseHandler = () => this.setState({ isModalOpen: false })
 
     render() {
+      const { auth } = this.props
+
       return (
         <div className="container__header">
           <AppBar
@@ -37,12 +40,23 @@ export default class Header extends React.Component {
                   <LoginRegisterPanel />
                 </Modal>
               </div>
-              <Button onClick={() => this.setState({ isModalOpen: true })}  className="global__button--primary">SIGN IN / SIGN UP</Button>
+              { auth && auth.currentUser ? <Avatar onClick={() => this.setState({ openMenu: true })}>{auth.currentUser.userName[0]}</Avatar>
+               : <Button onClick={() => this.setState({ isModalOpen: true })}  className="global__button--primary">SIGN IN / SIGN UP</Button>
+              }
+              <Menu
+                id="simple-menu"
+                open={this.state.openMenu}
+                onClose={this.handleClose}
+              >
+                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+              </Menu>
             </div>
           </AppBar>
-
-          <Button onClick={this.test}>test</Button>
         </div>
     );
   }
 }
+
+export default connect(state => state)(Header)

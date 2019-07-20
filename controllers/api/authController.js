@@ -9,7 +9,7 @@ const register = async (req, res, next) => {
   if (userName && email && password) {
     const hashPass = await bcrypt.hash(password, 10);
     sqlQuery('insert into users (userName, email, password, createdAt) values (?, ?, ?, ?)', [userName, email, hashPass, new Date()])
-      .then(() => res.sendStatus(200))
+      .then(response => res.send({ userName, email, userId: response.insertId }))
       .catch(next);
   }
 };
