@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 // eslint-disable-next-line no-unused-vars
 const { sql, sqlQuery } = require('./sql/sqlServer');
 const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
 const passport = require('./passportStrategy');
 const morgan = require('morgan');
 
@@ -37,6 +36,7 @@ nextApp.prepare()
 
     app.use((err, req, res, next) => {
       res.status(err.status || 500);
+      console.error(err);
       res.json({
         ...err,
         msg: err.message,

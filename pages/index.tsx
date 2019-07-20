@@ -29,7 +29,7 @@ class Index extends React.Component<MyProps> {
     return { ...query }
 }
 
-componentDidMount = () => {
+componentWillMount = () => {
   this.props.getUserData();
 }
 

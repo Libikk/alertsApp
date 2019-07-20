@@ -1,15 +1,23 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 const { sqlQuery } = require('../../sql/sqlServer');
+
+const authResponseHandler = (res, user) => {
+  const secret = 'FdsfDSF1dsfD__2..SFDS34)_;L;';
+  const context = { email: user.email, userName: user.userName };
+  const token = jwt.sign(context, secret, { expiresIn: '2d' });
+  res.cookie('access_token', token).json(user);
+};
 
 const register = async (req, res, next) => {
   const { userName, email, password } = req.body;
   if (userName && email && password) {
     const hashPass = await bcrypt.hash(password, 10);
-    sqlQuery('insert into users (userName, email, password, createdAt) values (?, ?, ?, ?)', [userName, email, hashPass, new Date()])
-      .then(response => res.send({ userName, email, userId: response.insertId }))
+    sqlQuery('insert into users (userName, email, password, createdAt) values (?, ?, ?, ?) ', [userName, email, hashPass, new Date()])
+      .then(response => authResponseHandler(res, { userName, email, userId: response.insertId }))
       .catch(next);
   }
 };
@@ -23,8 +31,9 @@ const login = async (req, res, next) => {
     }
 
     if (bcrypt.compareSync(password, user.password)) {
-      sqlQuery('UPDATE users set lastLoggedIn = now() where email = ?', [email]).catch(next);
-      return res.send({ userName: user.userName, userId: user.userId, email: user.email, lastLoggedIn: new Date() });
+      return sqlQuery('UPDATE users set lastLoggedIn = now() where email = ?', [email])
+        .then(() => authResponseHandler(res, { userName: user.userName, email: user.email, lastLoggedIn: new Date() }))
+        .catch(next);
     }
     return next(new Error('Wrong Password'));
   }

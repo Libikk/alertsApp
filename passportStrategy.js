@@ -20,7 +20,7 @@ const jwtOptions = {
 };
 
 const passportStrategy = new JwtStrategy(jwtOptions, (jwtPayload, next) => {
-  sqlQuery('select * from users where userId = ? and userName = ?', [jwtPayload.id, jwtPayload.userName]).then((user) => {
+  sqlQuery('select * from users where email = ? and userName = ?', [jwtPayload.email, jwtPayload.userName]).then((user) => {
     if (user[0]) {
       next(null, user[0]);
     } else {
