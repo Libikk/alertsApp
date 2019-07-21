@@ -12,9 +12,23 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import '../styles/header.scss';
 
-class Header extends React.Component {
+interface AuthObj {
+  currentUser: {
+    userName: string,
+    userId: number,
+    email: string
+  }
+}
+
+
+type MyProps = {
+  logout: Function,
+  auth: AuthObj | null,
+};
+
+class Header extends React.Component<MyProps> {
   state = {
-    isModalOpen: null,
+    isModalOpen: false,
     openMenu: false
   }
 
@@ -42,18 +56,22 @@ class Header extends React.Component {
                   <LoginRegisterPanel />
                 </Modal>
               </div>
-              { auth && auth.currentUser ? <Avatar onClick={() => this.setState({ openMenu: true })}>{auth.currentUser.userName[0]}</Avatar>
-               : <Button onClick={() => this.setState({ isModalOpen: true })}  className="global__button--primary">SIGN IN / SIGN UP</Button>
-              }
-              <Menu
+              { auth && auth.currentUser ?
+              <Avatar onClick={() => this.setState({ openMenu: true })}>
+                {auth.currentUser.userName[0]}
+                <Menu
                 id="simple-menu"
                 open={this.state.openMenu}
                 onClose={this.handleClose}
               >
-                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                <MenuItem onClick={() => this.handleClose()}>Profile</MenuItem>
+                <MenuItem onClick={() => this.handleClose()}>My account</MenuItem>
                 <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
               </Menu>
+              </Avatar>
+               : <Button onClick={() => this.setState({ isModalOpen: true })}  className="global__button--primary">SIGN IN / SIGN UP</Button>
+              }
+
             </div>
           </AppBar>
         </div>

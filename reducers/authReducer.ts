@@ -1,4 +1,15 @@
-const initialState = {
+
+interface CurrentUser {
+  userName: string,
+  userId: number,
+  email: string
+}
+
+interface InitialState {
+  currentUser: null | CurrentUser
+}
+
+const initialState:InitialState = {
     currentUser: null,
   };
 
