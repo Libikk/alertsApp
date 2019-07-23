@@ -43,6 +43,10 @@ nextApp.prepare()
       });
     });
 
+    app.get('/login', (req, res) => {
+      nextApp.render(req, res, '/loginPage');
+    });
+
     app.get('*', (req, res) => handle(req, res));
 
     server.listen(3000, (err) => {

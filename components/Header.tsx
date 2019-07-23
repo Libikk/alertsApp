@@ -20,7 +20,6 @@ interface AuthObj {
   }
 }
 
-
 type MyProps = {
   logout: Function,
   auth: AuthObj | null,
@@ -29,14 +28,20 @@ type MyProps = {
 class Header extends React.Component<MyProps> {
   state = {
     isModalOpen: false,
-    openMenu: false
+    openMenu: false,
+    anchorEl: null
   }
 
-  handleClose = () => this.setState({ openMenu: false })
+  handleClose = (event) => {
+    console.log('e: ', event.currentTarget);
+    this.setState({ openMenu: false, anchorEl: event.currentTarget })
+}
 
   modalCloseHandler = () => this.setState({ isModalOpen: false })
+  
 
     render() {
+      const { anchorEl } = this.state;
       const { auth } = this.props
 
       return (
@@ -56,21 +61,33 @@ class Header extends React.Component<MyProps> {
                   <LoginRegisterPanel />
                 </Modal>
               </div>
-              { auth && auth.currentUser ?
-              <Avatar onClick={() => this.setState({ openMenu: true })}>
-                {auth.currentUser.userName[0]}
-                <Menu
-                id="simple-menu"
-                open={this.state.openMenu}
-                onClose={this.handleClose}
-              >
-                <MenuItem onClick={() => this.handleClose()}>Profile</MenuItem>
-                <MenuItem onClick={() => this.handleClose()}>My account</MenuItem>
-                <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
-              </Menu>
-              </Avatar>
-               : <Button onClick={() => this.setState({ isModalOpen: true })}  className="global__button--primary">SIGN IN / SIGN UP</Button>
-              }
+              <div>
+                { auth && auth.currentUser ?
+                <div className='tool-bar__user-buttons-wrapper'>
+                  <Button className="global__button--secondary">Dashboard</Button>
+                  <Avatar
+                    onClick={() => this.setState({ openMenu: true })}
+                    aria-controls='userMenu'
+                    aria-haspopup="true"
+                  >
+                    {auth.currentUser.userName[0]}
+                  </Avatar>
+                  <Menu
+                    keepMounted
+                    id='userMenu'
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right'}}
+                    anchorEl={anchorEl}
+                    open={this.state.openMenu}
+                    onClose={this.handleClose}
+                  >
+                    <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                    <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
+                  </Menu>
+                </div>
+                : <Button onClick={() => this.setState({ isModalOpen: true })}  className="global__button--primary">SIGN IN / SIGN UP</Button>
+                }
+              </div>
 
             </div>
           </AppBar>

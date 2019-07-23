@@ -1,11 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Link from 'next/link';
 import '../styles/styles.scss'
+import Router from 'next/router';
+import Button from '@material-ui/core/Button';
 import { getWebsitesWithProducts } from '../dispatchers/websitesDispatchers';
 import { getCurrentDiscounts } from '../dispatchers/scansDispatchers';
 import { getUserData } from '../dispatchers/userDispatchers';
-
+import withRedux from 'next-redux-wrapper'
+import { initStore } from '../store';
 import Layout from '../components/Layout';
 interface WebsitesList {
   websitesList: Array<{

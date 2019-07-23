@@ -21,6 +21,15 @@
                 margin-right: 20px;
             }
         }
+
+        .tool-bar__user-buttons-wrapper {
+            display: flex;
+            flex-direction: row;
+
+            button {
+                margin-right: 15px;
+            }
+        }
     }
 }
 
