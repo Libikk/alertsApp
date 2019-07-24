@@ -19,6 +19,8 @@ const register = async (req, res, next) => {
     sqlQuery('insert into users (userName, email, password, createdAt) values (?, ?, ?, ?) ', [userName, email, hashPass, new Date()])
       .then(response => authResponseHandler(res, { userName, email, userId: response.insertId }))
       .catch(next);
+  } else {
+    next(new Error('Invalid data'));
   }
 };
 

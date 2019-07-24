@@ -48,24 +48,75 @@ class LoginRegisterPanel extends React.Component {
         userName: '',
         email: '',
         password: '',
-        userNameError: '',
-        emailError: '',
-        passwordError: '',
+        userNameError: false,
+        emailError: false,
+        passwordError: false,
+        errorMessages: [],
     }
 
     handleClickLoginOrRegister = () => {
         const { userName, email, password, formType } = this.state;
         if (formType === 'register' && userName && email && password ) {
-            this.props.register({ userName, email, password })
+            this.validateFields({ userName, email, password });
+            this.props.register({userName, email, password})
+                .then(() => {
+                    Router.push('/loginPage', 'login')
+                    this.props.closeModal()
+                })
         }
+
         if (formType === 'login' && email && password ) {
+            this.validateFields({ email, password });
             this.props.login({ email, password })
-                .then(() => Router.push('/loginPage', 'login'))
+                .then(() => {
+                    Router.push('/loginPage', 'login')
+                    this.props.closeModal()
+                })
         }
+
         if (formType === 'resetpassword' && email) {
             // todo
         }
+
     }
+
+    validateFields = ({ userName, email, password }) => {
+        const errorMessages = [];
+        this.setState({ userNameError: false, emailError: false, passwordError: false, errorMessages: []  })
+        if (userName && userName.length < 4) {
+            this.setState({ userNameError: true });
+            errorMessages.push( 'User name is too short (min. 4 characters)');
+        }
+
+        if (email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (!re.test(String(email).toLowerCase())){
+                 this.setState({ emailError: true })
+                errorMessages.push('Invalid Email');
+            }
+        }
+
+        if (password) {
+            let isErr = false;
+            if (password.length < 6) {
+                isErr = true
+                errorMessages.push('Password too short. (min 6 characters)')
+            }
+
+            if (password.length > 16) {
+                isErr = true
+                errorMessages.push('Password too long. (max 16 characters)')
+            }
+
+            this.setState({ passwordError: isErr })
+        }
+
+        if (errorMessages.length) {
+            this.setState({ errorMessages })
+            throw 'Validation failed'
+        }
+    }
+
     isFormType = (formOption) => formOption.includes(this.state.formType)
     handleInputChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
@@ -74,7 +125,7 @@ class LoginRegisterPanel extends React.Component {
     }
 
     render() {
-        const { userName, email, password, formType } = this.state;
+        const { userName, email, password, formType, userNameError, emailError, passwordError, errorMessages } = this.state;
 
       return (
         <Card className="login-panel" tabIndex={-1}>
@@ -92,6 +143,7 @@ class LoginRegisterPanel extends React.Component {
                     type="email"
                     fullWidth
                     value={email}
+                    error={emailError}
                     onChange={this.handleInputChange}
                     InputLabelProps={{ shrink: true }}
                 />
@@ -100,6 +152,7 @@ class LoginRegisterPanel extends React.Component {
                 {this.isFormType(['register']) &&
                     <div className="login-panel__sigle-input">
                         <TextField
+                            error={userNameError}
                             label="User name"
                             name="userName"
                             fullWidth
@@ -120,6 +173,7 @@ class LoginRegisterPanel extends React.Component {
                 }
                 <TextField
                     fullWidth
+                    error={passwordError}
                     label="Password"
                     name="password"
                     type="password"
@@ -130,6 +184,11 @@ class LoginRegisterPanel extends React.Component {
                 />
             </div>}
             <div className='login-panel__button-wrapper'>
+                {
+                    errorMessages.length ? <ul>
+                        {errorMessages.map(singleErr => <li>{singleErr}</li>)}
+                    </ul> : null
+                }
                 <Button onClick={this.handleClickLoginOrRegister}>{formTypeOptions[formType].buttonTitle}</Button>
             </div>
         </Card>

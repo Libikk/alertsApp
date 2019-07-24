@@ -33,12 +33,11 @@ class Header extends React.Component<MyProps> {
   }
 
   handleClose = (event) => {
-    console.log('e: ', event.currentTarget);
     this.setState({ openMenu: false, anchorEl: event.currentTarget })
 }
 
   modalCloseHandler = () => this.setState({ isModalOpen: false })
-  
+
 
     render() {
       const { anchorEl } = this.state;
@@ -58,7 +57,7 @@ class Header extends React.Component<MyProps> {
                   open={this.state.isModalOpen}
                   onClose={() => this.setState({ isModalOpen: false })}
                 >
-                  <LoginRegisterPanel />
+                  <LoginRegisterPanel closeModal={this.modalCloseHandler}/>
                 </Modal>
               </div>
               <div>
