@@ -10,6 +10,12 @@ import _ from 'lodash';
 import AccessAlarmIcon from '@material-ui/icons/LockOpen';
 import '../../styles/loginPanel.scss';
 
+type MyProps = {
+    login: Function,
+    register: Function,
+    closeModal: Function
+}
+
 const formTypeOptions = {
     login: {
         formType:'login',
@@ -42,7 +48,7 @@ const formTypeOptions = {
     }
 }
 
-class LoginRegisterPanel extends React.Component {
+class LoginRegisterPanel extends React.Component<MyProps> {
     state = {
         formType: 'login',
         userName: '',
@@ -80,7 +86,7 @@ class LoginRegisterPanel extends React.Component {
 
     }
 
-    validateFields = ({ userName, email, password }) => {
+    validateFields = ({ userName, email, password } :object) => {
         const errorMessages = [];
         this.setState({ userNameError: false, emailError: false, passwordError: false, errorMessages: []  })
         if (userName && userName.length < 4) {
