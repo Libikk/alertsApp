@@ -8,9 +8,10 @@ import Button from '@material-ui/core/Button';
 import { getWebsitesWithProducts } from '../dispatchers/websitesDispatchers';
 import { getCurrentDiscounts } from '../dispatchers/scansDispatchers';
 import { getUserData } from '../dispatchers/userDispatchers';
-import withRedux from 'next-redux-wrapper'
-import { initStore } from '../store';
+import { autorize } from '../dispatchers/authDispatchers';
 import Layout from '../components/Layout';
+import { getCookie } from '../utils/auth';
+
 interface WebsitesList {
   websitesList: Array<{
     url: string,
@@ -25,8 +26,9 @@ type MyProps = {
 };
 
 class Index extends React.Component<MyProps> {
-  static async getInitialProps ({ query, store, isServer }) {
+  static async getInitialProps ({ req, query, store, isServer }) {
     if (isServer) {
+      await autorize(getCookie('access_token', req.headers.cookie))(store.dispatch)
       await getWebsitesWithProducts()(store.dispatch)
       await getCurrentDiscounts()(store.dispatch)
     }
@@ -34,7 +36,7 @@ class Index extends React.Component<MyProps> {
 }
 
 componentWillMount = () => {
-  this.props.getUserData();
+ // this.props.getUserData();
 }
 
   test = (): object => this.props.getWebsitesWithProducts();
