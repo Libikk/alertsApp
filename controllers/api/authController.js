@@ -2,11 +2,11 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const secret = 'FdsfDSF1dsfD__2..SFDS34)_;L;';
 const router = express.Router();
 const { sqlQuery } = require('../../sql/sqlServer');
 
 const authResponseHandler = (res, user) => {
-  const secret = 'FdsfDSF1dsfD__2..SFDS34)_;L;';
   const context = { email: user.email, userName: user.userName };
   const token = jwt.sign(context, secret, { expiresIn: '2d' });
   res.cookie('access_token', token).json(user);
@@ -42,6 +42,19 @@ const login = async (req, res, next) => {
   return next(new Error('Invalid data'));
 };
 
+const authorize = async (req, res, next) => {
+  const requestToken = req.body.token;
+  const decoded = jwt.verify(requestToken, secret);
+  if (decoded) {
+    const { payload: { email } } = jwt.decode(requestToken, { complete: true });
+    const user = await sqlQuery('select * from users where email = ?', [email]).then(e => e[0]).catch(next);
+    authResponseHandler(res, user);
+  } else {
+    next(new Error('User not found'));
+  }
+};
+
+router.post('/authorize', authorize);
 router.post('/login', login);
 router.post('/register', register);
 
