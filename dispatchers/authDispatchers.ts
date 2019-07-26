@@ -2,6 +2,13 @@
 import AuthService  from '../api/authService';
 import { logoutUser } from '../utils/auth'
 
+export const autorize = (token) => (dispatch) => {
+  return AuthService.authorize(token)
+    .then(payload =>  dispatch({
+      type: 'LOGIN',
+      payload,
+    }));
+};
 
 export const login = (personCredential) => (dispatch) => {
   return AuthService.login(personCredential)
