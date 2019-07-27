@@ -28,10 +28,13 @@ type MyProps = {
 class Index extends React.Component<MyProps> {
   static async getInitialProps ({ req, query, store, isServer }) {
     if (isServer) {
-      await autorize(getCookie('access_token', req.headers.cookie))(store.dispatch)
-      await getWebsitesWithProducts()(store.dispatch)
-      await getCurrentDiscounts()(store.dispatch)
+      const { cookie } = req.headers;
+      const isAutorized = cookie && await autorize(getCookie('access_token', cookie))(store.dispatch)
+      // to do
+      // redirect to homepage or login page
     }
+    await getWebsitesWithProducts()(store.dispatch)
+    await getCurrentDiscounts()(store.dispatch)
     return { ...query }
 }
 
