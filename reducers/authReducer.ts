@@ -16,12 +16,10 @@ const initialState:InitialState = {
   const scansReducer = (state = initialState, action) => {
     switch (action.type) {
       case 'LOGIN':
-          console.log('action: ', action);
         return Object.assign({}, state, {
             currentUser: action.payload,
         });
       case 'LOGOUT':
-        console.log('LOGOUT: ');
         return Object.assign({}, state, {
             currentUser: null,
         });
