@@ -1,0 +1,17 @@
+.loginPage-container {
+    padding: 0 50px;
+    .header {
+        font-size: 2rem;
+        h1 {
+            margin: 20px 0 10px;
+        }
+    }
+
+    .content {
+        display: flex;
+
+        &__single-link {
+            margin-right: 10px;
+        }
+    }
+}

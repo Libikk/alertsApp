@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Link from 'next/link';
 import { autorize } from '../dispatchers/authDispatchers';
 import { getCookie } from '../utils/auth';
+import '../styles/loginPage.scss';
 
 class LoginPage extends React.Component {
   static async getInitialProps ({ req, query, store, isServer }) {
@@ -19,9 +20,41 @@ class LoginPage extends React.Component {
     const { currentUser } = this.props.auth;
     return (
           <Layout>
-              <div>
-                  <button onClick={() => console.log(this.props)}>ss</button>
-                   Welcome back, {currentUser && currentUser.userName}
+              <div className='loginPage-container'>
+                  <div className='header'>
+                    <h1>
+                        Welcome back, {currentUser && currentUser.userName}
+                    </h1>
+                  </div>
+                  <div className='content'>
+                    <div className='content__single-link'>
+                        <Link href={{ pathname: 'dashboard' }}>
+                        <a>
+                          <Button className="global__button--primary" onClick={() => console.log('fjut')}>
+                            Dashboard
+                          </Button>
+                        </a>
+                      </Link>
+                    </div>
+                    <div className='content__single-link'>
+                      <Link>
+                        <a>
+                          <Button className="global__button--primary" onClick={() => console.log('fjut')}>
+                            Account settings
+                          </Button>
+                        </a>
+                      </Link>
+                    </div>
+                    <div className='content__single-link'>
+                      <Link>
+                        <a>
+                          <Button className="global__button--secondary" onClick={() => console.log('fjut')}>
+                            Log out
+                          </Button>
+                        </a>
+                      </Link>
+                    </div>
+                  </div>
               </div>
           </Layout>
     )
