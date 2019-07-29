@@ -44,14 +44,13 @@ const login = async (req, res, next) => {
 
 const authorize = async (req, res, next) => {
   const requestToken = req.body.token;
-  let decoded;
-  try {
-    decoded = jwt.verify(requestToken, secret);
-  } catch (err) {
-    return next(new Error('Invalid token', err));
-  }
+  let verified = true;
 
-  if (decoded) {
+  jwt.verify(requestToken, secret, (err) => {
+    if (err) verified = false;
+  });
+
+  if (verified) {
     const { payload: { email } } = jwt.decode(requestToken, { complete: true });
     const user = await sqlQuery('select * from users where email = ?', [email]).then(e => e[0]).catch(next);
     authResponseHandler(res, user);
