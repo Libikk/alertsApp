@@ -1,11 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Link from 'next/link';
 import '../styles/styles.scss'
+import Router from 'next/router';
+import Button from '@material-ui/core/Button';
 import { getWebsitesWithProducts } from '../dispatchers/websitesDispatchers';
 import { getCurrentDiscounts } from '../dispatchers/scansDispatchers';
-
+import { getUserData } from '../dispatchers/userDispatchers';
+import { autorize } from '../dispatchers/authDispatchers';
 import Layout from '../components/Layout';
+import { getCookie } from '../utils/auth';
+
 interface WebsitesList {
   websitesList: Array<{
     url: string,
@@ -20,12 +26,20 @@ type MyProps = {
 };
 
 class Index extends React.Component<MyProps> {
-  static async getInitialProps ({ query, store, isServer }) {
+  static async getInitialProps ({ req, query, store, isServer }) {
     if (isServer) {
-      await getWebsitesWithProducts()(store.dispatch)
-      await getCurrentDiscounts()(store.dispatch)
+      const { cookie } = req.headers;
+      const isAutorized = cookie && await autorize(getCookie('access_token', cookie))(store.dispatch)
+      // to do
+      // redirect to homepage or login page
     }
+    await getWebsitesWithProducts()(store.dispatch)
+    await getCurrentDiscounts()(store.dispatch)
     return { ...query }
+}
+
+componentWillMount = () => {
+ // this.props.getUserData();
 }
 
   test = (): object => this.props.getWebsitesWithProducts();
@@ -63,6 +77,7 @@ class Index extends React.Component<MyProps> {
 
 const mapDispatchToProps = dispatch => ({
   getWebsitesWithProducts: bindActionCreators(getWebsitesWithProducts, dispatch),
+  getUserData: bindActionCreators(getUserData, dispatch),
 });
 
 export default connect(state => state, mapDispatchToProps)(Index);
