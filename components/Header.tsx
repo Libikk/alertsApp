@@ -10,6 +10,7 @@ import LoginRegisterPanel from './Auth/LoginRegisterPanel'
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Link from 'next/link';
 import '../styles/header.scss';
 
 interface AuthObj {
@@ -50,7 +51,11 @@ class Header extends React.Component<MyProps> {
           >
             <div className="header__tool-bar">
               <div className="tool-bar__options">
-                <ReactSVG src='../static/svg/method-draw-image.svg' />
+              <Link href={{ pathname: '/' }} >
+                  <a>
+                      <ReactSVG src='../static/svg/method-draw-image.svg'/>
+                  </a>
+                  </Link>
                 <Button className="global__button--secondary">How it works?</Button>
                 <Modal
                   className="modal-container"
@@ -63,7 +68,13 @@ class Header extends React.Component<MyProps> {
               <div>
                 { auth && auth.currentUser ?
                 <div className='tool-bar__user-buttons-wrapper'>
-                  <Button className="global__button--secondary">Dashboard</Button>
+                  <Link href={{ pathname: '/myProducts' }} as='/admin/myProducts'>
+                    <a>
+                      <Button className="global__button--secondary" onClick={() => console.log('fjut')}>
+                        Dashboard
+                      </Button>
+                    </a>
+                  </Link>
                   <Avatar
                     onClick={() => this.setState({ openMenu: true })}
                     aria-controls='userMenu'
