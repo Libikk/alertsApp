@@ -3,10 +3,12 @@ const express = require('express');
 const router = express.Router();
 const { sqlQuery } = require('../../sql/sqlServer');
 
-const getWebsitesWithProducts = (req, res, next) => {
-  sqlQuery('SELECT * FROM discounthero.websites').then(response => res.send(response));
+const getWebsites = (req, res, next) => {
+  sqlQuery('SELECT * FROM discounthero.websites')
+    .then(response => res.send(response))
+    .catch(next);
 };
 
-router.get('/', getWebsitesWithProducts);
+router.get('/', getWebsites);
 
 module.exports = router;
