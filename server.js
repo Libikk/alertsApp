@@ -44,7 +44,13 @@ nextApp.prepare()
     });
 
     app.get('/login', (req, res) => {
-      nextApp.render(req, res, '/loginPage');
+      const actualPage = '/loginPage';
+      nextApp.render(req, res, actualPage);
+    });
+
+    app.get('/dashboard/myProducts', (req, res) => {
+      const actualPage = '/dashboard';
+      nextApp.render(req, res, actualPage);
     });
 
     app.get('*', (req, res) => handle(req, res));

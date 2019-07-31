@@ -7,7 +7,7 @@
     "dev": "nodemon server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "db:seed": "node ./sql/dataBaseSeed/seed.js",
+    "db:seed": "node ./sql/dbManage/dbServices.js",
     "scan": "node ./productScaner/scan",
     "lint": "eslint ."
   },
@@ -47,7 +47,8 @@
     "react-svg": "^10.0.9",
     "redux": "3.7.1",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "@types/request": "^2.48.1",

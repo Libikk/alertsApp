@@ -28,7 +28,7 @@ class LoginPage extends React.Component {
                   </div>
                   <div className='content'>
                     <div className='content__single-link'>
-                        <Link href={{ pathname: 'dashboard' }}>
+                      <Link href={{ pathname: 'dashboard' }} as='dashboard/myProducts'>
                         <a>
                           <Button className="global__button--primary" onClick={() => console.log('fjut')}>
                             Dashboard
