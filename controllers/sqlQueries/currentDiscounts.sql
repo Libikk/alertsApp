@@ -20,3 +20,5 @@ FROM
   JOIN discounthero.websites website on website.websiteId = prod.websiteId
 WHERE
   scan.ispromo
+  AND website.isActive = '1'
+  AND prod.isActive = '1'
