@@ -1,7 +1,7 @@
 SELECT
   prod.productid "productId",
-  CONCAT(website.urlToProduct, prod.productUrl) as "productUrl",
-  website.name,
+  prod.productUrl as "productUrl",
+  website.hostName as "name",
   website.url as "websiteUrl",
   scan.createdat as "checkCreatedAt"
 FROM
