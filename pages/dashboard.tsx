@@ -5,10 +5,11 @@ import { bindActionCreators } from 'redux';
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
 import { getWebsitesWithProducts } from '../dispatchers/websitesDispatchers';
+import { getCurrentDiscounts } from '../dispatchers/productDispatchers';
 import TextField from '@material-ui/core/TextField';
 import { autorize } from '../dispatchers/authDispatchers';
 import { getCookie } from '../utils/auth';
-import url from 'url';
+
 import '../styles/loginPage.scss';
 // import Tabs from '@material-ui/core/Tabs';
 // import Tab from '@material-ui/core/Tab';
@@ -34,7 +35,8 @@ class Dashboard extends React.Component {
   }
 
   addProductHandler = () => {
-    console.log(url.parse(this.state.urlInput), this.props);
+    this.props.getCurrentDiscounts(this.state.urlInput)
+    // check if website exist if not create
   }
   checkIfWebsiteExists = (inputURL) => {
     const parsedUrl = url.parse(inputURL);
@@ -85,7 +87,8 @@ class Dashboard extends React.Component {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  getWebsitesWithProducts: bindActionCreators(getWebsitesWithProducts, dispatch)
+  getWebsitesWithProducts: bindActionCreators(getWebsitesWithProducts, dispatch),
+  getCurrentDiscounts: bindActionCreators(getCurrentDiscounts, dispatch)
 });
 
 export default connect(state => state, mapDispatchToProps)(Dashboard);

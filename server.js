@@ -18,6 +18,7 @@ const websitesController = require('./controllers/api/websitesController2');
 const scansController = require('./controllers/api/scansController');
 const authController = require('./controllers/api/authController');
 const userController = require('./controllers/api/userController');
+const productController = require('./controllers/api/productController');
 
 schedule.scheduleJob({ hour: 10, minute: 28 }, () => scan()); // every day, 10am
 
@@ -33,6 +34,7 @@ nextApp.prepare()
     app.use('/api/scans', scansController);
     app.use('/api/auth', authController);
     app.use('/api/user', passport.authenticate('jwt', { session: false }), userController);
+    app.use('/api/product', productController);
 
     app.use((err, req, res, next) => {
       res.status(err.status || 500);
