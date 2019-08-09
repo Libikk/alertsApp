@@ -9,7 +9,7 @@ import { getCurrentDiscounts } from '../dispatchers/productDispatchers';
 import TextField from '@material-ui/core/TextField';
 import { autorize } from '../dispatchers/authDispatchers';
 import { getCookie } from '../utils/auth';
-
+import url from 'url';
 import '../styles/loginPage.scss';
 // import Tabs from '@material-ui/core/Tabs';
 // import Tab from '@material-ui/core/Tab';
