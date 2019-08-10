@@ -140,6 +140,32 @@ const DB_SCHEMA = {
           type: 'timestamp',
         },
       ]
+    },
+    {
+      tableName: 'usersProducts',
+      columns: [
+        {
+          columnName: 'id',
+          type: 'int',
+          primary: true,
+        },
+        {
+          columnName: 'userId',
+          type: 'int',
+        },
+        {
+          columnName: 'productId',
+          type: 'int',
+        },
+        {
+          columnName: 'createdAt',
+          type: 'timestamp',
+        },
+        {
+          columnName: 'deletedAt',
+          type: 'timestamp',
+        },
+      ]
     }
   ],
 };
