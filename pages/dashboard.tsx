@@ -4,17 +4,25 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
-import { getWebsitesWithProducts } from '../dispatchers/websitesDispatchers';
-import { getCurrentDiscounts } from '../dispatchers/productDispatchers';
+import { checkProdExistence } from '../dispatchers/productDispatchers';
 import TextField from '@material-ui/core/TextField';
 import { autorize } from '../dispatchers/authDispatchers';
 import { getCookie } from '../utils/auth';
 import url from 'url';
+import _ from 'lodash';
 import '../styles/loginPage.scss';
 // import Tabs from '@material-ui/core/Tabs';
 // import Tab from '@material-ui/core/Tab';
 
-class Dashboard extends React.Component {
+
+type MyProps = {
+  checkProdExistence: Function,
+  products: {
+    productExistence: Object | String
+  }
+}
+
+class Dashboard extends React.Component<MyProps> {
   static async getInitialProps ({ req, query, store, isServer }) {
     if (isServer) {
       const { cookie } = req.headers;
@@ -28,25 +36,9 @@ class Dashboard extends React.Component {
     isWebsiteAlreadyUsed: null
   }
 
-  componentDidMount = () => {
-    if (!this.props.websites.websitesList) {
-      this.props.getWebsitesWithProducts();
-    }
-  }
-
-  addProductHandler = () => {
-    this.props.getCurrentDiscounts(this.state.urlInput)
-    // check if website exist if not create
-  }
-  checkIfWebsiteExists = (inputURL) => {
-    const parsedUrl = url.parse(inputURL);
-    const isExistHostName = this.props.websites.websitesList.find(e => e.url === parsedUrl.hostname)
-    this.setState({ isWebsiteAlreadyUsed: parsedUrl.hostname && isExistHostName })
-  }
-
   productUrlChange = (e) => {
-    this.checkIfWebsiteExists(e.target.value)
     this.setState({ urlInput: e.target.value });
+    this.props.checkProdExistence(e.target.value)
   }
 
   render () {
@@ -70,6 +62,9 @@ class Dashboard extends React.Component {
                     <Tab label="Item Three" />
                   </Tabs> */}
                   </div>
+                  <h2>
+                    {this.props.products.productExistence ? `This product exist` : 'This product does not exist!'}
+                  </h2>
                   <TextField
                     label="Product URL"
                     name="urlInput"
@@ -80,15 +75,13 @@ class Dashboard extends React.Component {
                     onChange={this.productUrlChange}
                     InputLabelProps={{ shrink: true }}
                   />
-                  <Button onClick={this.addProductHandler}>test</Button>
               </div>
           </Layout>
     )
   }
 }
 const mapDispatchToProps = dispatch => ({
-  getWebsitesWithProducts: bindActionCreators(getWebsitesWithProducts, dispatch),
-  getCurrentDiscounts: bindActionCreators(getCurrentDiscounts, dispatch)
+  checkProdExistence: bindActionCreators(checkProdExistence, dispatch),
 });
 
 export default connect(state => state, mapDispatchToProps)(Dashboard);
