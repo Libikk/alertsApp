@@ -14,22 +14,26 @@ const checkProdExistence = (req, res, next) => {
 
 
 const addUserProduct = async (req, res, next) => {
-// VALIDATE PAYLOAD
-  let productId = req.body.productId;
+  // VALIDATE PAYLOAD
+  let { productId, productUrl } = req.body;
 
-  if (req.body.productUrl) {
-    const parsedUrl = url.parse(req.body.productUrl);
+  if (productUrl && !productId) {
+    const parsedUrl = url.parse(productUrl);
+
     const newWebsiteParams = [parsedUrl.host, `${parsedUrl.protocol}//${parsedUrl.host}`, 0, parsedUrl.host];
-    const newProductParams = [parsedUrl.href, parsedUrl.host];
-
-
     await sqlQuery(getQuery('createNewWebsite'), newWebsiteParams);
+
+    const newProductParams = [parsedUrl.href, parsedUrl.host];
     const newProduct = await sqlQuery(getQuery('createNewProduct'), newProductParams);
+
     productId = newProduct.insertId;
   }
+  const userProduct = await sqlQuery(getQuery('addUserProduct'), [productId, req.user.userId]);
+
+  console.log('ADD PRODUCT TO USER LISTproductId: ', productId);
 
   // ADD PRODUCT TO USER LIST
-  res.send([req.params, req.body, req.query, productId]);
+  res.send(userProduct.insertId);
 };
 
 router.get('/productExistence', checkProdExistence);
