@@ -1,4 +1,5 @@
 SELECT
+    p.productId,
     p.productUrl,
     we.hostName,
     p.productName,
