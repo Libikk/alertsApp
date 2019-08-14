@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
-import { checkProdExistence } from '../dispatchers/productDispatchers';
+import { checkProdExistence, addUserProduct } from '../dispatchers/productDispatchers';
 import TextField from '@material-ui/core/TextField';
 import { autorize } from '../dispatchers/authDispatchers';
 import { getCookie } from '../utils/auth';
@@ -17,6 +17,7 @@ import '../styles/loginPage.scss';
 
 type MyProps = {
   checkProdExistence: Function,
+  addUserProduct: Function,
   products: {
     productExistence: Object | String
   }
@@ -39,6 +40,13 @@ class Dashboard extends React.Component<MyProps> {
   productUrlChange = (e) => {
     this.setState({ urlInput: e.target.value });
     this.props.checkProdExistence(e.target.value)
+  }
+
+  addProduct = () => {
+    this.props.addUserProduct({
+      productUrl: this.state.urlInput,
+      productId: this.props.products.productExistence && this.props.products.productExistence.productId
+    })
   }
 
   render () {
@@ -75,6 +83,7 @@ class Dashboard extends React.Component<MyProps> {
                     onChange={this.productUrlChange}
                     InputLabelProps={{ shrink: true }}
                   />
+                  <Button disabled={!this.state.urlInput} onClick={this.addProduct}> Add product </Button>
               </div>
           </Layout>
     )
@@ -82,6 +91,7 @@ class Dashboard extends React.Component<MyProps> {
 }
 const mapDispatchToProps = dispatch => ({
   checkProdExistence: bindActionCreators(checkProdExistence, dispatch),
+  addUserProduct: bindActionCreators(addUserProduct, dispatch),
 });
 
 export default connect(state => state, mapDispatchToProps)(Dashboard);
