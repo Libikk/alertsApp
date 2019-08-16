@@ -28,12 +28,10 @@ const addUserProduct = async (req, res, next) => {
 
     productId = newProduct.insertId;
   }
+
   const userProduct = await sqlQuery(getQuery('addUserProduct'), [productId, req.user.userId]);
 
-  console.log('ADD PRODUCT TO USER LISTproductId: ', productId);
-
-  // ADD PRODUCT TO USER LIST
-  res.send(userProduct.insertId);
+  res.send({ productId: userProduct.insertId });
 };
 
 router.get('/productExistence', checkProdExistence);
