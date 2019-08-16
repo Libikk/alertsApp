@@ -139,7 +139,7 @@ const DB_SCHEMA = {
           columnName: 'createdAt',
           type: 'timestamp',
         },
-      ]
+      ],
     },
     {
       tableName: 'usersProducts',
@@ -160,13 +160,15 @@ const DB_SCHEMA = {
         {
           columnName: 'createdAt',
           type: 'timestamp',
+          defaultValue: null,
         },
         {
           columnName: 'deletedAt',
           type: 'timestamp',
+          defaultValue: null,
         },
-      ]
-    }
+      ],
+    },
   ],
 };
 

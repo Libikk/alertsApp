@@ -23,14 +23,18 @@ const createTableIfNotExist = (tableName, columns) => {
 const createColumnsForTable = async (tableName, columns) => {
   const createdColumns = [];
   // eslint-disable-next-line no-restricted-syntax
-  for (const { columnName, type, primary } of columns) {
+  for (const { columnName, defaultValue, type, primary } of columns) {
     if (!primary) {
       createdColumns.push(columnName);
       await sqlQuery(`ALTER TABLE ${tableName} MODIFY COLUMN ${columnName} ${type}`)
         .catch(() => sqlQuery(`ALTER TABLE ${tableName} ADD ${columnName} ${type}`));
+
+      // set default value if exist
+      if (defaultValue !== undefined) {
+        await sqlQuery(`ALTER TABLE ${tableName} CHANGE ${columnName} ${columnName} ${type} ${defaultValue} DEFAULT ${defaultValue};`);
+      }
     }
   }
-  console.warn(`Created columns in ${tableName}: `, createdColumns.join(', '));
 };
 
 const createSeedRows = async () => {
