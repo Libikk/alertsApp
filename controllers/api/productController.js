@@ -36,7 +36,7 @@ const addUserProduct = async (req, res, next) => {
 
 const getUserProducts = async (req, res, next) => {
   const userProducts = await sqlQuery(getQuery('getUserProducts'), [req.user.userId]);
-  res.send({ userProducts });
+  res.send(userProducts);
 };
 
 router.get('/productExistence', checkProdExistence);
