@@ -11,9 +11,13 @@ import { getCookie } from '../utils/auth';
 import url from 'url';
 import _ from 'lodash';
 import '../styles/loginPage.scss';
-// import Tabs from '@material-ui/core/Tabs';
-// import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Paper from '@material-ui/core/Paper';
 
+import SwipeableViews from 'react-swipeable-views';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 type MyProps = {
   checkProdExistence: Function,
@@ -32,10 +36,17 @@ class Dashboard extends React.Component<MyProps> {
     return { ...query }
   }
 
+
   state = {
     urlInput: '',
-    isWebsiteAlreadyUsed: null
+    isWebsiteAlreadyUsed: null,
+    selectedTabIndex: 1,
   }
+
+  handleChange = (event: React.ChangeEvent<{}>, value: number) => this.setState({ selectedTabIndex: value });
+  handleChangeIndex = (index: number) =>  this.setState({ selectedTabIndex: index });
+
+ // handleChange = (event: React.ChangeEvent<{}>, newValue: number)  => this.setState({selectedTabIndex: newValue})
 
   productUrlChange = (e) => {
     this.setState({ urlInput: e.target.value });
@@ -50,6 +61,7 @@ class Dashboard extends React.Component<MyProps> {
   }
 
   render () {
+    const { selectedTabIndex, urlInput } = this.state;
     return (
           <Layout>
               <div className='dashboard-container'>
@@ -59,31 +71,32 @@ class Dashboard extends React.Component<MyProps> {
                     </h1>
                   </div>
                   <div className='content'>
-                  {/* <Tabs
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="fullWidth"
-                    aria-label="full width tabs example"
-                    >
-                    <Tab label="My products" />
-                    <Tab label="Item Two" />
-                    <Tab label="Item Three" />
-                  </Tabs> */}
                   </div>
-                  <h2>
-                    {this.props.products.productExistence ? `This product exist` : 'This product does not exist!'}
-                  </h2>
-                  <TextField
-                    label="Product URL"
-                    name="urlInput"
-                    type="email"
-                    fullWidth
-                    placeholder='https://groceries.asda.com/product/milk-drinks/yazoo-chocolate-flavoured-milk/910002182124'
-                    value={this.state.urlInput}
-                    onChange={this.productUrlChange}
-                    InputLabelProps={{ shrink: true }}
-                  />
-                  <Button disabled={!this.state.urlInput} onClick={this.addProduct}> Add product </Button>
+                    <div>
+                      <Tabs value={selectedTabIndex} onChange={this.handleChange}>
+                        <Tab label="My products" />
+                        <Tab label="Find product" />
+                      </Tabs>
+                        <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex}>
+                          <div>My products</div>
+                          <div>
+                          <h3>
+                            {urlInput ? (this.props.products.productExistence ? `This product exist` : 'This product does not exist!') : 'Paste in link to product.'}
+                          </h3>
+                            <TextField
+                              label="Product URL"
+                              name="urlInput"
+                              type="email"
+                              fullWidth
+                              placeholder='https://groceries.asda.com/product/milk-drinks/yazoo-chocolate-flavoured-milk/910002182124'
+                              value={urlInput}
+                              onChange={this.productUrlChange}
+                              InputLabelProps={{ shrink: true }}
+                            />
+                            <Button disabled={!urlInput} onClick={this.addProduct}> Add product </Button>
+                        </div>
+                      </SwipeableViews>
+                    </div>
               </div>
           </Layout>
     )
