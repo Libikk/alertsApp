@@ -19,13 +19,22 @@ import SwipeableViews from 'react-swipeable-views';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
+
+interface ProductExistenceObj {
+  productId: number,
+  productUrl: string,
+  hostName: string,
+  productName: string | null,
+  createdAt: string
+}
+
 type MyProps = {
   checkProdExistence: Function,
   addUserProduct: Function,
   getUserProducts: Function,
   products: {
-    productExistence: Object | String,
-    userProducts: Array,
+    productExistence: ProductExistenceObj | null,
+    userProducts: Array<ProductExistenceObj>,
   }
 }
 
