@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
-import { checkProdExistence, addUserProduct } from '../dispatchers/productDispatchers';
+import { checkProdExistence, addUserProduct, getUserProducts } from '../dispatchers/productDispatchers';
 import TextField from '@material-ui/core/TextField';
 import { autorize } from '../dispatchers/authDispatchers';
 import { getCookie } from '../utils/auth';
@@ -22,8 +22,10 @@ import Box from '@material-ui/core/Box';
 type MyProps = {
   checkProdExistence: Function,
   addUserProduct: Function,
+  getUserProducts: Function,
   products: {
-    productExistence: Object | String
+    productExistence: Object | String,
+    userProducts: Array,
   }
 }
 
@@ -36,6 +38,9 @@ class Dashboard extends React.Component<MyProps> {
     return { ...query }
   }
 
+  componentDidMount = () => {
+      this.props.getUserProducts()
+  }
 
   state = {
     urlInput: '',
@@ -45,8 +50,6 @@ class Dashboard extends React.Component<MyProps> {
 
   handleChange = (event: React.ChangeEvent<{}>, value: number) => this.setState({ selectedTabIndex: value });
   handleChangeIndex = (index: number) =>  this.setState({ selectedTabIndex: index });
-
- // handleChange = (event: React.ChangeEvent<{}>, newValue: number)  => this.setState({selectedTabIndex: newValue})
 
   productUrlChange = (e) => {
     this.setState({ urlInput: e.target.value });
@@ -58,6 +61,7 @@ class Dashboard extends React.Component<MyProps> {
       productUrl: this.state.urlInput,
       productId: this.props.products.productExistence && this.props.products.productExistence.productId
     })
+    .then(() => this.props.getUserProducts())
   }
 
   render () {
@@ -78,7 +82,12 @@ class Dashboard extends React.Component<MyProps> {
                         <Tab label="Find product" />
                       </Tabs>
                       <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex}>
-                        <div>My products</div>
+                        <div>
+                          My products:  {this.props.products.userProducts.length}
+                          {
+                            this.props.products.userProducts.map(e => <p>{e.productUrl}</p>)
+                          }
+                        </div>
                         <div>
                         <h2>
                           {urlInput ? (this.props.products.productExistence ? `This product exist` : 'This product does not exist!') : 'Paste in link to product.'}
@@ -105,6 +114,7 @@ class Dashboard extends React.Component<MyProps> {
 const mapDispatchToProps = dispatch => ({
   checkProdExistence: bindActionCreators(checkProdExistence, dispatch),
   addUserProduct: bindActionCreators(addUserProduct, dispatch),
+  getUserProducts: bindActionCreators(getUserProducts, dispatch),
 });
 
 export default connect(state => state, mapDispatchToProps)(Dashboard);

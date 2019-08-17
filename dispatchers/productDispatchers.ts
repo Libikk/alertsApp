@@ -11,3 +11,8 @@ export const addUserProduct = (productUrlData) => (dispatch) => {
   return ProductService.addUserProduct(productUrlData)
     .then(res => dispatch({ type: 'ADD_USER_PRODUCT', prodData: res })
  )};
+
+export const getUserProducts = () => (dispatch) => {
+  return ProductService.getUserProducts()
+    .then(res => dispatch({ type: 'GET_USER_PRODUCTS', prodData: res })
+)};
