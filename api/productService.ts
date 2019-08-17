@@ -5,5 +5,5 @@ export class ProductService {
 
   static addUserProduct = async (data) => axios.post(`http://localhost:3000/api/product/addUserProduct`, data).then(({ data }) => data);
 
-  static getUserProducts = async () => axios.post(`http://localhost:3000/api/product/getUserProducts`).then(({ data }) => data);
+  static getUserProducts = async () => axios.get(`http://localhost:3000/api/product/getUserProducts`).then(({ data }) => data);
 }
