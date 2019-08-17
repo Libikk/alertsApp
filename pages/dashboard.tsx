@@ -77,26 +77,26 @@ class Dashboard extends React.Component<MyProps> {
                         <Tab label="My products" />
                         <Tab label="Find product" />
                       </Tabs>
-                        <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex}>
-                          <div>My products</div>
-                          <div>
-                          <h3>
-                            {urlInput ? (this.props.products.productExistence ? `This product exist` : 'This product does not exist!') : 'Paste in link to product.'}
-                          </h3>
-                            <TextField
-                              label="Product URL"
-                              name="urlInput"
-                              type="email"
-                              fullWidth
-                              placeholder='https://groceries.asda.com/product/milk-drinks/yazoo-chocolate-flavoured-milk/910002182124'
-                              value={urlInput}
-                              onChange={this.productUrlChange}
-                              InputLabelProps={{ shrink: true }}
-                            />
-                            <Button disabled={!urlInput} onClick={this.addProduct}> Add product </Button>
-                        </div>
-                      </SwipeableViews>
-                    </div>
+                      <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex}>
+                        <div>My products</div>
+                        <div>
+                        <h2>
+                          {urlInput ? (this.props.products.productExistence ? `This product exist` : 'This product does not exist!') : 'Paste in link to product.'}
+                        </h2>
+                          <TextField
+                            label="Product URL"
+                            name="urlInput"
+                            type="email"
+                            fullWidth
+                            placeholder='https://groceries.asda.com/product/milk-drinks/yazoo-chocolate-flavoured-milk/910002182124'
+                            value={urlInput}
+                            onChange={this.productUrlChange}
+                            InputLabelProps={{ shrink: true }}
+                          />
+                          <Button disabled={!urlInput} onClick={this.addProduct}> Add product </Button>
+                      </div>
+                    </SwipeableViews>
+                  </div>
               </div>
           </Layout>
     )
