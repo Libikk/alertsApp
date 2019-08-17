@@ -34,7 +34,13 @@ const addUserProduct = async (req, res, next) => {
   res.send({ productId: userProduct.insertId });
 };
 
+const getUserProducts = async (req, res, next) => {
+  const userProducts = await sqlQuery(getQuery('getUserProducts'), [req.user.userId]);
+  res.send({ userProducts });
+};
+
 router.get('/productExistence', checkProdExistence);
 router.post('/addUserProduct', passport.authenticate('jwt', { session: false }), addUserProduct);
+router.get('/getUserProducts', passport.authenticate('jwt', { session: false }), getUserProducts);
 
 module.exports = router;
