@@ -5,11 +5,14 @@ import { bindActionCreators } from 'redux';
 import { checkProdExistence, addUserProduct, getUserProducts } from '../dispatchers/productDispatchers';
 import { autorize } from '../dispatchers/authDispatchers';
 import { getCookie } from '../utils/auth';
-import '../styles/loginPage.scss';
+import '../styles/dashboard.scss';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
+import Paper from '@material-ui/core/Paper';
 import Tab from '@material-ui/core/Tab';
+import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Link from 'next/link';
 
 import SwipeableViews from 'react-swipeable-views';
 
@@ -19,7 +22,9 @@ interface ProductExistenceObj {
   productUrl: string,
   hostName: string,
   productName: string | null,
-  createdAt: string
+  createdAt: string,
+  isProductActive: number,
+  isPromo: number
 }
 
 type MyProps = {
@@ -54,6 +59,10 @@ class Dashboard extends React.Component<MyProps> {
   handleChange = (event: React.ChangeEvent<{}>, value: number) => this.setState({ selectedTabIndex: value });
   handleChangeIndex = (index: number) =>  this.setState({ selectedTabIndex: index });
 
+  deleteUserProduct = (productId :number) => {
+
+  }
+
   productUrlChange = (e) => {
     this.setState({ urlInput: e.target.value });
     this.props.checkProdExistence(e.target.value)
@@ -85,10 +94,18 @@ class Dashboard extends React.Component<MyProps> {
                         <Tab label="Find product" />
                       </Tabs>
                       <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex}>
-                        <div>
+                        <div className="my-products">
                           My products:  {this.props.products.userProducts.length}
                           {
-                            this.props.products.userProducts.map(e => <p>{e.productUrl}</p>)
+                            this.props.products.userProducts.map(e =>
+                            <Paper className='my-products__single-product'>
+                              <div className='single-product__body'>
+                                <Link href={e.productUrl}>{e.productUrl}</Link>
+                                <span className={`${e.isProductActive ? '' : 'inactive'}`}>{e.isProductActive ? '' : 'INACTIVE'}</span>
+                                <span className={`${e.isPromo ? 'promotion' : ''}`}>{e.isPromo ? 'PROMOTION' : '' }</span>
+                                <DeleteOutline onClick={() => this.deleteUserProduct(e.productId)}/>
+                              </div>
+                            </Paper>)
                           }
                         </div>
                         <div>
