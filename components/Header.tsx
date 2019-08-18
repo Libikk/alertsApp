@@ -70,7 +70,7 @@ class Header extends React.Component<MyProps> {
                 <div className='tool-bar__user-buttons-wrapper'>
                   <Link href={{ pathname: '/dashboard' }} as='/dashboard/myProducts'>
                     <a>
-                      <Button className="global__button--secondary" onClick={() => console.log('fjut')}>
+                      <Button className="global__button--secondary">
                         Dashboard
                       </Button>
                     </a>

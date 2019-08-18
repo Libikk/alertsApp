@@ -30,7 +30,7 @@ class LoginPage extends React.Component {
                     <div className='content__single-link'>
                       <Link href={{ pathname: 'dashboard' }} as='dashboard/myProducts'>
                         <a>
-                          <Button className="global__button--primary" onClick={() => console.log('fjut')}>
+                          <Button className="global__button--primary">
                             Dashboard
                           </Button>
                         </a>
@@ -39,7 +39,7 @@ class LoginPage extends React.Component {
                     <div className='content__single-link'>
                       <Link>
                         <a>
-                          <Button className="global__button--primary" onClick={() => console.log('fjut')}>
+                          <Button className="global__button--primary">
                             Account settings
                           </Button>
                         </a>
@@ -48,7 +48,7 @@ class LoginPage extends React.Component {
                     <div className='content__single-link'>
                       <Link>
                         <a>
-                          <Button className="global__button--secondary" onClick={() => console.log('fjut')}>
+                          <Button className="global__button--secondary">
                             Log out
                           </Button>
                         </a>
