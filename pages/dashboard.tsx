@@ -91,7 +91,7 @@ class Dashboard extends React.Component<MyProps> {
                     <div>
                       <Tabs value={selectedTabIndex} onChange={this.handleChange}>
                         <Tab label="My products" />
-                        <Tab label="Find product" />
+                        <Tab label="Add product" />
                       </Tabs>
                       <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex}>
                         <div className="my-products">
@@ -100,7 +100,11 @@ class Dashboard extends React.Component<MyProps> {
                             this.props.products.userProducts.map(e =>
                             <Paper className='my-products__single-product'>
                               <div className='single-product__body'>
-                                <Link href={e.productUrl}>{e.productUrl}</Link>
+                                <Link href={e.productUrl}>
+                                  <a>
+                                    {e.productUrl}
+                                  </a>
+                                </Link>
                                 <span className={`${e.isProductActive ? '' : 'inactive'}`}>{e.isProductActive ? '' : 'INACTIVE'}</span>
                                 <span className={`${e.isPromo ? 'promotion' : ''}`}>{e.isPromo ? 'PROMOTION' : '' }</span>
                                 <DeleteOutline onClick={() => this.deleteUserProduct(e.productId)}/>
