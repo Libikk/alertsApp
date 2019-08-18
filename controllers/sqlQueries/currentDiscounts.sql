@@ -1,7 +1,7 @@
 SELECT
   prod.productid "productId",
-  CONCAT(website.urlToProduct, prod.productUrl) as "productUrl",
-  website.name,
+  prod.productUrl as "productUrl",
+  website.hostName as "name",
   website.url as "websiteUrl",
   scan.createdat as "checkCreatedAt"
 FROM
@@ -20,3 +20,5 @@ FROM
   JOIN discounthero.websites website on website.websiteId = prod.websiteId
 WHERE
   scan.ispromo
+  AND website.isActive = '1'
+  AND prod.isActive = '1'

@@ -4,10 +4,11 @@ import { logoutUser } from '../utils/auth'
 
 export const autorize = (token) => (dispatch) => {
   return AuthService.authorize(token)
-    .then(payload =>  dispatch({
+    .then(payload => dispatch({
       type: 'LOGIN',
       payload,
-    }));
+    }))
+    .catch(console.error)
 };
 
 export const login = (personCredential) => (dispatch) => {

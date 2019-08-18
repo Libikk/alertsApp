@@ -17,6 +17,10 @@ button.global__button--primary {
     }
 }
 
+a {
+    text-decoration: none
+}
+
 button.global__button--secondary {
     transition: 0.3s;
     color: $primaryColor;

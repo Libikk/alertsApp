@@ -10,15 +10,11 @@ const DB_SCHEMA = {
           primary: true,
         },
         {
-          columnName: 'name',
+          columnName: 'hostName',
           type: 'varchar(255)',
         },
         {
           columnName: 'url',
-          type: 'varchar(10000)',
-        },
-        {
-          columnName: 'urlToProduct',
           type: 'varchar(10000)',
         },
         {
@@ -35,6 +31,10 @@ const DB_SCHEMA = {
         },
         {
           columnName: 'isClientSideCheck',
+          type: 'BIT',
+        },
+        {
+          columnName: 'isActive',
           type: 'BIT',
         },
       ],
@@ -77,6 +77,10 @@ const DB_SCHEMA = {
         },
         {
           columnName: 'isClientSideCheck',
+          type: 'bit',
+        },
+        {
+          columnName: 'isActive',
           type: 'bit',
         },
       ],
@@ -135,8 +139,36 @@ const DB_SCHEMA = {
           columnName: 'createdAt',
           type: 'timestamp',
         },
-      ]
-    }
+      ],
+    },
+    {
+      tableName: 'usersProducts',
+      columns: [
+        {
+          columnName: 'id',
+          type: 'int',
+          primary: true,
+        },
+        {
+          columnName: 'userId',
+          type: 'int',
+        },
+        {
+          columnName: 'productId',
+          type: 'int',
+        },
+        {
+          columnName: 'createdAt',
+          type: 'timestamp',
+          defaultValue: null,
+        },
+        {
+          columnName: 'deletedAt',
+          type: 'timestamp',
+          defaultValue: null,
+        },
+      ],
+    },
   ],
 };
 
