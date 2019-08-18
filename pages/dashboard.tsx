@@ -2,12 +2,12 @@ import React from 'react'
 import Layout from '../components/Layout';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Button from '@material-ui/core/Button';
 import { checkProdExistence, addUserProduct, getUserProducts } from '../dispatchers/productDispatchers';
-import TextField from '@material-ui/core/TextField';
 import { autorize } from '../dispatchers/authDispatchers';
 import { getCookie } from '../utils/auth';
 import '../styles/loginPage.scss';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
