@@ -1,5 +1,5 @@
 # Welcome to DDiscount Hero
-Hi! This is a ***[ DDiscount Hero ](http://handlebarsjs.com/)*** app. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras luctus tincidunt velit, quis finibus enim vestibulum vel. Integer scelerisque lectus quis velit fringilla, ut suscipit tellus interdum. Donec ut lacus mauris.
+Hi! This is a ***[ DDiscount Hero ](http://example.com/)*** app. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras luctus tincidunt velit, quis finibus enim vestibulum vel. Integer scelerisque lectus quis velit fringilla, ut suscipit tellus interdum. Donec ut lacus mauris.
 ## Tech stack
 - [NodeJS](https://nodejs.org/en/)
 - [MySQL](https://www.mysql.com/)
