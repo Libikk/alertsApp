@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '../components/Layout';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { checkProdExistence, addUserProduct, getUserProducts } from '../dispatchers/productDispatchers';
+import { checkProdExistence, addUserProduct, getUserProducts, deleteUserProduct } from '../dispatchers/productDispatchers';
 import { autorize } from '../dispatchers/authDispatchers';
 import { getCookie } from '../utils/auth';
 import '../styles/dashboard.scss';
@@ -59,9 +59,7 @@ class Dashboard extends React.Component<MyProps> {
   handleChange = (event: React.ChangeEvent<{}>, value: number) => this.setState({ selectedTabIndex: value });
   handleChangeIndex = (index: number) =>  this.setState({ selectedTabIndex: index });
 
-  deleteUserProduct = (productId :number) => {
-
-  }
+  deleteUserProduct = (productId :number) => this.props.deleteUserProduct(productId)
 
   productUrlChange = (e) => {
     this.setState({ urlInput: e.target.value });
@@ -139,6 +137,8 @@ const mapDispatchToProps = dispatch => ({
   checkProdExistence: bindActionCreators(checkProdExistence, dispatch),
   addUserProduct: bindActionCreators(addUserProduct, dispatch),
   getUserProducts: bindActionCreators(getUserProducts, dispatch),
+  deleteUserProduct: bindActionCreators(deleteUserProduct, dispatch),
+
 });
 
 export default connect(state => state, mapDispatchToProps)(Dashboard);

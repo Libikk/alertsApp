@@ -16,3 +16,8 @@ export const getUserProducts = () => (dispatch) => {
   return ProductService.getUserProducts()
     .then(res => dispatch({ type: 'GET_USER_PRODUCTS', prodData: res })
 )};
+
+export const deleteUserProduct = (productId :number) => (dispatch) => {
+  return ProductService.deleteUserProduct(productId)
+    .then(res => dispatch({ type: 'DELETE_USER_PRODUCT', productId: productId })
+)};
