@@ -25,7 +25,7 @@ const passportStrategy = new JwtStrategy(jwtOptions, (jwtPayload, next) => {
       next(null, false);
     }
   }).catch(next);
-})
+});
 
 passport.use(passportStrategy);
 
