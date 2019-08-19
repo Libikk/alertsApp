@@ -39,8 +39,14 @@ const getUserProducts = async (req, res, next) => {
   res.send(userProducts);
 };
 
+const deleteUserProduct = async (req, res, next) => {
+  const deletedProduct = await sqlQuery(getQuery('deleteUserProduct'), [req.user.userId, req.params.productId]);
+  res.send(deletedProduct);
+};
+
 router.get('/productExistence', checkProdExistence);
 router.post('/addUserProduct', passport.authenticate('jwt', { session: false }), addUserProduct);
 router.get('/getUserProducts', passport.authenticate('jwt', { session: false }), getUserProducts);
+router.delete('/deleteUserProduct/:productId', passport.authenticate('jwt', { session: false }), deleteUserProduct);
 
 module.exports = router;
