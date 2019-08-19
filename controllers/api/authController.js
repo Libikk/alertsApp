@@ -2,13 +2,13 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const secret = 'FdsfDSF1dsfD__2..SFDS34)_;L;';
+const jwtSecret = process.env.JWT_SECRET;
 const router = express.Router();
 const { sqlQuery } = require('../../sql/sqlServer');
 
 const authResponseHandler = (res, user) => {
   const context = { email: user.email, userName: user.userName };
-  const token = jwt.sign(context, secret, { expiresIn: '2d' });
+  const token = jwt.sign(context, jwtSecret, { expiresIn: '2d' });
   res.cookie('access_token', token).json(user);
 };
 
@@ -46,7 +46,7 @@ const authorize = async (req, res, next) => {
   const requestToken = req.body.token;
   let verified = true;
 
-  jwt.verify(requestToken, secret, (err) => {
+  jwt.verify(requestToken, jwtSecret, (err) => {
     if (err) verified = false;
   });
 
