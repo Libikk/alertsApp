@@ -12,10 +12,8 @@ const cookieExtractor = (req) => {
   return token;
 };
 
-const secret = 'FdsfDSF1dsfD__2..SFDS34)_;L;';
-
 const jwtOptions = {
-  secretOrKey: secret,
+  secretOrKey: process.env.JWT_SECRET,
   jwtFromRequest: cookieExtractor,
 };
 
