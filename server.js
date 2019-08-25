@@ -12,7 +12,7 @@ const morgan = require('morgan');
 const dev = process.env.NODE_ENV !== 'development';
 const nextApp = next({ dev });
 const handle = nextApp.getRequestHandler();
-const scan = require('./productScaner/scan');
+const scanService = require('./productScaner/scan');
 const schedule = require('node-schedule');
 
 const websitesController = require('./controllers/api/websitesController2');
@@ -21,7 +21,7 @@ const authController = require('./controllers/api/authController');
 const userController = require('./controllers/api/userController');
 const productController = require('./controllers/api/productController');
 
-schedule.scheduleJob({ hour: 10, minute: 28 }, () => scan()); // every day, 10am
+schedule.scheduleJob({ hour: 10, minute: 1 }, () => scanService.scanProducts()); // every day, 10am
 
 
 nextApp.prepare()
