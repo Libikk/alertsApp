@@ -1,4 +1,4 @@
-const { sql, executeRawSQL } = require('../sqlServer');
+const { sql, sqlQuery } = require('../sqlServer');
 const dbSchema = require('./dbSchema');
 const seedConfig = require('./seedConfig');
 const _ = require('lodash');
@@ -10,14 +10,14 @@ const DB_UPDATE_CONFIG = {
 
 const dropTable = (tableName) => {
   console.warn(`Drop table: ${tableName}`);
-  return executeRawSQL(`DROP TABLE IF EXISTS ${tableName}`);
+  return sqlQuery(`DROP TABLE IF EXISTS ${tableName}`);
 };
 
 const createTableIfNotExist = (tableName, columns) => {
   console.warn(`Create or update table: ${tableName}`);
   const { columnName } = columns.find(c => c.primary);
   const query = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnName} int NOT NULL AUTO_INCREMENT, PRIMARY KEY (${columnName}))`;
-  return executeRawSQL(query);
+  return sqlQuery(query);
 };
 
 const createColumnsForTable = async (tableName, columns) => {
@@ -26,12 +26,12 @@ const createColumnsForTable = async (tableName, columns) => {
   for (const { columnName, defaultValue, type, primary } of columns) {
     if (!primary) {
       createdColumns.push(columnName);
-      await executeRawSQL(`ALTER TABLE ${tableName} MODIFY COLUMN ${columnName} ${type}`)
-        .catch(() => executeRawSQL(`ALTER TABLE ${tableName} ADD ${columnName} ${type}`));
+      await sqlQuery(`ALTER TABLE ${tableName} MODIFY COLUMN ${columnName} ${type}`)
+        .catch(() => sqlQuery(`ALTER TABLE ${tableName} ADD ${columnName} ${type}`));
 
       // set default value if exist
       if (defaultValue !== undefined) {
-        await executeRawSQL(`ALTER TABLE ${tableName} CHANGE ${columnName} ${columnName} ${type} ${defaultValue} DEFAULT ${defaultValue};`);
+        await sqlQuery(`ALTER TABLE ${tableName} CHANGE ${columnName} ${columnName} ${type} ${defaultValue} DEFAULT ${defaultValue};`);
       }
     }
   }
@@ -43,7 +43,7 @@ const createSeedRows = async () => {
       const stringOfColumns = Object.keys(element).reduce((acc, curColumn, index) => acc + (index === 0 ? `${curColumn}` : `, ${curColumn}`), '');
       const stringOfValues = Object.keys(element).reduce((acc, curColumn, index) => acc + (index === 0 ? `${element[curColumn]}` : `, ${element[curColumn]}`), '');
       const query = `INSERT INTO ${tableKey} (${stringOfColumns}) VALUES (${stringOfValues})`;
-      await executeRawSQL(query);
+      await sqlQuery(query);
     }));
 };
 

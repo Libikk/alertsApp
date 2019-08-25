@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const jwtSecret = process.env.JWT_SECRET;
 const router = express.Router();
-const { executeRawSQL, sqlQuery } = require('../../sql/sqlServer');
+const { sqlQuery } = require('../../sql/sqlServer');
 
 const authResponseHandler = (res, user) => {
   const context = { email: user.email, userName: user.userName };
@@ -16,7 +16,7 @@ const register = async (req, res, next) => {
   const { userName, email, password } = req.body;
   if (userName && email && password) {
     const hashPass = await bcrypt.hash(password, 10);
-    executeRawSQL('insert into users (userName, email, password, createdAt) values (?, ?, ?, ?) ', [userName, email, hashPass, new Date()])
+    sqlQuery('insert into users (userName, email, password, createdAt) values (?, ?, ?, ?) ', [userName, email, hashPass, new Date()])
       .then(response => authResponseHandler(res, { userName, email, userId: response.insertId }))
       .catch(next);
   } else {
@@ -27,7 +27,7 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
   const { email, password } = req.body;
   if (email && password) {
-    const user = await executeRawSQL('select * from users where email = ?', [email]).then(e => e[0]).catch(next);
+    const user = await sqlQuery('select * from users where email = ?', [email]).then(e => e[0]).catch(next);
     if (!user) {
       return next(new Error('Wrong Email or Password'));
     }
@@ -52,7 +52,7 @@ const authorize = async (req, res, next) => {
 
   if (verified) {
     const { payload: { email } } = jwt.decode(requestToken, { complete: true });
-    const user = await executeRawSQL('select * from users where email = ?', [email]).then(e => e[0]).catch(next);
+    const user = await sqlQuery('select * from users where email = ?', [email]).then(e => e[0]).catch(next);
     authResponseHandler(res, user);
   } else {
     next(new Error('User not found'));
