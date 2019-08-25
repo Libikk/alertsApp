@@ -1,10 +1,10 @@
 const express = require('express');
 
 const router = express.Router();
-const { sqlQuery } = require('../../sql/sqlServer');
+const { executeRawSQL } = require('../../sql/sqlServer');
 
 const getWebsites = (req, res, next) => {
-  sqlQuery('SELECT * FROM discounthero.websites')
+  executeRawSQL('SELECT * FROM discounthero.websites')
     .then(response => res.send(response))
     .catch(next);
 };

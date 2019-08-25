@@ -1,6 +1,6 @@
 const serverSideScan = require('./ServerSide');
 const clientSideScan = require('./ClientSide');
-const { sqlQuery } = require('../sql/sqlServer');
+const { sqlQuery, executeRawSQL } = require('../sql/sqlServer');
 const _ = require('lodash');
 
 const scanManagement = {
@@ -21,7 +21,7 @@ const scanManagement = {
           flattenedResp.forEach((single) => {
             const params = [single.productId, single.isPromo, single.isError];
             const sqlString = 'INSERT INTO scans (productId, createdAt, isPromo, isError) values (?, now(), ?, ?)';
-            sqlQuery(sqlString, params);
+            executeRawSQL(sqlString, params, true);
             // to do update all of them in one query
           });
         });

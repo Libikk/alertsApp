@@ -1,6 +1,6 @@
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
-const { sqlQuery } = require('./sql/sqlServer');
+const { executeRawSQL } = require('./sql/sqlServer');
 
 const JwtStrategy = passportJWT.Strategy;
 
@@ -18,7 +18,7 @@ const jwtOptions = {
 };
 
 const passportStrategy = new JwtStrategy(jwtOptions, (jwtPayload, next) => {
-  sqlQuery('select * from users where email = ? and userName = ?', [jwtPayload.email, jwtPayload.userName]).then((user) => {
+  executeRawSQL('select * from users where email = ? and userName = ?', [jwtPayload.email, jwtPayload.userName]).then((user) => {
     if (user[0]) {
       next(null, user[0]);
     } else {
