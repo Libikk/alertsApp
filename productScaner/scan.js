@@ -5,11 +5,10 @@ const _ = require('lodash');
 
 const scanManagement = {
   getProducts: (productId) => {
-    console.log('productId: ', productId, typeof productId);
     const params = {
       '@productId': productId,
     };
-    return sqlQuery('getDataForScan', params).catch(console.error);;
+    return sqlQuery('getDataForScan', params).catch(console.error);
   },
   scanProducts: (productId) => {
     scanManagement.getProducts(productId)
