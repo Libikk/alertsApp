@@ -5,15 +5,11 @@ const _ = require('lodash');
 
 const scanManagement = {
   getProducts: (productId) => {
-    const params = {
-      '@productId': productId,
-    };
-    return sqlQuery('getDataForScan', params).catch(console.error);
+    return sqlQuery('getDataForScan', { '@productId': productId }).catch(console.error);
   },
   scanProducts: (productId) => {
     scanManagement.getProducts(productId)
       .then((allProductsWithWebsites) => {
-        console.log('allProductsWithWebsites: ', allProductsWithWebsites);
         const webScan = clientSideScan.getClientSideCheck(allProductsWithWebsites);
         const serverScan = serverSideScan.getServerSideCheck(allProductsWithWebsites);
         Promise.all(_.concat([], webScan, serverScan)).then((res) => {
@@ -21,7 +17,7 @@ const scanManagement = {
           flattenedResp.forEach((single) => {
             const params = [single.productId, single.isPromo, single.isError];
             const sqlString = 'INSERT INTO scans (productId, createdAt, isPromo, isError) values (?, now(), ?, ?)';
-            sqlQuery(sqlString, params, true);
+            sqlQuery(sqlString, params);
             // to do update all of them in one query
           });
         });
