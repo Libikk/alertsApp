@@ -38,6 +38,14 @@ const DB_SCHEMA = {
           type: 'BIT',
         },
         {
+          columnName: 'imageSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'productNameSelector',
+          type: 'varchar(255)',
+        },
+        {
           columnName: 'deletedAt',
           type: 'timestamp',
           defaultValue: null,
@@ -83,6 +91,14 @@ const DB_SCHEMA = {
         {
           columnName: 'imageUrl',
           type: 'varchar(1000)',
+        },
+        {
+          columnName: 'imageSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'productNameSelector',
+          type: 'varchar(255)',
         },
         {
           columnName: 'isClientSideCheck',
