@@ -4,19 +4,28 @@ const opt = {
   timeout: 6000,
 };
 
-const executeCheck = async (link, selector, page, options) => {
+const executeCheck = async (link, selector, page, options, imageSelector, productNameSelector) => {
   const result = {
     isPromo: false,
   };
   try {
     await page.goto(link);// || 'https://groceries.asda.com/product/ham-pork-slices/asda-thick-dry-cured-ham-slices/910000226837');
-    await page.waitForSelector(selector, opt);
 
+    if (imageSelector) {
+      await page.waitForSelector(imageSelector, opt).catch(() => console.log('imageSelector error ', imageSelector));
+      result.imgUrl = await page.$eval(imageSelector, el => el.getAttribute('src')).catch(() => console.log('imageSelector err'));
+    }
+
+    if (productNameSelector) {
+      result.productName = await page.$eval(productNameSelector, el => el.textContent).catch(() => console.log('productNameSelector err', productNameSelector));
+    }
+
+    // check if product has promo
+    await page.waitForSelector(selector, opt);
     const text = await page.$eval(selector, el => el.textContent);
     result.isPromo = (new RegExp(options.regexCheck, 'ig')).test(text);
-    console.log('isPromo clientSide: ', result.isPromo, link);
   } catch (err) {
-    console.error('err: ', link, err);
+    console.error('err: ', link, err.message);
     result.isError = true;
   }
   return result;
@@ -30,7 +39,16 @@ const getClientSideCheck = async (listOfProducts) => {
     // eslint-disable-next-line no-restricted-syntax
     for (const singleProduct of listOfProducts) {
       if (singleProduct.isClientSideCheck) {
-        const checkResult = await executeCheck(singleProduct.fullUrl, singleProduct.selectorString, page, { regexCheck: singleProduct.regex });
+        const checkResult = await executeCheck(
+          singleProduct.fullUrl,
+          singleProduct.selectorString,
+          page,
+          {
+            regexCheck: singleProduct.regex,
+          },
+          singleProduct.imageSelector,
+          singleProduct.productNameSelector
+        );
         prod.push(Object.assign({}, singleProduct, checkResult));
       }
     }

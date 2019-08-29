@@ -4,10 +4,9 @@ const passport = require('../../passportStrategy');
 
 const router = express.Router();
 const { sqlQuery } = require('../../sql/sqlServer');
-const getQuery = require('../getQuery');
 
 const checkProdExistence = (req, res, next) => {
-  sqlQuery(getQuery('checkProductExistence'), [req.query.productUrlData])
+  sqlQuery('checkProductExistence', [req.query.productUrlData])
     .then(response => res.send(response.pop()))
     .catch(next);
 };
@@ -21,26 +20,26 @@ const addUserProduct = async (req, res, next) => {
     const parsedUrl = url.parse(productUrl);
 
     const newWebsiteParams = [parsedUrl.host, `${parsedUrl.protocol}//${parsedUrl.host}`, 0, parsedUrl.host];
-    await sqlQuery(getQuery('createNewWebsite'), newWebsiteParams);
+    await sqlQuery('createNewWebsite', newWebsiteParams);
 
     const newProductParams = [parsedUrl.href, parsedUrl.host];
-    const newProduct = await sqlQuery(getQuery('createNewProduct'), newProductParams);
+    const newProduct = await sqlQuery('createNewProduct', newProductParams);
 
     productId = newProduct.insertId;
   }
 
-  const userProduct = await sqlQuery(getQuery('addUserProduct'), [productId, req.user.userId]);
+  const userProduct = await sqlQuery('addUserProduct', [productId, req.user.userId]);
 
   res.send({ productId: userProduct.insertId });
 };
 
 const getUserProducts = async (req, res, next) => {
-  const userProducts = await sqlQuery(getQuery('getUserProducts'), [req.user.userId]);
+  const userProducts = await sqlQuery('getUserProducts', [req.user.userId]);
   res.send(userProducts);
 };
 
 const deleteUserProduct = async (req, res, next) => {
-  const deletedProduct = await sqlQuery(getQuery('deleteUserProduct'), [req.user.userId, req.params.productId]);
+  const deletedProduct = await sqlQuery('deleteUserProduct', [req.user.userId, req.params.productId]);
   res.send(deletedProduct);
 };
 

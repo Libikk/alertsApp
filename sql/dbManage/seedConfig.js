@@ -20,6 +20,8 @@ const seedConfig = {
       regexCheck: '"rollback"',
       isClientSideCheck: true,
       isActive: true,
+      imageSelector: "'.s7staticimage img'",
+      productNameSelector: "'.pdp-main-details__title'",
     },
   ],
   products: [

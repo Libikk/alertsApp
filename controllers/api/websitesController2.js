@@ -4,7 +4,7 @@ const router = express.Router();
 const { sqlQuery } = require('../../sql/sqlServer');
 
 const getWebsites = (req, res, next) => {
-  sqlQuery('SELECT * FROM discounthero.websites')
+  sqlQuery('SELECT * FROM discounthero.websites where isActive = 1')
     .then(response => res.send(response))
     .catch(next);
 };

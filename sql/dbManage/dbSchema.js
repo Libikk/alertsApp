@@ -37,6 +37,19 @@ const DB_SCHEMA = {
           columnName: 'isActive',
           type: 'BIT',
         },
+        {
+          columnName: 'imageSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'productNameSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'deletedAt',
+          type: 'timestamp',
+          defaultValue: null,
+        },
       ],
     },
     {
@@ -76,12 +89,29 @@ const DB_SCHEMA = {
           type: 'varchar(255)',
         },
         {
+          columnName: 'imageUrl',
+          type: 'varchar(1000)',
+        },
+        {
+          columnName: 'imageSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'productNameSelector',
+          type: 'varchar(255)',
+        },
+        {
           columnName: 'isClientSideCheck',
           type: 'bit',
         },
         {
           columnName: 'isActive',
           type: 'bit',
+        },
+        {
+          columnName: 'deletedAt',
+          type: 'timestamp',
+          defaultValue: null,
         },
       ],
     },

@@ -27,7 +27,7 @@ const createColumnsForTable = async (tableName, columns) => {
     if (!primary) {
       createdColumns.push(columnName);
       await sqlQuery(`ALTER TABLE ${tableName} MODIFY COLUMN ${columnName} ${type}`)
-        .catch(() => sqlQuery(`ALTER TABLE ${tableName} ADD ${columnName} ${type}`));
+        .catch(() => sqlQuery(`ALTER TABLE ${tableName} ADD ${columnName} ${type}`).catch(console.error));
 
       // set default value if exist
       if (defaultValue !== undefined) {
