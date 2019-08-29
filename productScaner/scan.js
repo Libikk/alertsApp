@@ -17,6 +17,7 @@ const scanManagement = {
           flattenedResp.forEach((single) => {
             const params = [single.productId, single.isPromo, single.isError];
             const sqlString = 'INSERT INTO scans (productId, createdAt, isPromo, isError) values (?, now(), ?, ?)';
+            if (single.imgUrl || single.productName) sqlQuery('updateProductAfterScan', [single.imgUrl, single.productName, single.productId]);
             sqlQuery(sqlString, params);
             // to do update all of them in one query
           });
