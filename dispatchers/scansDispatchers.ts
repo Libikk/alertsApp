@@ -1,5 +1,4 @@
-// const { sqlQuery } = require('../sql/sqlServer');
-import { ScansService } from '../api/ScansService';
+import { ScansService } from '../api/scansService';
 
 
 export const getCurrentDiscounts = () => (dispatch) => {
