@@ -1,5 +1,5 @@
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
 
 export class UserService {
-  static getUserData = async () => axios.get('http://localhost:3000/api/user/getUserData').then(response => response);
+  static getUserData = async () => axiosInstance.get('/api/user/getUserData').then(response => response);
 }

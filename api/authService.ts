@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
 
 export default class AuthService {
-  static register = async (data) => axios.post('http://localhost:3000/api/auth/register', data).then(({ data }) => data);
+  static register = async (data) => axiosInstance.post('/api/auth/register', data).then(({ data }) => data);
 
-  static login = async ({ email, password }) => axios.post('http://localhost:3000/api/auth/login', { email, password }).then(({ data }) => data);
+  static login = async ({ email, password }) => axiosInstance.post('/api/auth/login', { email, password }).then(({ data }) => data);
 
-  static authorize = async (token) => axios.post('http://localhost:3000/api/auth/authorize', { token }).then(({ data }) => data);
+  static authorize = async (token) => axiosInstance.post('/api/auth/authorize', { token }).then(({ data }) => data);
 }

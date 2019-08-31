@@ -1,5 +1,5 @@
 import React from 'react';
-// import Footer from '../components/Footer';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import '../styles/globals.scss';
 
@@ -16,7 +16,7 @@ class Layout extends React.Component<MyProps> {
         <section className="layout-section">
           {this.props.children}
         </section>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     );
   }
