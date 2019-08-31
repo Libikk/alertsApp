@@ -8,9 +8,9 @@ const { sql, sqlQuery } = require('./sql/sqlServer');
 const cookieParser = require('cookie-parser');
 const passport = require('./passportStrategy');
 const morgan = require('morgan');
+const { env, port } = require('./appConfig');
 
-const dev = process.env.NODE_ENV !== 'development';
-const nextApp = next({ dev });
+const nextApp = next({ dev: env === 'development' });
 const handle = nextApp.getRequestHandler();
 const scanService = require('./productScaner/scan');
 const schedule = require('node-schedule');
@@ -58,7 +58,7 @@ nextApp.prepare()
 
     app.get('*', (req, res) => handle(req, res));
 
-    server.listen(3000, (err) => {
+    server.listen(port, (err) => {
       if (err) throw err;
     });
   });
