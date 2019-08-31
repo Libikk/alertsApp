@@ -1,4 +1,3 @@
-// const { sqlQuery } = require('../sql/sqlServer');
 import { WebsiteService } from '../api/websiteService';
 
 

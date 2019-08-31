@@ -1,4 +1,4 @@
-import { UserService } from '../api/UserService';
+import { UserService } from '../api/userService';
 
 
 export const getUserData = () => (dispatch) => {
