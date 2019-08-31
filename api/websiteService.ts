@@ -1,5 +1,4 @@
-import axios from 'axios';
-
+import axiosInstance from '../axiosInstance';
 export class WebsiteService {
-  static getWebsites = async () => axios.get('http://localhost:3000/api/websites/').then(response => response.data);
+  static getWebsites = async () => axiosInstance.get('/api/websites/').then(response => response.data);
 }

@@ -1,5 +1,5 @@
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
 
 export class ScansService {
-  static getCurrentDiscounts = async () => axios.get('http://localhost:3000/api/scans/currentDiscounts').then(response => response.data);
+  static getCurrentDiscounts = async () => axiosInstance.get('/api/scans/currentDiscounts').then(response => response.data);
 }
