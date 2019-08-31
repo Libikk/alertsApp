@@ -11,7 +11,7 @@ Hi! This is a ***[ DDiscount Hero ](http://example.com/)*** app. Lorem ipsum dol
 
 
 **Scraper** is  [Puppeteer](https://www.npmjs.com/package/puppeteer)
-StackEdit stores your files in your browser, which means all your files are automatically saved locally and are accessible **offline!**
+
 ## Scraping products using Puppeteer
 There is scheduled regular process to scan all products and keep informations up to date, if any of the product is on discount then there is going to be send notification.
 ## Motivation
