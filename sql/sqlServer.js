@@ -1,11 +1,8 @@
+const { env } = require('../appConfig');
 const getQuery = require('../controllers/getQuery');
 const _ = require('lodash');
-const sql = require('mysql').createConnection({
-  host: 'localhost',
-  user: 'sytek',
-  password: 'Cycki12345',
-  database: 'discounthero',
-});
+const sqlCredential = require('./sqlCredential');
+const sql = require('mysql').createConnection(sqlCredential[env]);
 
 const mysqlQueries = {
   executeRawSQL: (query, params) => new Promise((resolve, reject) => {
