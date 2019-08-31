@@ -14,16 +14,17 @@ const checkProdExistence = (req, res, next) => {
 
 const addUserProduct = async (req, res, next) => {
   // VALIDATE PAYLOAD
+  // eslint-disable-next-line prefer-const
   let { productId, productUrl } = req.body;
 
   if (productUrl && !productId) {
     const parsedUrl = url.parse(productUrl);
 
     const newWebsiteParams = [parsedUrl.host, `${parsedUrl.protocol}//${parsedUrl.host}`, 0, parsedUrl.host];
-    await sqlQuery('createNewWebsite', newWebsiteParams);
+    await sqlQuery('createNewWebsite', newWebsiteParams).catch(next);
 
     const newProductParams = [parsedUrl.href, parsedUrl.host];
-    const newProduct = await sqlQuery('createNewProduct', newProductParams);
+    const newProduct = await sqlQuery('createNewProduct', newProductParams).catch(next);
 
     productId = newProduct.insertId;
   }
@@ -34,12 +35,12 @@ const addUserProduct = async (req, res, next) => {
 };
 
 const getUserProducts = async (req, res, next) => {
-  const userProducts = await sqlQuery('getUserProducts', [req.user.userId]);
+  const userProducts = await sqlQuery('getUserProducts', [req.user.userId]).catch(next);
   res.send(userProducts);
 };
 
 const deleteUserProduct = async (req, res, next) => {
-  const deletedProduct = await sqlQuery('deleteUserProduct', [req.user.userId, req.params.productId]);
+  const deletedProduct = await sqlQuery('deleteUserProduct', [req.user.userId, req.params.productId]).catch(next);
   res.send(deletedProduct);
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const request = require('request');
 const cheerio = require('cheerio');
 const _ = require('lodash');

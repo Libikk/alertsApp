@@ -146,6 +146,7 @@ const seedConfig = {
       isActive: true,
       createdAt: `"${moment().format('YYYY-MM-DD hh:ss')}"`,
       isClientSideCheck: true,
+      // eslint-disable-next-line max-len
       productUrl: '"https://groceries.asda.com/product/intensive-conditioner-masks/garnier-ultimate-blends-hair-food-banana-3in1-dry-hair-mask-treatment/1000109748224"', // no
     },
     {

@@ -4,21 +4,19 @@ const { sqlQuery } = require('../sql/sqlServer');
 const _ = require('lodash');
 
 const scanManagement = {
-  getProducts: (productId) => {
-    return sqlQuery('getDataForScan', { '@productId': productId }).catch(console.error);
-  },
+  getProducts: productId => sqlQuery('getDataForScan', { '@productId': productId }).catch(console.error),
   scanProducts: (productId) => {
     scanManagement.getProducts(productId)
       .then((allProductsWithWebsites) => {
         const webScan = clientSideScan.getClientSideCheck(allProductsWithWebsites);
         const serverScan = serverSideScan.getServerSideCheck(allProductsWithWebsites);
-        Promise.all(_.concat([], webScan, serverScan)).then((res) => {
+        return Promise.all(_.concat([], webScan, serverScan)).then((res) => {
           const flattenedResp = _.flattenDeep(res);
           flattenedResp.forEach((single) => {
             const params = [single.productId, single.isPromo, single.isError];
             const sqlString = 'INSERT INTO scans (productId, createdAt, isPromo, isError) values (?, now(), ?, ?)';
             if (single.imgUrl || single.productName) sqlQuery('updateProductAfterScan', [single.imgUrl, single.productName, single.productId]);
-            sqlQuery(sqlString, params);
+            return sqlQuery(sqlString, params);
             // to do update all of them in one query
           });
         });

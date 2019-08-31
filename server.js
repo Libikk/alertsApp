@@ -37,7 +37,7 @@ nextApp.prepare()
     app.use('/api/user', passport.authenticate('jwt', { session: false }), userController);
     app.use('/api/product', productController);
 
-    app.use((err, req, res, next) => {
+    app.use((err, req, res) => {
       res.status(err.status || 500);
       console.error(err);
       res.json({
