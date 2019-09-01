@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { env } = require('../appConfig');
 const getQuery = require('../controllers/getQuery');
 const _ = require('lodash');
