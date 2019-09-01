@@ -20,6 +20,7 @@ const DB_SCHEMA = {
         {
           columnName: 'createdAt',
           type: 'TIMESTAMP',
+          defaultValue: null,
         },
         {
           columnName: 'selector',
@@ -79,6 +80,7 @@ const DB_SCHEMA = {
         {
           columnName: 'createdAt',
           type: 'TIMESTAMP',
+          defaultValue: null,
         },
         {
           columnName: 'selector',
@@ -130,6 +132,7 @@ const DB_SCHEMA = {
         {
           columnName: 'createdAt',
           type: 'timestamp',
+          defaultValue: null,
         },
         {
           columnName: 'isPromo',
@@ -164,10 +167,12 @@ const DB_SCHEMA = {
         {
           columnName: 'lastLoggedIn',
           type: 'timestamp',
+          defaultValue: null,
         },
         {
           columnName: 'createdAt',
           type: 'timestamp',
+          defaultValue: null,
         },
       ],
     },

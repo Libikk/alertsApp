@@ -1,6 +1,6 @@
 import axios from 'axios';
-import appConfig from './appConfig';
+import { envUrl, port } from './appConfig';
 
 export default axios.create({
-  baseURL: appConfig.envUrl,
+  baseURL: `${envUrl}:${port}`,
 });
