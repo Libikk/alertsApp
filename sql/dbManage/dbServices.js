@@ -31,7 +31,7 @@ const createColumnsForTable = async (tableName, columns) => {
 
       // set default value if exist
       if (defaultValue !== undefined) {
-        await sqlQuery(`ALTER TABLE ${tableName} CHANGE ${columnName} ${columnName} ${type} ${defaultValue} DEFAULT ${defaultValue};`);
+        await sqlQuery(`ALTER TABLE ${tableName} ADD COLUMN ${columnName} ${type} ${defaultValue} DEFAULT ${defaultValue};`).catch(console.error);
       }
     }
   }
