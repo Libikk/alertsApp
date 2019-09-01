@@ -48,7 +48,6 @@ const DB_SCHEMA = {
         {
           columnName: 'deletedAt',
           type: 'timestamp',
-          defaultValue: null,
         },
       ],
     },
@@ -111,7 +110,6 @@ const DB_SCHEMA = {
         {
           columnName: 'deletedAt',
           type: 'timestamp',
-          defaultValue: null,
         },
       ],
     },
@@ -190,12 +188,10 @@ const DB_SCHEMA = {
         {
           columnName: 'createdAt',
           type: 'timestamp',
-          defaultValue: null,
         },
         {
           columnName: 'deletedAt',
           type: 'timestamp',
-          defaultValue: null,
         },
       ],
     },
