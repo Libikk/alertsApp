@@ -7,7 +7,7 @@ SELECT
     case prod.isActive when '0' then 0 when '1' then 1 end AS "isProductActive",
     case scan.isPromo when '0' then 0 when '1' then 1 end AS "isPromo"
 FROM discounthero.products prod
-JOIN discounthero.usersproducts usp ON usp.userId = ?
+JOIN discounthero.usersProducts usp ON usp.userId = ?
 	AND usp.deletedAt IS NULL
 	AND prod.productId = usp.productId
 JOIN discounthero.websites web on web.websiteId = prod.websiteId
