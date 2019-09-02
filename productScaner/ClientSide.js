@@ -35,7 +35,7 @@ const executeCheck = async (link, selector, page, options, imageSelector, produc
 const getClientSideCheck = async (listOfProducts) => {
   const prod = [];
   try {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     // eslint-disable-next-line no-restricted-syntax
     for (const singleProduct of listOfProducts) {
