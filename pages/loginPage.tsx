@@ -16,7 +16,6 @@ class LoginPage extends React.Component {
     return { ...query }
 }
   render () {
-    console.log(this.props)
     const { currentUser } = this.props.auth;
     return (
           <Layout>

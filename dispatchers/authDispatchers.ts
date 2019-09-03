@@ -8,7 +8,7 @@ export const autorize = (token) => (dispatch) => {
       type: 'LOGIN',
       payload,
     }))
-    .catch(console.error)
+    .catch((err) => console.error('Error: ', err.message))
 };
 
 export const login = (personCredential) => (dispatch) => {
