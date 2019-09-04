@@ -14,7 +14,7 @@ const nextApp = next({ dev: env === 'development' });
 const handle = nextApp.getRequestHandler();
 const scanService = require('./productScaner/scan');
 const schedule = require('node-schedule');
-const errorHandler = require('./middleware/errorHandler');
+const { errorHandler } = require('./middleware/errorHandler');
 
 const websitesController = require('./controllers/api/websitesController2');
 const scansController = require('./controllers/api/scansController');
