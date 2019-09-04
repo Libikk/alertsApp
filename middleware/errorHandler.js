@@ -1,9 +1,9 @@
 const Sentry = require('@sentry/node');
-const { version } = require('../appConfig');
+const { version, env } = require('../appConfig');
 
 Sentry.init({
   dsn: `https://${process.env.SENTRY_PUBLIC_KEY}@sentry.io/${process.env.SENTRY_PROJECT_ID}`,
-  environment: process.env.NODE_ENV,
+  environment: env,
   release: version,
 });
 
