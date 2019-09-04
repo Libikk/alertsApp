@@ -14,6 +14,7 @@ const nextApp = next({ dev: env === 'development' });
 const handle = nextApp.getRequestHandler();
 const scanService = require('./productScaner/scan');
 const schedule = require('node-schedule');
+const { errorHandler } = require('./middleware/errorHandler');
 
 const websitesController = require('./controllers/api/websitesController2');
 const scansController = require('./controllers/api/scansController');
@@ -37,17 +38,7 @@ nextApp.prepare()
     app.use('/api/user', passport.authenticate('jwt', { session: false }), userController);
     app.use('/api/product', productController);
 
-    app.use((err, req, res, nextR) => {
-      if (!err) {
-        return nextR();
-      }
-      console.error(err);
-      res.status(err.status || 500);
-      return res.json({
-        ...err,
-        msg: err.message,
-      });
-    });
+    app.use(errorHandler);
 
     app.get('/login', (req, res) => {
       const actualPage = '/loginPage';
