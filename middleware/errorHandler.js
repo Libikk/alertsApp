@@ -14,7 +14,11 @@ const errorHandler = (err, req, res, next) => {
   const errCode = err.status || 500;
 
   if (errCode === 500 || errCode === 404) {
-    Sentry.captureException(err, { userData: req.user });
+    Sentry.withScope((scope) => {
+      // to do: extra data
+      scope.setExtra('data', { userData: req.user });
+      Sentry.captureException(err);
+    });
     console.error('User Data', req.user);
     console.error('Err message ', err.message);
   }
