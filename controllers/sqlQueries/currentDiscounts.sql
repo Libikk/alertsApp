@@ -1,8 +1,10 @@
 SELECT
   prod.productid "productId",
   prod.productUrl as "productUrl",
-  website.hostName as "name",
+  website.hostName as "hostName",
   website.url as "websiteUrl",
+  prod.imageUrl,
+  prod.productName,
   scan.createdat as "checkCreatedAt"
 FROM
   discounthero.products AS prod
