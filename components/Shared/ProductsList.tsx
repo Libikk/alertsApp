@@ -2,9 +2,16 @@ import React from 'react';
 import Link from 'next/link';
 import '../../styles/productList.scss';
 
+interface ProductsListT {
+    hostName: string,
+    imageUrl: string,
+    productName: string,
+    productUrl: string,
+  }
+
 type MyProps = {
-    products: Array
-  };
+    products: Array<ProductsListT> | null
+};
 
 export default class ProductsList extends React.Component<MyProps> {
     render() {
