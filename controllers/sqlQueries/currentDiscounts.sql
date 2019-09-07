@@ -1,11 +1,11 @@
 SELECT
-  prod.productid "productId",
-  prod.productUrl as "productUrl",
-  website.hostName as "hostName",
-  website.url as "websiteUrl",
+  prod.productid,
+  prod.productUrl,
+  website.hostName,
+  website.url as "hostNameUrl",
   prod.imageUrl,
   prod.productName,
-  scan.createdat as "checkCreatedAt"
+  scan.createdAt
 FROM
   discounthero.products AS prod
   LEFT JOIN discounthero.scans scan ON scan.scanid = (

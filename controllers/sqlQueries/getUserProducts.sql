@@ -1,10 +1,10 @@
 SELECT
-	  usp.createdAt AS "addedAt",
+	  usp.createdAt,
     prod.productUrl,
     prod.productId,
     web.hostName,
-    web.url AS "webUrl",
-    case prod.isActive when '0' then 0 when '1' then 1 end AS "isProductActive",
+    web.url AS "hostNameUrl",
+    case prod.isActive when '0' then 0 when '1' then 1 end AS "isActive",
     case scan.isPromo when '0' then 0 when '1' then 1 end AS "isPromo"
 FROM discounthero.products prod
 JOIN discounthero.usersProducts usp ON usp.userId = ?

@@ -103,7 +103,7 @@ class Dashboard extends React.Component<MyProps> {
                                     {e.productUrl}
                                   </a>
                                 </Link>
-                                <span className={`${e.isProductActive ? '' : 'inactive'}`}>{e.isProductActive ? '' : 'INACTIVE'}</span>
+                                <span className={`${e.isProductActive ? '' : 'inactive'}`}>{e.isActive ? '' : 'INACTIVE'}</span>
                                 <span className={`${e.isPromo ? 'promotion' : ''}`}>{e.isPromo ? 'PROMOTION' : '' }</span>
                                 <DeleteOutline onClick={() => this.deleteUserProduct(e.productId)}/>
                               </div>
