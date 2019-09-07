@@ -23,28 +23,8 @@ const DB_SCHEMA = {
           defaultValue: null,
         },
         {
-          columnName: 'selector',
-          type: 'varchar(255)',
-        },
-        {
-          columnName: 'regexCheck',
-          type: 'varchar(255)',
-        },
-        {
-          columnName: 'isClientSideCheck',
-          type: 'BIT',
-        },
-        {
           columnName: 'isActive',
           type: 'BIT',
-        },
-        {
-          columnName: 'imageSelector',
-          type: 'varchar(255)',
-        },
-        {
-          columnName: 'productNameSelector',
-          type: 'varchar(255)',
         },
         {
           columnName: 'deletedAt',
@@ -83,28 +63,8 @@ const DB_SCHEMA = {
           defaultValue: null,
         },
         {
-          columnName: 'selector',
-          type: 'varchar(255)',
-        },
-        {
-          columnName: 'regexCheck',
-          type: 'varchar(255)',
-        },
-        {
           columnName: 'imageUrl',
           type: 'varchar(1000)',
-        },
-        {
-          columnName: 'imageSelector',
-          type: 'varchar(255)',
-        },
-        {
-          columnName: 'productNameSelector',
-          type: 'varchar(255)',
-        },
-        {
-          columnName: 'isClientSideCheck',
-          type: 'bit',
         },
         {
           columnName: 'isActive',
@@ -196,6 +156,53 @@ const DB_SCHEMA = {
           columnName: 'createdAt',
           type: 'timestamp',
           defaultValue: null,
+        },
+        {
+          columnName: 'deletedAt',
+          type: 'timestamp',
+          defaultValue: null,
+        },
+      ],
+    },
+    {
+      tableName: 'websitesSelectors',
+      columns: [
+        {
+          columnName: 'id',
+          type: 'int',
+          primary: true,
+        },
+        {
+          columnName: 'websiteId',
+          type: 'int',
+        },
+        {
+          columnName: 'isDiscountSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'isDiscountSelectorRegex',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'isClientSideCheck',
+          type: 'BIT',
+        },
+        {
+          columnName: 'imageSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'productNameSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'productPriceSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'productDiscountedPriceSelector',
+          type: 'varchar(255)',
         },
         {
           columnName: 'deletedAt',

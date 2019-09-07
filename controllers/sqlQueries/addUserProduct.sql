@@ -1,1 +1,1 @@
-insert into usersProducts (productId, userId, createdAt) values (?, ?, now())
+insert into usersProducts (productId, userId, createdAt, deletedAt) values (?, ?, now(), null)
