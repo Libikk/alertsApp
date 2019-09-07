@@ -204,6 +204,53 @@ const DB_SCHEMA = {
         },
       ],
     },
+    {
+      tableName: 'websitesSelectors',
+      columns: [
+        {
+          columnName: 'id',
+          type: 'int',
+          primary: true,
+        },
+        {
+          columnName: 'websiteId',
+          type: 'int',
+        },
+        {
+          columnName: 'isDiscountSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'isDiscountSelectorRegex',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'isClientSideCheck',
+          type: 'BIT',
+        },
+        {
+          columnName: 'imageSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'productNameSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'productPriceSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'productDiscountedPriceSelector',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'deletedAt',
+          type: 'timestamp',
+          defaultValue: null,
+        },
+      ],
+    },
   ],
 };
 
