@@ -23,28 +23,8 @@ const DB_SCHEMA = {
           defaultValue: null,
         },
         {
-          columnName: 'selector',
-          type: 'varchar(255)',
-        },
-        {
-          columnName: 'regexCheck',
-          type: 'varchar(255)',
-        },
-        {
-          columnName: 'isClientSideCheck',
-          type: 'BIT',
-        },
-        {
           columnName: 'isActive',
           type: 'BIT',
-        },
-        {
-          columnName: 'imageSelector',
-          type: 'varchar(255)',
-        },
-        {
-          columnName: 'productNameSelector',
-          type: 'varchar(255)',
         },
         {
           columnName: 'deletedAt',
@@ -83,28 +63,8 @@ const DB_SCHEMA = {
           defaultValue: null,
         },
         {
-          columnName: 'selector',
-          type: 'varchar(255)',
-        },
-        {
-          columnName: 'regexCheck',
-          type: 'varchar(255)',
-        },
-        {
           columnName: 'imageUrl',
           type: 'varchar(1000)',
-        },
-        {
-          columnName: 'imageSelector',
-          type: 'varchar(255)',
-        },
-        {
-          columnName: 'productNameSelector',
-          type: 'varchar(255)',
-        },
-        {
-          columnName: 'isClientSideCheck',
-          type: 'bit',
         },
         {
           columnName: 'isActive',
