@@ -52,7 +52,7 @@ componentWillMount = () => {
             websites.websitesList && websites.websitesList.map(singleWebsite => <div key={singleWebsite.websiteId}>{singleWebsite.createdAt}   ghagaga {singleWebsite.url}</div>)
           }
           <h1>Current Discounts</h1>
-          {<ProductsList products={scans.currentDiscounts} />}
+          {<ProductsList products={scans.currentDiscounts} pageName={'landingPage'} />}
         </div>
       </Layout>
     )

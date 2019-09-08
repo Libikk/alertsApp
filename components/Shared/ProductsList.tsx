@@ -24,7 +24,9 @@ interface ProductsListT {
   }
 
 type MyProps = {
-    products: Array<ProductsListT> | null
+    products: Array<ProductsListT> | null,
+    pageName: string,
+    deleteUserProduct: Function
 };
 
 class ProductsList extends React.Component<MyProps> {
@@ -32,8 +34,8 @@ class ProductsList extends React.Component<MyProps> {
     deleteUserProduct = (productId :number) => this.props.deleteUserProduct(productId)
 
     render() {
-
-        const { products } = this.props
+        const { products, pageName } = this.props
+        const isLandingPage = pageName === 'landingPage';
       return (
           <section className="product-list__container">
               {
@@ -41,16 +43,18 @@ class ProductsList extends React.Component<MyProps> {
                     const { productUrl, hostName, imageUrl, productName, productId, isActive, isPromo } = singleProduct;
                     return (
                         <section className="container__product" key={productName + productId}>
-                            <div className={`product__product-wrapper ${ !isActive && 'inactive-product' }`}>
+                            <div className={`product__product-wrapper ${ !isActive && !isLandingPage && 'inactive-product' }`}>
                                 <header>
                                     <h2 className="header__host-name">{hostName}</h2>
                                     <div className="header__img-wrapper">
                                         <img src={imageUrl || 'https://via.placeholder.com/200x200'} alt={'productName'} />
                                         {isPromo && <ReactSVG src='../static/svg/discounted.svg'/>}
-                                        <div className="img-wrapper__delete-icon">
-                                            <DeleteOutline onClick={() => this.deleteUserProduct(productId)}/>
-                                        </div>
-
+                                        {
+                                            !isLandingPage &&
+                                            <div className="img-wrapper__delete-icon">
+                                                <DeleteOutline onClick={() => this.deleteUserProduct(productId)}/>
+                                            </div>
+                                        }
                                     </div>
                                 </header>
                                 <body>
@@ -59,9 +63,6 @@ class ProductsList extends React.Component<MyProps> {
                                             {productName || productUrl}
                                         </a>
                                     </Link>
-                                    <div>
-                                        <span className={`${isActive ? '' : 'inactive'}`}>{isActive ? '' : 'INACTIVE'}</span>
-                                    </div>
                                 </body>
                                 <article className="product-wrapper__inactive-message">
                                     <span>This product needs to be verified, it usually take up to 24 hours :)</span>
