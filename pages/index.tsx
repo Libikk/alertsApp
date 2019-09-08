@@ -1,16 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Link from 'next/link';
-import '../styles/styles.scss'
-import Router from 'next/router';
-import Button from '@material-ui/core/Button';
 import { getWebsitesWithProducts } from '../dispatchers/websitesDispatchers';
 import { getCurrentDiscounts } from '../dispatchers/scansDispatchers';
 import { getUserData } from '../dispatchers/userDispatchers';
 import { autorize } from '../dispatchers/authDispatchers';
 import Layout from '../components/Layout';
+import ProductsList from '../components/Shared/ProductsList';
 import { getCookie } from '../utils/auth';
+
+
 
 interface WebsitesList {
   websitesList: Array<{
@@ -49,26 +48,11 @@ componentWillMount = () => {
     return (
       <Layout>
         <div className="title">
-          DISCOUT HERO
-          <p>1</p>
-          <p>2</p>
-          <p>3</p>
-          <p>4</p>
-          <button onClick={() => this.test()}>ttttest</button>
-          <button onClick={() => console.log(this.state, this.props)}>state</button>
           {
             websites.websitesList && websites.websitesList.map(singleWebsite => <div key={singleWebsite.websiteId}>{singleWebsite.createdAt}   ghagaga {singleWebsite.url}</div>)
           }
-          <p>CURRENT DISCOUT HAHAH</p>
-          {
-            scans.currentDiscounts && scans.currentDiscounts.map(singleProduct =>
-            <ul key={singleProduct.productId}>
-              <li>
-                <div><a href={singleProduct.productUrl}>{singleProduct.productUrl}</a> store ->>   <a href={singleProduct.websiteUrl}>{singleProduct.websiteUrl}</a></div>
-                <div>  at: {singleProduct.checkCreatedAt} </div>
-              </li>
-            </ul>)
-          }
+          <h1>Current Discounts</h1>
+          {<ProductsList products={scans.currentDiscounts} pageName={'landingPage'} />}
         </div>
       </Layout>
     )

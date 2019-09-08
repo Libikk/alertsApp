@@ -1,9 +1,12 @@
 SELECT
-  prod.productid "productId",
-  prod.productUrl as "productUrl",
-  website.hostName as "name",
-  website.url as "websiteUrl",
-  scan.createdat as "checkCreatedAt"
+  prod.productid,
+  prod.productUrl,
+  website.hostName,
+  website.url as "hostNameUrl",
+  prod.imageUrl,
+  prod.productName,
+  scan.createdAt,
+  1 as "isPromo"
 FROM
   discounthero.products AS prod
   LEFT JOIN discounthero.scans scan ON scan.scanid = (

@@ -1,0 +1,23 @@
+    <svg class="discounted-icon" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" height="100%" width="100%" viewBox="0 0 370 230"><rect id="backgroundrect" width="100%" height="100%" x="0" y="0" fill="none" stroke="none"/>
+
+    <defs>
+        <style>@font-face {font-family: hk_grotesk__bold;src: url(https://pismo.tailorbrands.com/v2/px_fonts/hk_grotesk__bold)}</style>
+        <style>@font-face {font-family: heinberg__textured;src: url(https://pismo.tailorbrands.com/v2/px_fonts/heinberg__textured)}</style>
+    </defs>
+<g class="currentLayer" style=""><title>Layer 1</title><g id="svg-container" transform-origin="7px 9px" class="">
+        <g id="surrounding_shape" stroke-width="0">;
+}&gt;
+            <ellipse rx="10.208510398864746" ry="10.208510398864746" cx="-3.7735852693256575" cy="2.5819266469855044" fill="#3fc23f" data-shape-id="custom" surrounded-groups="symbols" fill-type="opaque" id="surrounding_shape_0" transform="matrix(4.75,0,0,4.75,150.259765625,83.20403155300714) " stroke-width="0"/>
+        </g>
+        <g id="headline" stroke-width="0">
+            <text data-font-id="1181" font-family="hk_grotesk__bold" id="headline_0" transform="matrix(4.75,0,0,4.75,22.009765625,165) " svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}" stroke-width="0" y="2.581926646985501" x="-3.7735852693256575">
+                <tspan id="headline_0_word_0" fill="#3fc23f" svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}" x="-3.7735852693256575" y="2.581926646985501">Discounted!</tspan>
+            </text>
+
+        </g>
+        <g id="symbols" stroke-width="0">
+            <text data-font-id="1213" font-family="heinberg__textured" id="symbols_0" transform="matrix(5.0469828480677945,0,0,5.0469828480677945,121.79163212881332,114.47130210069967) " svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}" stroke-width="0" y="2.4299966816563305" x="-3.5515337715401927">
+                <tspan id="symbols_0_word_0" fill="#ffffff" svgjs:data="{&quot;leading&quot;:&quot;1.3&quot;}" x="-3.5515337715401927" y="2.4299966816563305">D</tspan>
+            </text>
+        </g>
+    </g></g></svg>

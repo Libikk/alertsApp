@@ -11,8 +11,7 @@ import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Paper from '@material-ui/core/Paper';
 import Tab from '@material-ui/core/Tab';
-import DeleteOutline from '@material-ui/icons/DeleteOutline';
-import Link from 'next/link';
+import ProductsList from '../components/Shared/ProductsList';
 
 import SwipeableViews from 'react-swipeable-views';
 
@@ -59,8 +58,6 @@ class Dashboard extends React.Component<MyProps> {
   handleChange = (event: React.ChangeEvent<{}>, value: number) => this.setState({ selectedTabIndex: value });
   handleChangeIndex = (index: number) =>  this.setState({ selectedTabIndex: index });
 
-  deleteUserProduct = (productId :number) => this.props.deleteUserProduct(productId)
-
   productUrlChange = (e) => {
     this.setState({ urlInput: e.target.value });
     this.props.checkProdExistence(e.target.value)
@@ -94,21 +91,9 @@ class Dashboard extends React.Component<MyProps> {
                       <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex}>
                         <div className="my-products">
                           My products:  {this.props.products.userProducts.length}
-                          {
-                            this.props.products.userProducts.map(e =>
-                            <Paper className='my-products__single-product'>
-                              <div className='single-product__body'>
-                                <Link href={e.productUrl}>
-                                  <a>
-                                    {e.productUrl}
-                                  </a>
-                                </Link>
-                                <span className={`${e.isProductActive ? '' : 'inactive'}`}>{e.isProductActive ? '' : 'INACTIVE'}</span>
-                                <span className={`${e.isPromo ? 'promotion' : ''}`}>{e.isPromo ? 'PROMOTION' : '' }</span>
-                                <DeleteOutline onClick={() => this.deleteUserProduct(e.productId)}/>
-                              </div>
-                            </Paper>)
-                          }
+                          <Paper>
+                            <ProductsList products={this.props.products.userProducts}/>
+                          </Paper>
                         </div>
                         <div>
                         <h2>
