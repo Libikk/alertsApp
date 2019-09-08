@@ -46,7 +46,7 @@ const getClientSideCheck = async (listOfProducts) => {
   console.log('listOfProducts: ', listOfProducts);
   const prod = [];
   try {
-    const browser = await puppeteer.launch({ headless: false, args: ['--no-sandbox'] });
+    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
     const page = await browser.newPage();
     // eslint-disable-next-line no-restricted-syntax
     for (const singleProduct of listOfProducts) {
