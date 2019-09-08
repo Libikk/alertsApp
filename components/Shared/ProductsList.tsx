@@ -65,7 +65,7 @@ class ProductsList extends React.Component<MyProps> {
                                     </Link>
                                 </body>
                                 <article className="product-wrapper__inactive-message">
-                                    <span>This product needs to be verified, it usually take up to 24 hours :)</span>
+                                    <span>This product needs to be verified</span>
                                 </article>
                             </div>
                         </section>
