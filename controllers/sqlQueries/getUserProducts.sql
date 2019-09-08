@@ -6,7 +6,7 @@ SELECT
     prod.productName,
     web.hostName,
     web.url AS "hostNameUrl",
-    case COALESCE(prod.isActive, web.isActive) when '0' then 0 when '1' then 1 end AS "isActive",
+    case prod.isActive when '0' then 0 when '1' then 1 end AS "isActive",
     case scan.isPromo when '0' then 0 when '1' then 1 end AS "isPromo"
 FROM discounthero.products prod
 JOIN discounthero.usersProducts usp ON usp.userId = ?
