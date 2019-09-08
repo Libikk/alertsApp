@@ -5,7 +5,7 @@ SELECT
 	webSelectors.isDiscountSelectorRegex AS "regex",
 	webSelectors.isDiscountSelector AS "selectorString",
 	webSelectors.isClientSideCheck,
-    web.imageSelector,
+    webSelectors.imageSelector,
 	webSelectors.productNameSelector
 FROM discounthero.products prod
 JOIN discounthero.websites web on prod.websiteId = web.websiteId
