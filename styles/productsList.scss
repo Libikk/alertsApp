@@ -1,0 +1,86 @@
+.product-list__container {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .container__product {
+        flex-grow: 1;
+
+        .product__product-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .product-wrapper__inactive-message {
+                display: none;
+            }
+
+            &.inactive-product  {
+
+                header, body {
+                    opacity: 0.6;
+                }
+                .product-wrapper__inactive-message {
+                    display: block;
+                }
+            }
+
+
+            .product-wrapper__inactive-message {
+                position: absolute;
+                text-align: center;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 30px;
+
+            }
+
+            header {
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+
+                .header__img-wrapper {
+                    position: relative;
+                    max-width: 200px;
+
+                    .discounted-icon {
+                        position: absolute;
+                        max-width: 150px;
+                        width: 66vmin;
+                        min-width: 110px;
+                        top: 18%;
+                        transform: rotate(-8deg);
+                    }
+
+                    img {
+                        width: 100%;
+                    }
+
+                    .img-wrapper__delete-icon {
+                        position: absolute;
+                        left: 90%;
+                        top: 90%;
+                        transform: translate(-50%, -50%);
+                        cursor: pointer;
+                        color: red;
+                        z-index: 2;
+
+                        :hover {
+                            opacity: 0.75;
+                        }
+                    }
+                }
+            }
+
+            body {
+                width: 270px;
+
+            }
+
+        }
+    }
+}

@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import Tab from '@material-ui/core/Tab';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Link from 'next/link';
+import ProductsList from '../components/Shared/ProductsList';
 
 import SwipeableViews from 'react-swipeable-views';
 
@@ -94,7 +95,10 @@ class Dashboard extends React.Component<MyProps> {
                       <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex}>
                         <div className="my-products">
                           My products:  {this.props.products.userProducts.length}
-                          {
+                          <Paper>
+                            <ProductsList products={this.props.products.userProducts}/>
+                          </Paper>
+                          {/* {
                             this.props.products.userProducts.map(e =>
                             <Paper className='my-products__single-product'>
                               <div className='single-product__body'>
@@ -108,7 +112,7 @@ class Dashboard extends React.Component<MyProps> {
                                 <DeleteOutline onClick={() => this.deleteUserProduct(e.productId)}/>
                               </div>
                             </Paper>)
-                          }
+                          } */}
                         </div>
                         <div>
                         <h2>
