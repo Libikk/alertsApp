@@ -1,17 +1,8 @@
 /* eslint-disable no-console */
 const puppeteer = require('puppeteer');
-const urlParser = require('url');
 
 const opt = {
   timeout: 6000,
-};
-
-const parseImgUrl = (imageUrl, productLink) => {
-  const parsedUrl = urlParser.parse(imageUrl);
-  if (parsedUrl.hostname) {
-    return imageUrl;
-  }
-  return urlParser.parse(productLink).hostname + imageUrl;
 };
 
 const executeCheck = async (link, selector, page, options, imageSelector, productNameSelector) => {
@@ -23,8 +14,7 @@ const executeCheck = async (link, selector, page, options, imageSelector, produc
 
     if (imageSelector) {
       await page.waitForSelector(imageSelector, opt).catch(() => console.log('imageSelector error ', imageSelector));
-      const imageUrl = await page.$eval(imageSelector, el => el.getAttribute('src')).catch(() => console.log('imageSelector err'));
-      result.imgUrl = parseImgUrl(imageUrl, link);
+      result.imgUrl = await page.$eval(imageSelector, el => el.src).catch(() => console.log('imageSelector err'));
     }
 
     if (productNameSelector) {
@@ -46,7 +36,7 @@ const getClientSideCheck = async (listOfProducts) => {
   console.log('listOfProducts: ', listOfProducts);
   const prod = [];
   try {
-    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
+    const browser = await puppeteer.launch({ headless: false, args: ['--no-sandbox'] });
     const page = await browser.newPage();
     // eslint-disable-next-line no-restricted-syntax
     for (const singleProduct of listOfProducts) {
