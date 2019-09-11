@@ -40,6 +40,5 @@ WHERE
         ORDER BY
 			notifLoop.sentNotificationDate DESC
 		LIMIT 1
-  ), '1999-10-10')
-  ) > ?
+  ), '1999-10-10')) > ?
 
