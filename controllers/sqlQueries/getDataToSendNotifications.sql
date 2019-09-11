@@ -29,6 +29,7 @@ WHERE
   scan.ispromo
   AND website.isActive = 1
   AND prod.isActive = 1
+  /* check if last notification sent for this product was x > ? then send again */
   AND DATEDIFF(NOW(),
 	 COALESCE((
 		SELECT
