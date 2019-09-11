@@ -1,6 +1,7 @@
 const { sqlQuery } = require('../sql/sqlServer');
 const _ = require('lodash');
 const { sendProductNotificationsAgain } = require('../appConfig');
+const { sendProductsNotifications } = require('./mailService');
 
 const notifications = {
   getPeopleToSendNotifications: async () => {
@@ -12,7 +13,7 @@ const notifications = {
         return acc.map((singlePerson) => {
           if (nextProductData.userId === singlePerson.userId) {
             return Object.assign(singlePerson, {
-              products: singlePerson.products.concat(_.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName'])),
+              products: singlePerson.products.concat(_.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName', 'userName'])),
             });
           }
           return singlePerson;
@@ -20,17 +21,23 @@ const notifications = {
       }
 
       return acc.concat({
-        ..._.pick(nextProductData, ['userId', 'email', 'emailNotifications', 'mobileAppNotifications', 'smsNotifications']),
+        ..._.pick(nextProductData, ['userId', 'email', 'emailNotifications', 'mobileAppNotifications', 'smsNotifications', 'userName']),
         products: [
           _.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName']),
         ],
       });
     }, []);
-    console.log('peopleData: ', parsedPeopleData);
     return parsedPeopleData;
   },
+  sendNotifications: async () => {
+    const peopleData = await notifications.getPeopleToSendNotifications();
+    return peopleData.map((singlePerson) => {
+      if (singlePerson.emailNotifications) {
+        sendProductsNotifications(singlePerson);
+      }
+      return null;
+    });
+  },
 };
-
-notifications.getPeopleToSendNotifications();
 
 module.exports = notifications;

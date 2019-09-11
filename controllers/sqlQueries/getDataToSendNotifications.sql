@@ -9,7 +9,8 @@ SELECT
   CASE userNotif.emailNotifications WHEN 0 THEN 0 WHEN 1 THEN 1 END AS "emailNotifications",
   CASE userNotif.mobileAppNotifications  WHEN 0 THEN 0 WHEN 1 THEN 1 END AS "mobileAppNotifications",
   CASE userNotif.smsNotifications  WHEN 0 THEN 0 WHEN 1 THEN 1 END AS "smsNotifications",
-  user.email
+  user.email,
+  user.userName
 FROM
   discounthero.products AS prod
   LEFT JOIN discounthero.scans scan ON scan.scanid = (
