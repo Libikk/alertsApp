@@ -1,6 +1,7 @@
 const serverSideScan = require('./ServerSide');
 const clientSideScan = require('./ClientSide');
 const { sqlQuery } = require('../sql/sqlServer');
+const { sendNotifications } = require('../notifications/notificationManagment');
 const _ = require('lodash');
 
 const scanManagement = {
@@ -16,7 +17,8 @@ const scanManagement = {
             const params = [single.productId, single.isPromo, single.isError];
             const sqlString = 'INSERT INTO scans (productId, createdAt, isPromo, isError) values (?, now(), ?, ?)';
             if (single.imgUrl || single.productName) sqlQuery('updateProductAfterScan', [single.imgUrl, single.productName, single.productId]);
-            return sqlQuery(sqlString, params);
+            sqlQuery(sqlString, params)
+              .then(() => sendNotifications());
             // to do update all of them in one query
           });
         });

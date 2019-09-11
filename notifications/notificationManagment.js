@@ -13,7 +13,7 @@ const notifications = {
         return acc.map((singlePerson) => {
           if (nextProductData.userId === singlePerson.userId) {
             return Object.assign(singlePerson, {
-              products: singlePerson.products.concat(_.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName', 'userName'])),
+              products: singlePerson.products.concat(_.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName', 'productId'])),
             });
           }
           return singlePerson;
@@ -21,9 +21,9 @@ const notifications = {
       }
 
       return acc.concat({
-        ..._.pick(nextProductData, ['userId', 'email', 'emailNotifications', 'mobileAppNotifications', 'smsNotifications', 'userName']),
+        ..._.pick(nextProductData, ['userId', 'email', 'emailNotifications', 'mobileAppNotifications', 'smsNotifications', 'userName', 'userId']),
         products: [
-          _.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName']),
+          _.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName', 'productId']),
         ],
       });
     }, []);
@@ -40,4 +40,5 @@ const notifications = {
   },
 };
 
+notifications.sendNotifications()
 module.exports = notifications;

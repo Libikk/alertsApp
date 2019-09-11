@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const sgTransport = require('nodemailer-sendgrid-transport');
+const { sqlQuery } = require('../sql/sqlServer');
 
 const transporter = nodemailer.createTransport(sgTransport({
   auth: {
@@ -61,14 +62,17 @@ const mailService = {
       </div>
     `;
   },
+  updatePersonNotificationsData: userData => userData.products.forEach(({ productId }) => sqlQuery(`insert into notifications (userId, productId) values (${userData.userId}, ${productId})`).catch(console.error)),//eslint-disable-line
   sendProductsNotifications: (userData) => {
     const structuredMail = mailService.template(mailService.composeUserProductsIntoHTML(userData), userData.email);
 
     transporter.sendMail(structuredMail, (error, info) => {
       if (error) {
-          console.log('Error with sending mail: ' + error); //eslint-disable-line
+        // ADD SENTRY - to do
+        console.error('Error with sending mail: ' + error); //eslint-disable-line
       } else {
-          console.log('Successfully sent mail to: ' + JSON.stringify(info)); //eslint-disable-line
+        console.log('Successfully sent mail to: ' + JSON.stringify(info)); //eslint-disable-line
+        mailService.updatePersonNotificationsData(userData);
       }
     });
   },
