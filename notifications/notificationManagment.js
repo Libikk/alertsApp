@@ -7,12 +7,12 @@ const notifications = {
     // query performance check
     const peopleData = await sqlQuery('getDataToSendNotifications', [sendProductNotificationsAgain]);
     const parsedPeopleData = peopleData.reduce((acc, nextProductData) => {
-      const userData = acc.find(e => e.userId === nextProductData.userId);
+      const userData = acc.find(({ userId }) => userId === nextProductData.userId);
       if (userData) {
         return acc.map((singlePerson) => {
           if (nextProductData.userId === singlePerson.userId) {
             return Object.assign(singlePerson, {
-              products: singlePerson.products.concat(_.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName', 'smsNotifications'])),
+              products: singlePerson.products.concat(_.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName'])),
             });
           }
           return singlePerson;
