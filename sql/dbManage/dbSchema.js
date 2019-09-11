@@ -211,6 +211,29 @@ const DB_SCHEMA = {
         },
       ],
     },
+    {
+      tableName: 'notifications',
+      columns: [
+        {
+          columnName: 'id',
+          type: 'int',
+          primary: true,
+        },
+        {
+          columnName: 'productId',
+          type: 'int',
+        },
+        {
+          columnName: 'personId',
+          type: 'int',
+        },
+        {
+          columnName: 'sentNotificationDate',
+          type: 'timestamp',
+          defaultValue: null,
+        },
+      ],
+    },
   ],
 };
 
