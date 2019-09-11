@@ -33,12 +33,11 @@ const notifications = {
     const peopleData = await notifications.getPeopleToSendNotifications();
     return peopleData.map((singlePerson) => {
       if (singlePerson.emailNotifications) {
-        sendProductsNotifications(singlePerson);
+        return sendProductsNotifications(singlePerson);
       }
       return null;
     });
   },
 };
 
-notifications.sendNotifications()
 module.exports = notifications;

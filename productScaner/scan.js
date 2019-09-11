@@ -1,7 +1,7 @@
 const serverSideScan = require('./ServerSide');
 const clientSideScan = require('./ClientSide');
 const { sqlQuery } = require('../sql/sqlServer');
-const { sendNotifications } = require('../notifications/notificationManagment');
+const { sendNotifications } = require('../notifications/notificationManagement');
 const _ = require('lodash');
 
 const scanManagement = {
@@ -11,17 +11,17 @@ const scanManagement = {
       .then((allProductsWithWebsites) => {
         const webScan = clientSideScan.getClientSideCheck(allProductsWithWebsites);
         const serverScan = serverSideScan.getServerSideCheck(allProductsWithWebsites);
-        return Promise.all(_.concat([], webScan, serverScan)).then((res) => {
-          const flattenedResp = _.flattenDeep(res);
-          flattenedResp.forEach((single) => {
-            const params = [single.productId, single.isPromo, single.isError];
-            const sqlString = 'INSERT INTO scans (productId, createdAt, isPromo, isError) values (?, now(), ?, ?)';
-            if (single.imgUrl || single.productName) sqlQuery('updateProductAfterScan', [single.imgUrl, single.productName, single.productId]);
-            sqlQuery(sqlString, params)
-              .then(() => sendNotifications());
+        return Promise.all(_.concat([], webScan, serverScan))
+          .then(async (res) => {
+            const flattenedResp = _.flattenDeep(res);
+            // eslint-disable-next-line no-restricted-syntax
+            for (const single of flattenedResp) {
+              if (single.imgUrl || single.productName) await sqlQuery('updateProductAfterScan', [single.imgUrl, single.productName, single.productId]);
+              await sqlQuery('INSERT INTO scans (productId, createdAt, isPromo, isError) values (?, now(), ?, ?)', [single.productId, single.isPromo, single.isError]);
             // to do update all of them in one query
-          });
-        });
+            }
+          })
+          .then(() => sendNotifications());
       });
   },
 };
