@@ -3,12 +3,12 @@ SELECT
   userProd.userId,
   prod.productUrl,
   website.hostName,
-  website.url as "hostNameUrl",
+  website.url AS "hostNameUrl",
   prod.imageUrl,
   prod.productName,
-  userNotif.emailNotifications,
-  userNotif.mobileAppNotifications,
-  userNotif.smsNotifications
+  CASE userNotif.emailNotifications WHEN 0 THEN 0 WHEN 1 THEN 1 END AS "emailNotifications",
+  CASE userNotif.mobileAppNotifications  WHEN 0 THEN 0 WHEN 1 THEN 1 END AS "mobileAppNotifications",
+  CASE userNotif.smsNotifications  WHEN 0 THEN 0 WHEN 1 THEN 1 END AS "smsNotifications"
 FROM
   discounthero.products AS prod
   LEFT JOIN discounthero.scans scan ON scan.scanid = (
@@ -40,5 +40,5 @@ WHERE
         ORDER BY
 			notifLoop.sentNotificationDate DESC
 		LIMIT 1
-  ), '1999-10-10')) > ?
+  ), '1999-10-10')) > ?;
 
