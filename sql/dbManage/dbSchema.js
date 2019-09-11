@@ -224,7 +224,7 @@ const DB_SCHEMA = {
           type: 'int',
         },
         {
-          columnName: 'personId',
+          columnName: 'userId',
           type: 'int',
         },
         {
@@ -243,7 +243,7 @@ const DB_SCHEMA = {
           primary: true,
         },
         {
-          columnName: 'personId',
+          columnName: 'userId',
           type: 'int',
         },
         {
