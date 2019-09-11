@@ -31,17 +31,16 @@ WHERE
   scan.ispromo
   AND website.isActive = 1
   AND prod.isActive = 1
-  /* check if last notification sent for this product was x > ? then send again */
-  AND DATEDIFF(NOW(),
+  AND DATEDIFF(NOW(), 
 	 COALESCE((
-		SELECT
-			notifLoop.sentNotificationDate
-        FROM
+		SELECT 
+			notifLoop.sentNotificationDate 
+        FROM 
 			notifications notifLoop
-        WHERE
+        WHERE 
 			notifLoop.userId = userProd.userId AND notifLoop.productId = prod.productId
-        ORDER BY
+        ORDER BY 
 			notifLoop.sentNotificationDate DESC
 		LIMIT 1
-  ), '1999-10-10')) > ?;
-
+  ), '1999-10-10')) > ?
+  
