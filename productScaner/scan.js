@@ -21,7 +21,10 @@ const scanManagement = {
             // to do update all of them in one query
             }
           })
-          .then(() => sendNotifications());
+          .then(() => {
+            console.log('Scan has been finished.'); // eslint-disable-line
+            sendNotifications();
+          });
       });
   },
 };
