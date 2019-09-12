@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
 const router = express.Router();
 const { sqlQuery } = require('../../sql/sqlServer');
+const { initialUserData: { emailNotifications, mobileAppNotifications, smsNotifications } } = require('../../appConfig');
 
 const authResponseHandler = (res, user) => {
   const context = { email: user.email, userName: user.userName };
@@ -16,8 +17,12 @@ const register = async (req, res, next) => {
   const { userName, email, password } = req.body;
   if (userName && email && password) {
     const hashPass = await bcrypt.hash(password, 10);
-    sqlQuery('insert into users (userName, email, password, createdAt) values (?, ?, ?, ?) ', [userName, email, hashPass, new Date()])
-      .then(response => authResponseHandler(res, { userName, email, userId: response.insertId }))
+    sqlQuery('createNewUserData', [userName, email, hashPass])
+      .then((response) => {
+        authResponseHandler(res, { userName, email, userId: response.insertId });
+        return response.insertId;
+      })
+      .then(userId => sqlQuery('createUserNotificationSettings', [emailNotifications, mobileAppNotifications, smsNotifications, userId]))
       .catch(next);
   } else {
     next(new Error('Invalid data'));

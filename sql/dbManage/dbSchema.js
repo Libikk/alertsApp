@@ -211,6 +211,60 @@ const DB_SCHEMA = {
         },
       ],
     },
+    {
+      tableName: 'notifications',
+      columns: [
+        {
+          columnName: 'id',
+          type: 'int',
+          primary: true,
+        },
+        {
+          columnName: 'productId',
+          type: 'int',
+        },
+        {
+          columnName: 'userId',
+          type: 'int',
+        },
+        {
+          columnName: 'sentNotificationDate',
+          type: 'timestamp',
+          defaultValue: null,
+        },
+      ],
+    },
+    {
+      tableName: 'usersNotifications',
+      columns: [
+        {
+          columnName: 'id',
+          type: 'int',
+          primary: true,
+        },
+        {
+          columnName: 'userId',
+          type: 'int',
+        },
+        {
+          columnName: 'emailNotifications',
+          type: 'BIT',
+        },
+        {
+          columnName: 'mobileAppNotifications',
+          type: 'BIT',
+        },
+        {
+          columnName: 'smsNotifications',
+          type: 'BIT',
+        },
+        {
+          columnName: 'updatedAt',
+          type: 'timestamp',
+          defaultValue: 'CURRENT_TIMESTAMP',
+        },
+      ],
+    },
   ],
 };
 
