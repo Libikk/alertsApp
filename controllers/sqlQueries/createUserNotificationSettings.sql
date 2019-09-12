@@ -1,0 +1,1 @@
+insert into usersNotifications (emailNotifications, mobileAppNotifications, smsNotifications, userId) values (?, ?, ?, ?);
