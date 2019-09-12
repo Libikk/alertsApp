@@ -58,7 +58,7 @@ const mailService = {
       <div>
       <h1>Hello ${userName}</h1>
       <h3>This is list of current discounts:</h3>
-        <div style="display: flex; margin: 20px 0; padding: 0; justify-content: space-between;" >
+        <div style="display: flex; margin: 20px 0; padding: 0; flex-wrap: wrap; justify-content: space-around;" >
           ${productsHtml.join('')}
         </div>
       </div>
