@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const sgTransport = require('nodemailer-sendgrid-transport');
 const { sqlQuery } = require('../sql/sqlServer');
+const { envUrl } = require('../appConfig');
 
 const transporter = nodemailer.createTransport(sgTransport({
   auth: {
@@ -12,7 +13,7 @@ const mailService = {
   template: (body, to, from = 'notification@DDiscounthero.com') => ({
     from, // Sender address
     to, // List of recipients
-    subject: 'DDiscount Hero, new discounts!', // Subject line
+    subject: 'New discounts on DDiscountHero.com!', // Subject line
     html: `
         <!DOCTYPE html>
         <html>
@@ -23,7 +24,7 @@ const mailService = {
                 <div style="text-align: center;">
                     ${body}
                     <p>
-                      <strong>© 2019 DDiscountHero.com</strong>
+                      <strong>© 2019 <a href="${envUrl}">DDiscountHero.com</a></strong>
                     </p>
                     <p>
                       You are receiving this email because you turned on email notifications for new discounts.
@@ -39,33 +40,32 @@ const mailService = {
     `, // Plain text body
     attachments: [{
       filename: 'logo.png',
-      contentType: 'image/png',
-      path: 'https://i.ibb.co/hMpTPYY/logo.png',
+      path: `${__dirname}/../static/images/logo.png`,
       cid: 'portalLogo',
     }],
   }),
   composeUserProductsIntoHTML: ({ userName, products }) => {
     const productsHtml = products.map(({ productUrl, imageUrl, productName, hostNameUrl }) => `
-    <li>
-      <h3>
-        <a href="${productUrl}" >${productName}</a>
+    <div style="box-shadow: -10px 0 25px -15px black, 10px 0 25px -15px black; padding: 10px; max-width: 250px;">
+      <h3 style="width: 75%; margin: 4% auto;">
+        <a href="${productUrl}">${productName}</a>
       </h3>
+      <img src="${imageUrl}" alt="${productName}" style="width: 100%; max-width: 200px;"/>
       <p>from: ${hostNameUrl}</p>
-      <img src="${imageUrl}" alt="${productName}"/>
-    </li>`);
+    </div>`);
     return `
       <div>
       <h1>Hello ${userName}</h1>
-        <ul>
+      <h3>This is list of current discounts:</h3>
+        <div style="display: flex; margin: 20px 0; padding: 0; justify-content: space-between;" >
           ${productsHtml.join('')}
-        </ul>
+        </div>
       </div>
     `;
   },
   updatePersonNotificationsData: userData => userData.products.forEach(({ productId }) => sqlQuery(`insert into notifications (userId, productId) values (${userData.userId}, ${productId})`).catch(console.error)),//eslint-disable-line
   sendProductsNotifications: (userData) => {
     const structuredMail = mailService.template(mailService.composeUserProductsIntoHTML(userData), userData.email);
-
     transporter.sendMail(structuredMail, (error, info) => {
       if (error) {
         // ADD SENTRY - to do
