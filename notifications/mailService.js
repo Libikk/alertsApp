@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 const sgTransport = require('nodemailer-sendgrid-transport');
 const { sqlQuery } = require('../sql/sqlServer');
 const { envUrl } = require('../appConfig');
+const { Sentry } = require('../middleware/errorHandler');
 
 const transporter = nodemailer.createTransport(sgTransport({
   auth: {
@@ -68,7 +69,10 @@ const mailService = {
     const structuredMail = mailService.template(mailService.composeUserProductsIntoHTML(userData), userData.email);
     transporter.sendMail(structuredMail, (error, info) => {
       if (error) {
-        // ADD SENTRY - to do
+        Sentry.withScope((scope) => {
+          scope.setExtra('data', { userData });
+          Sentry.captureException(error);
+        });
         console.error('Error with sending mail: ' + error); //eslint-disable-line
       } else {
         console.log('Successfully sent mail to: ' + JSON.stringify(info)); //eslint-disable-line
