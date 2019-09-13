@@ -29,7 +29,11 @@ const addUserProduct = async (req, res, next) => {
     productId = newProduct.insertId;
   }
 
-  const userProduct = await sqlQuery('addUserProduct', [productId, req.user.userId]);
+  const userProduct = await sqlQuery('addUserProduct', { '@productId': productId, '@userId': req.user.userId });
+
+  if (!userProduct.affectedRows) {
+    return next(new Error('This product is already in your product list'));
+  }
 
   res.send({ productId: userProduct.insertId });
 };
