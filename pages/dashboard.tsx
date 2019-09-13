@@ -89,7 +89,7 @@ class Dashboard extends React.Component<MyProps> {
                         <Tab label="My products" />
                         <Tab label="Add product" />
                       </Tabs>
-                      <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex}>
+                      <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex} className="swipeable-views">
                         <div className="my-products">
                           My products:  {this.props.products.userProducts.length}
                           <Paper>
