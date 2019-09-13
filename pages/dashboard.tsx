@@ -69,6 +69,7 @@ class Dashboard extends React.Component<MyProps> {
       productId: this.props.products.productExistence && this.props.products.productExistence.productId
     })
     .then(() => this.props.getUserProducts())
+    .then(() => this.props.checkProdExistence(this.state.urlInput))
   }
 
   render () {
