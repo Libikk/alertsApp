@@ -23,8 +23,11 @@ const addUserProduct = async (req, res, next) => {
     const newWebsiteParams = [parsedUrl.host, `${parsedUrl.protocol}//${parsedUrl.host}`, 0, parsedUrl.host];
     await sqlQuery('createNewWebsite', newWebsiteParams).catch(next);
 
-    const newProductParams = [parsedUrl.href, parsedUrl.host];
-    const newProduct = await sqlQuery('createNewProduct', newProductParams).catch(next);
+    const newProduct = await sqlQuery('createNewProduct', { '@productUrl': parsedUrl.href, '@hostName': parsedUrl.host }).catch(next);
+
+    if (!newProduct.affectedRows) {
+      return next(new Error('This product already exist'));
+    }
 
     productId = newProduct.insertId;
   }
