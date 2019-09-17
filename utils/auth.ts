@@ -1,6 +1,8 @@
 import Cookie from 'js-cookie';
+import Router from 'next/router';
 
 export const logoutUser = () => {
+    Router.push('/')
     return Cookie.remove('access_token');
 };
 
