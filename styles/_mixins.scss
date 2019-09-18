@@ -1,0 +1,14 @@
+@mixin for-size($size) {
+    @if $size == large {
+        @media only screen and (min-width: $large) { @content; }
+      }
+      @else if $size == medium {
+        @media only screen and (min-width: $small + 1) and (max-width: $large - 1) { @content; }
+      }
+      @else if $size == small {
+        @media only screen and (max-width: $small) { @content; }
+      }
+      @else if $size == 'xsmall' {
+        @media only screen and (max-width: $xsmall) { @content; }
+      }
+  }
