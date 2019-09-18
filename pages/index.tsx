@@ -6,7 +6,7 @@ import { getCurrentDiscounts } from '../dispatchers/scansDispatchers';
 import { getUserData } from '../dispatchers/userDispatchers';
 import { autorize } from '../dispatchers/authDispatchers';
 import Layout from '../components/Layout';
-import ProductsList from '../components/Shared/ProductsList';
+import CurrentDiscounts from '../components/CurrentDiscounts';
 import HowItWorks from '../components/HowItWorks';
 import { getCookie } from '../utils/auth';
 import '../styles/landingPage.scss'
@@ -51,11 +51,10 @@ componentWillMount = () => {
       <Layout>
         <div className="landing-page">
           <HowItWorks />
-          {
+          <CurrentDiscounts currentDiscounts={scans.currentDiscounts}/>
+          {/* {
             websites.websitesList && websites.websitesList.map(singleWebsite => <div key={singleWebsite.websiteId}>{singleWebsite.createdAt}   ghagaga {singleWebsite.url}</div>)
-          }
-          <h1>Current Discounts</h1>
-          {<ProductsList products={scans.currentDiscounts} pageName={'landingPage'} />}
+          } */}
         </div>
       </Layout>
     )
