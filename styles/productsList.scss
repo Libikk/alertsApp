@@ -6,6 +6,8 @@
 
     .container__product {
         flex-grow: 1;
+        margin: 5px;
+        padding: 5px;
 
         .product__product-wrapper {
             position: relative;
@@ -49,6 +51,7 @@
                     max-width: 200px;
 
                     .discounted-icon {
+                        pointer-events: none;
                         position: absolute;
                         max-width: 150px;
                         width: 66vmin;
