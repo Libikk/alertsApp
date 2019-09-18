@@ -26,15 +26,18 @@ export default class HowItWorks extends React.Component {
     ]
       return (
         <div className="container__howitworks">
-            <h2>How does DDiscount Hero work?</h2>
-            <ul className="howitworks__content">
-                {navConfig.map(({ headerText, bodyText, SvgIcon }) => <li key={bodyText} className="content__single-element">
-                        <h3>{headerText}</h3>
-                        <p className="content__body-text">{bodyText}</p>
-                        <SvgIcon className="content__icon" />
-                </li>)}
-            </ul>
-
+            <div className="howitworks__content">
+              <h2>How does DDiscount Hero work?</h2>
+              <ul className="content__steps">
+                  {navConfig.map(({ headerText, bodyText, SvgIcon }) =>
+                    <li key={bodyText} className="content__single-element">
+                            <h3>{headerText}</h3>
+                            <p className="content__body-text">{bodyText}</p>
+                            <SvgIcon className="content__icon" />
+                    </li>)
+                  }
+              </ul>
+            </div>
         </div>
     );
   }

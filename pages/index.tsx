@@ -9,6 +9,7 @@ import Layout from '../components/Layout';
 import ProductsList from '../components/Shared/ProductsList';
 import HowItWorks from '../components/HowItWorks';
 import { getCookie } from '../utils/auth';
+import '../styles/landingPage.scss'
 
 
 
@@ -48,13 +49,13 @@ componentWillMount = () => {
     const { websites, scans } = this.props;
     return (
       <Layout>
-        <div className="title">
+        <div className="landing-page">
+          <HowItWorks />
           {
             websites.websitesList && websites.websitesList.map(singleWebsite => <div key={singleWebsite.websiteId}>{singleWebsite.createdAt}   ghagaga {singleWebsite.url}</div>)
           }
           <h1>Current Discounts</h1>
           {<ProductsList products={scans.currentDiscounts} pageName={'landingPage'} />}
-          <HowItWorks />
         </div>
       </Layout>
     )
