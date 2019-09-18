@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import ReactSVG from 'react-svg'
+import DiscountIcon from '../../static/svg/discounted.svg';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -48,7 +48,7 @@ class ProductsList extends React.Component<MyProps> {
                                     <h2 className="header__host-name">{hostName}</h2>
                                     <div className="header__img-wrapper">
                                         <img src={imageUrl || 'https://via.placeholder.com/200x200'} alt={'productName'} />
-                                        {isPromo && <ReactSVG src='../static/svg/discounted.svg'/>}
+                                        {isPromo && <DiscountIcon />}
                                         {
                                             !isLandingPage &&
                                             <div className="img-wrapper__delete-icon">

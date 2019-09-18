@@ -56,8 +56,9 @@
                         max-width: 150px;
                         width: 66vmin;
                         min-width: 110px;
-                        top: 18%;
-                        transform: rotate(-8deg);
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, 0) rotate(-8deg);
                     }
 
                     img {
