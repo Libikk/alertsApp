@@ -1,36 +1,42 @@
-@import './variables';
+@import './_variables';
+@import './_mixins.scss';
 
 .container__howitworks {
-   padding: 20px;
    background: $greyLighter;
-   width: 100%;
-   text-align: center;
-
-   h2 {
-      color: $primaryColor;
-   }
+   display: flex;
+   justify-content: center;
 
    .howitworks__content {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
+      padding: 20px;
+      max-width: 1280px;
+      width: 100%;
+      text-align: center;
 
-      @media (max-width: 600px) {
-         grid-template-rows: repeat(3, 1fr);
-         grid-template-columns: 1fr;
+      h2 {
+         color: $primaryColor;
       }
 
-      .content__single-element {
-         text-align: center;
+      .content__steps {
+         list-style-type: none;
+         padding: 0;
+         margin: 0;
+         display:grid;
+         grid-template-columns: repeat(3, 1fr);
+         gap: 15px;
+
+         @include for-size(small) {
+            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: 1fr;
+         }
+
+         .content__single-element {
+            text-align: center;
 
 
-         .content__icon {
-            width: 100px;
+            .content__icon {
+               width: 100px;
+            }
          }
       }
    }
-
 }

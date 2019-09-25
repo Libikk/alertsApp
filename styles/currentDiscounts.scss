@@ -1,0 +1,12 @@
+@import './_variables';
+
+.container__current-discounts {
+    max-width: 1280px;
+    padding: 20px;
+    margin: 0 auto;
+    text-align: center;
+
+    .current-discounts__title {
+        color: $primaryColor;
+     }
+}

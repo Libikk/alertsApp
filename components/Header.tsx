@@ -5,7 +5,7 @@ import { logout } from '../dispatchers/authDispatchers';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
-import ReactSVG from 'react-svg'
+import LogoIcon from '../static/svg/logo-edited.svg';
 import LoginRegisterPanel from './Auth/LoginRegisterPanel'
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
@@ -53,7 +53,7 @@ class Header extends React.Component<MyProps> {
               <div className="tool-bar__options">
               <Link href={{ pathname: '/' }} >
                   <a>
-                      <ReactSVG src='../static/svg/method-draw-image.svg'/>
+                      <LogoIcon />
                   </a>
                   </Link>
                 <Button className="global__button--secondary">How it works?</Button>
