@@ -11,6 +11,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Link from 'next/link';
+import { version } from '../appConfig';
 import '../styles/header.scss';
 
 interface AuthObj {
@@ -45,7 +46,7 @@ class Header extends React.Component<MyProps> {
       const { auth } = this.props
 
       return (
-        <div className="container__header">
+        <div className="container__header" app-version={version}>
           <AppBar
             position='relative'
           >
