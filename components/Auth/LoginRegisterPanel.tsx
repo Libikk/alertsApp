@@ -202,7 +202,7 @@ class LoginRegisterPanel extends React.Component<MyProps> {
             <section>
                 {
                     !!errorMessages.length && <ul className="login-panel__error-list">
-                        {errorMessages.map(singleErr => <li><ErrorIcon />{singleErr}</li>)}
+                        {errorMessages.map(singleErr => <li key={singleErr}><ErrorIcon />{singleErr}</li>)}
                     </ul>
                 }
             </section>
