@@ -17,12 +17,13 @@ const register = async (req, res, next) => {
   const { userName, email, password } = req.body;
   if (userName && email && password) {
     const hashPass = await bcrypt.hash(password, 10);
-    sqlQuery('createNewUserData', [userName, email, hashPass])
+    sqlQuery('createNewUserData', { '@userName': userName, '@email': email, '@hashPass': hashPass })
       .then((response) => {
+        if (!response.insertId) return next(new Error('This user already exist'));
         authResponseHandler(res, { userName, email, userId: response.insertId });
         return response.insertId;
       })
-      .then(userId => sqlQuery('createUserNotificationSettings', [emailNotifications, mobileAppNotifications, smsNotifications, userId]))
+      .then(userId => userId && sqlQuery('createUserNotificationSettings', [emailNotifications, mobileAppNotifications, smsNotifications, userId]))
       .catch(next);
   } else {
     next(new Error('Invalid data'));

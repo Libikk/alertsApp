@@ -76,6 +76,9 @@ class LoginRegisterPanel extends React.Component<MyProps> {
                     Router.push('/loginPage', 'login')
                     this.props.closeModal()
                 })
+                .catch((err) => {
+                    this.setState({ errorMessages: [get(err, 'response.data.msg', null)] || ['Unexpected error'] })
+                })
         }
 
         if (formType === 'login' && email && password ) {
