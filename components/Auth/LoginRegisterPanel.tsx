@@ -6,7 +6,7 @@ import Router from 'next/router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { login, register } from '../../dispatchers/authDispatchers';
-import _ from 'lodash';
+import get from 'lodash/get';
 import AccessAlarmIcon from '@material-ui/icons/LockOpen';
 import ErrorIcon from '@material-ui/icons/ErrorOutline';
 import '../../styles/loginPanel.scss';
@@ -84,6 +84,9 @@ class LoginRegisterPanel extends React.Component<MyProps> {
                 .then(() => {
                     Router.push('/loginPage', 'login')
                     this.props.closeModal()
+                })
+                .catch((err) => {
+                    this.setState({ errorMessages: [get(err, 'response.data.msg', null)] || ['Unexpected error'] })
                 })
         }
 
