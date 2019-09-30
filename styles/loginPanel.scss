@@ -26,6 +26,22 @@
         font-size: 15vmin;
     }
 
+    .login-panel__error-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 20px 0;
+        color: red;
+
+        li {
+            display: flex;
+            align-items: center;
+
+            svg {
+                margin-right: 10px;
+            }
+        }
+    }
+
     .login-panel__button-wrapper {
         text-align: left;
     }

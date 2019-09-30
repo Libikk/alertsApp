@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { login, register } from '../../dispatchers/authDispatchers';
 import _ from 'lodash';
 import AccessAlarmIcon from '@material-ui/icons/LockOpen';
+import ErrorIcon from '@material-ui/icons/ErrorOutline';
 import '../../styles/loginPanel.scss';
 
 type MyProps = {
@@ -58,6 +59,12 @@ class LoginRegisterPanel extends React.Component<MyProps> {
         emailError: false,
         passwordError: false,
         errorMessages: [],
+    }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevState.formType !== this.state.formType) {
+            this.setState({ errorMessages: [] })
+        }
     }
 
     handleClickLoginOrRegister = () => {
@@ -187,14 +194,19 @@ class LoginRegisterPanel extends React.Component<MyProps> {
                     value={password}
                     onChange={this.handleInputChange}
                     InputLabelProps={{ shrink: true }}
+                    inputProps={{
+                        maxLength: 16
+                    }}
                 />
             </div>}
-            <div className='login-panel__button-wrapper'>
+            <section>
                 {
-                    errorMessages.length ? <ul>
-                        {errorMessages.map(singleErr => <li>{singleErr}</li>)}
-                    </ul> : null
+                    !!errorMessages.length && <ul className="login-panel__error-list">
+                        {errorMessages.map(singleErr => <li><ErrorIcon />{singleErr}</li>)}
+                    </ul>
                 }
+            </section>
+            <div className='login-panel__button-wrapper'>
                 <Button onClick={this.handleClickLoginOrRegister}>{formTypeOptions[formType].buttonTitle}</Button>
             </div>
         </Card>
