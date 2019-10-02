@@ -2,8 +2,8 @@ const env = (process.env.NODE_ENV || 'development').trim();
 
 const config = {
   env: (process.env.NODE_ENV || 'development').trim(),
-  version: '1.07',
-  envUrl: env === 'production' ? 'http://142.93.35.49' : 'http://localhost:3000',
+  version: '1.08',
+  envUrl: env === 'production' ? process.env.ENV_URL : 'http://localhost:3000',
   port: env === 'production' ? 80 : 3000,
   sendProductNotificationsAgain: 15, // days
   initialUserData: {
