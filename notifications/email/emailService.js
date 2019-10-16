@@ -18,7 +18,7 @@ const mailService = {
     mailService.send(structuredMail, userData)
       .then(() => mailService.updatePersonNotificationsData(userData));
   },
-  sendActivationToken: (activationToken, email, userName) => {
+  sendActivationEmail: (activationToken, email, userName) => {
     const structuredMail = emailLayout(activationTokenTemplate(activationToken, email, userName), email);
 
     mailService.send(structuredMail, { email, userName });
