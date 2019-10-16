@@ -1,6 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const { sendActivationEmail } = require('../../notifications/email/emailService');
 
 const jwtSecret = process.env.JWT_SECRET;
 const router = express.Router();
@@ -17,9 +19,12 @@ const register = async (req, res, next) => {
   const { userName, email, password } = req.body;
   if (userName && email && password) {
     const hashPass = await bcrypt.hash(password, 10);
-    sqlQuery('createNewUserData', { '@userName': userName, '@email': email, '@hashPass': hashPass })
+    const activationToken = crypto.randomBytes(20).toString('hex');
+
+    sqlQuery('createNewUserData', { '@userName': userName, '@email': email, '@hashPass': hashPass, '@activationToken': activationToken })
       .then((response) => {
         if (!response.insertId) return next(new Error('This user already exist'));
+        sendActivationEmail(activationToken, email, userName);
         authResponseHandler(res, { userName, email, userId: response.insertId });
         return response.insertId;
       })
