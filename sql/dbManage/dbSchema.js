@@ -131,7 +131,7 @@ const DB_SCHEMA = {
         },
         {
           columnName: 'activationToken',
-          type: 'varchar(50)',
+          type: 'varchar(255)',
           defaultValue: null,
         },
         {
