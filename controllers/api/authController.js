@@ -63,7 +63,7 @@ const authorize = async (req, res, next) => {
 
   if (verified) {
     const { payload: { email } } = jwt.decode(requestToken, { complete: true });
-    const user = await sqlQuery('select * from users where email = ?', [email]).then(e => e[0]).catch(next);
+    const user = await sqlQuery('getUserData', [email]).then(e => e[0]).catch(next);
     authResponseHandler(res, user);
   } else {
     next(new Error('User not found'));
