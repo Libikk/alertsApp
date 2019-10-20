@@ -5,3 +5,4 @@ lastLoggedIn,
 userName
 FROM users
 WHERE email = ?
+LIMIT 1;
