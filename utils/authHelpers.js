@@ -10,7 +10,7 @@ const activateAccount = async (token) => {
   const getResultMessage = () => {
     if (isAlreadyActive) return { msg: 'Your account is already active :)' };
     if (affectedRows) return { msg: 'Your account has been activated :)' };
-    return { msg: 'Invalid token', error: true };
+    return { msg: 'Invalid token', isError: true };
   };
 
   const authRes = {

@@ -1,5 +1,6 @@
 import React from 'react'
 import Layout from '../components/Layout';
+import Input from '@material-ui/core/Input';
 import { connect } from 'react-redux';
 
 type MyProps = {
@@ -15,7 +16,6 @@ class ActivateAccount extends React.Component<MyProps>  {
   static getInitialProps = async ({ query }) => query.result;
 
   render () {
-    console.log('props', this.props)
     return (
           <Layout>
               <div>
