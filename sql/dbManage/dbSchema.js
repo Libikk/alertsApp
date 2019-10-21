@@ -135,6 +135,11 @@ const DB_SCHEMA = {
           defaultValue: null,
         },
         {
+          columnName: 'activationTokenSentDate',
+          type: 'timestamp',
+          defaultValue: null,
+        },
+        {
           columnName: 'active',
           type: 'bit',
         },

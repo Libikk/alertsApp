@@ -2,6 +2,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const moment = require('moment');
+const passport = require('../../passportStrategy');
 const { sendActivationEmail } = require('../../notifications/email/emailService');
 
 const jwtSecret = process.env.JWT_SECRET;
@@ -70,8 +72,30 @@ const authorize = async (req, res, next) => {
   }
 };
 
+const reSendActivationToken = (req, res, next) => {
+  const { active, email, userName, activationToken, userId, activationTokenSentDate } = req.user;
+
+  const isAccActive = active.readUIntLE();
+  if (isAccActive) {
+    return next(new Error('You\'r account is already active.'));
+  }
+
+  const isSendToday = moment().diff(activationTokenSentDate, 'days') === 0;
+  if (!isSendToday) {
+    // send it
+    return sendActivationEmail(activationToken, email, userName)
+      .then(() => {
+        res.sendStatus(200);
+        return sqlQuery('UPDATE users SET activationTokenSentDate = NOW() WHERE userId = ? LIMIT 1;', [userId]).catch(next);
+      })
+      .catch(next);
+  }
+  return next(new Error('Email has been sent already'));
+};
+
 router.post('/authorize', authorize);
 router.post('/login', login);
 router.post('/register', register);
+router.post('/reSendActivationToken', passport.authenticate('jwt', { session: false }), reSendActivationToken);
 
 module.exports = router;
