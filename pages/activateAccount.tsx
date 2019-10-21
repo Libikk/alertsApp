@@ -1,6 +1,5 @@
 import React from 'react'
 import Layout from '../components/Layout';
-import Input from '@material-ui/core/Input';
 import { connect } from 'react-redux';
 
 type MyProps = {

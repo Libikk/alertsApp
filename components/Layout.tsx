@@ -1,8 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import InactiveAccountBar from '../components/InactiveAccountBar';
+
 import '../styles/globals.scss';
 import '../styles/layout.scss';
+
 
 type MyProps = {
     // using `interface` is also ok
@@ -11,10 +15,12 @@ type MyProps = {
 
 class Layout extends React.Component<MyProps> {
   render() {
+
     return (
-      <div>
+      <div className="layout-section">
+        <InactiveAccountBar />
         <Header />
-        <section className="layout-section">
+        <section className="layout-section__content">
           {this.props.children}
         </section>
         <Footer />
@@ -23,4 +29,6 @@ class Layout extends React.Component<MyProps> {
   }
 }
 
-export default Layout;
+const mapDispatchToProps = () => ({})
+
+export default connect(state => state, mapDispatchToProps)(Layout);
