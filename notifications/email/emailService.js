@@ -21,9 +21,9 @@ const mailService = {
   sendActivationEmail: (activationToken, email, userName) => {
     const structuredMail = emailLayout(activationTokenTemplate(activationToken, email, userName), email);
 
-    mailService.send(structuredMail, { email, userName });
+    return mailService.send(structuredMail, { email, userName });
   },
-  send: (structuredMail, userData) => {
+  send: (structuredMail, userData) => new Promise((resolve, reject) =>
     transporter.sendMail(structuredMail, (error, info) => {
       if (error) {
         Sentry.withScope((scope) => {
@@ -31,13 +31,14 @@ const mailService = {
           Sentry.captureException(error);
         });
         console.error('Error with sending mail: ' + error); //eslint-disable-line
+        reject(error);
         throw new Error(error);
       } else {
+        resolve(resolve);
         console.log('Successfully sent mail to: ' + JSON.stringify(info)); //eslint-disable-line
       }
       return info;
-    });
-  },
+    })),
 };
 
 module.exports = mailService;
