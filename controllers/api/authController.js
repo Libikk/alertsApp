@@ -73,7 +73,7 @@ const authorize = async (req, res, next) => {
 };
 
 const reSendActivationToken = (req, res, next) => {
-  const { active, email, userName, activationToken, userId, activationTokenSentDate } = req.user;
+  const { active, email, userName, activationToken, activationTokenSentDate } = req.user;
 
   const isAccActive = active.readUIntLE();
   if (isAccActive) {
@@ -82,12 +82,8 @@ const reSendActivationToken = (req, res, next) => {
 
   const isSendToday = moment().diff(activationTokenSentDate, 'days') === 0;
   if (!isSendToday) {
-    // send it
     return sendActivationEmail(activationToken, email, userName)
-      .then(() => {
-        res.sendStatus(200);
-        return sqlQuery('UPDATE users SET activationTokenSentDate = NOW() WHERE userId = ? LIMIT 1;', [userId]).catch(next);
-      })
+      .then(() => res.sendStatus(200))
       .catch(next);
   }
   return next(new Error('Email has been sent already'));

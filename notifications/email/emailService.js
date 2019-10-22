@@ -21,7 +21,8 @@ const mailService = {
   sendActivationEmail: (activationToken, email, userName) => {
     const structuredMail = emailLayout(activationTokenTemplate(activationToken, email, userName), email);
 
-    return mailService.send(structuredMail, { email, userName });
+    return mailService.send(structuredMail, { email, userName })
+      .then(() => sqlQuery('UPDATE users SET activationTokenSentDate = NOW() WHERE email = ?', [email]));
   },
   send: (structuredMail, userData) => new Promise((resolve, reject) =>
     transporter.sendMail(structuredMail, (error, info) => {
