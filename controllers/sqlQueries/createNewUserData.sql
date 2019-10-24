@@ -1,5 +1,5 @@
-insert into users (userName, email, password, createdAt)
-SELECT * FROM (SELECT @userName, @email, @hashPass, now()) AS tmp
+INSERT INTO users (userName, email, password, createdAt, activationToken, active)
+SELECT * FROM (SELECT @userName, @email, @hashPass, now(), @activationToken, 0) AS tmp
 
 WHERE NOT EXISTS (
     SELECT userName

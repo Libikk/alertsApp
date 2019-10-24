@@ -1,0 +1,29 @@
+.inactive-acc {
+    justify-content: space-evenly;
+    background: #e93c3c;
+    color: #fff;
+    display: flex;
+    padding: 0.5px 0;
+
+    span {
+        display: flex;
+
+        &.inactive-acc__click-info {
+            font-weight: bold;
+        }
+
+        &.inactive-acc__send-again {
+            font-size: 9px;
+            align-items: center;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.75;
+            }
+        }
+
+        .err-icon {
+            height: 20px;
+        }
+    }
+}

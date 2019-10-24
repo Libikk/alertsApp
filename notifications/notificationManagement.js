@@ -1,7 +1,7 @@
 const { sqlQuery } = require('../sql/sqlServer');
 const _ = require('lodash');
 const { sendProductNotificationsAgain } = require('../appConfig');
-const { sendProductsNotifications } = require('./mailService');
+const { sendProductsNotifications } = require('./email/emailService');
 
 const notifications = {
   getPeopleToSendNotifications: async () => {

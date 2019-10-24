@@ -130,6 +130,20 @@ const DB_SCHEMA = {
           defaultValue: null,
         },
         {
+          columnName: 'activationToken',
+          type: 'varchar(255)',
+          defaultValue: null,
+        },
+        {
+          columnName: 'activationTokenSentDate',
+          type: 'timestamp',
+          defaultValue: null,
+        },
+        {
+          columnName: 'active',
+          type: 'bit',
+        },
+        {
           columnName: 'createdAt',
           type: 'timestamp',
           defaultValue: null,

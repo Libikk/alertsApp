@@ -1,6 +1,10 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const moment = require('moment');
+const passport = require('../../passportStrategy');
+const { sendActivationEmail } = require('../../notifications/email/emailService');
 
 const jwtSecret = process.env.JWT_SECRET;
 const router = express.Router();
@@ -17,9 +21,12 @@ const register = async (req, res, next) => {
   const { userName, email, password } = req.body;
   if (userName && email && password) {
     const hashPass = await bcrypt.hash(password, 10);
-    sqlQuery('createNewUserData', { '@userName': userName, '@email': email, '@hashPass': hashPass })
+    const activationToken = crypto.randomBytes(20).toString('hex');
+
+    sqlQuery('createNewUserData', { '@userName': userName, '@email': email, '@hashPass': hashPass, '@activationToken': activationToken })
       .then((response) => {
         if (!response.insertId) return next(new Error('This user already exist'));
+        sendActivationEmail(activationToken, email, userName);
         authResponseHandler(res, { userName, email, userId: response.insertId });
         return response.insertId;
       })
@@ -58,15 +65,33 @@ const authorize = async (req, res, next) => {
 
   if (verified) {
     const { payload: { email } } = jwt.decode(requestToken, { complete: true });
-    const user = await sqlQuery('select * from users where email = ?', [email]).then(e => e[0]).catch(next);
+    const user = await sqlQuery('getUserData', [email]).then(e => e.pop()).catch(next);
     authResponseHandler(res, user);
   } else {
     next(new Error('User not found'));
   }
 };
 
+const reSendActivationToken = (req, res, next) => {
+  const { active, email, userName, activationToken, activationTokenSentDate } = req.user;
+
+  const isAccActive = active.readUIntLE();
+  if (isAccActive) {
+    return next(new Error('You\'r account is already active.'));
+  }
+
+  const isSendToday = moment().diff(activationTokenSentDate, 'days') === 0;
+  if (!isSendToday) {
+    return sendActivationEmail(activationToken, email, userName)
+      .then(() => res.sendStatus(200))
+      .catch(next);
+  }
+  return next(new Error('Email has been sent already'));
+};
+
 router.post('/authorize', authorize);
 router.post('/login', login);
 router.post('/register', register);
+router.post('/reSendActivationToken', passport.authenticate('jwt', { session: false }), reSendActivationToken);
 
 module.exports = router;

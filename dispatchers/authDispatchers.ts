@@ -19,6 +19,12 @@ export const login = (personCredential) => (dispatch) => {
     }));
 };
 
+export const reSendActivationToken = () => (dispatch) => {
+  return AuthService.reSendActivationToken()
+    .then(() =>  dispatch({ type: 'RESEND_ACTIVATION_TOKEN' }));
+    // add toast
+};
+
 export const register = (personCredential) => (dispatch) => {
     return AuthService.register(personCredential)
       .then(payload => {

@@ -13,6 +13,7 @@ const { env, port } = require('./appConfig');
 const nextApp = next({ dev: env === 'development' });
 const handle = nextApp.getRequestHandler();
 const scanService = require('./productScaner/scan');
+const { activateAccount } = require('./utils/authHelpers');
 const schedule = require('node-schedule');
 const { errorHandler } = require('./middleware/errorHandler');
 
@@ -43,6 +44,14 @@ nextApp.prepare()
     app.get('/login', (req, res) => {
       const actualPage = '/loginPage';
       nextApp.render(req, res, actualPage);
+    });
+
+    app.get('/auth/activateAccount/:token', async (req, res) => {
+      const params = {
+        result: await activateAccount(req.params.token),
+      };
+      const actualPage = '/activateAccount';
+      nextApp.render(req, res, actualPage, params);
     });
 
     app.get('/dashboard/myProducts', (req, res) => {
