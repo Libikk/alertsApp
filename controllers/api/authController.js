@@ -11,10 +11,11 @@ const router = express.Router();
 const { sqlQuery } = require('../../sql/sqlServer');
 const { initialUserData: { emailNotifications, mobileAppNotifications, smsNotifications } } = require('../../appConfig');
 
-const authResponseHandler = (res, user) => {
+const authResponseHandler = (res, user, next) => {
   const context = { email: user.email, userName: user.userName };
   const token = jwt.sign(context, jwtSecret, { expiresIn: '2d' });
   res.cookie('access_token', token).json(user);
+  sqlQuery('updateUserLastLogin', [user.email]).catch(next);
 };
 
 const register = async (req, res, next) => {
@@ -27,7 +28,7 @@ const register = async (req, res, next) => {
       .then((response) => {
         if (!response.insertId) return next(new Error('This user already exist'));
         sendActivationEmail(activationToken, email, userName);
-        authResponseHandler(res, { userName, email, userId: response.insertId });
+        authResponseHandler(res, { userName, email, userId: response.insertId }, next);
         return response.insertId;
       })
       .then(userId => userId && sqlQuery('createUserNotificationSettings', [emailNotifications, mobileAppNotifications, smsNotifications, userId]))
@@ -46,9 +47,7 @@ const login = async (req, res, next) => {
     }
 
     if (bcrypt.compareSync(password, user.password)) {
-      return sqlQuery('UPDATE users set lastLoggedIn = now() where email = ?', [email])
-        .then(() => authResponseHandler(res, { userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.active.readUIntLE() }))
-        .catch(next);
+      return authResponseHandler(res, { userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.active.readUIntLE() }, next);
     }
     return next(new Error('Wrong Password'));
   }
@@ -66,7 +65,7 @@ const authorize = async (req, res, next) => {
   if (verified) {
     const { payload: { email } } = jwt.decode(requestToken, { complete: true });
     const user = await sqlQuery('getUserData', [email]).then(e => e.pop()).catch(next);
-    authResponseHandler(res, user);
+    authResponseHandler(res, user, next);
   } else {
     next(new Error('User not found'));
   }
