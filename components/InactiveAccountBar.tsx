@@ -22,9 +22,7 @@ type MyProps = {
 
 class InactiveAccountBar extends React.Component<MyProps> {
 
-    sendEmailAgain = () => {
-        console.log('GOWNO', this.props.reSendActivationToken())
-    }
+    sendEmailAgain = () => this.props.reSendActivationToken();
 
     render() {
         return (
