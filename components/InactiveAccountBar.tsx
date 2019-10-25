@@ -22,14 +22,12 @@ type MyProps = {
 
 class InactiveAccountBar extends React.Component<MyProps> {
 
-    sendEmailAgain = () => {
-        console.log('GOWNO', this.props.reSendActivationToken())
-    }
+    sendEmailAgain = () => this.props.reSendActivationToken();
 
     render() {
         return (
         <div>
-            {this.props.auth.currentUser && this.props.auth.currentUser.isActive === 0 &&
+            {this.props.auth.currentUser && !this.props.auth.currentUser.isActive &&
             <section className="inactive-acc">
                 <span>Inactive account {<ErrorIcon className="err-icon" />}</span>
                 <span className="inactive-acc__click-info">Click activation link sent to {this.props.auth.currentUser.email}.</span>
