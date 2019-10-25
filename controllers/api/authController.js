@@ -15,6 +15,7 @@ const authResponseHandler = (res, user) => {
   const context = { email: user.email, userName: user.userName };
   const token = jwt.sign(context, jwtSecret, { expiresIn: '2d' });
   res.cookie('access_token', token).json(user);
+  sqlQuery('updateUserLastLogin', [user.email]);
 };
 
 const register = async (req, res, next) => {
