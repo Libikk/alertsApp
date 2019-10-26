@@ -3,18 +3,10 @@ import Layout from '../components/Layout';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
-import { autorize } from '../dispatchers/authDispatchers';
-import { getCookie } from '../utils/auth';
+import defaultPage from '../components/Auth/defaultPage';
 import '../styles/loginPage.scss';
 
 class LoginPage extends React.Component {
-  static async getInitialProps ({ req, query, store, isServer }) {
-    if (isServer) {
-      const { cookie } = req.headers;
-      cookie && await autorize(getCookie('access_token', cookie))(store.dispatch);
-    }
-    return { ...query }
-}
   render () {
     const { currentUser } = this.props.auth;
     return (
@@ -60,5 +52,4 @@ class LoginPage extends React.Component {
   }
 }
 
-
-export default connect(state => state)(LoginPage);
+export default connect(state => state)(defaultPage(LoginPage));
