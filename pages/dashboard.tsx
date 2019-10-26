@@ -1,10 +1,9 @@
 import React from 'react'
 import Layout from '../components/Layout';
 import { connect } from 'react-redux';
+import defaultPage from '../components/Auth/defaultPage';
 import { bindActionCreators } from 'redux';
 import { checkProdExistence, addUserProduct, getUserProducts, deleteUserProduct } from '../dispatchers/productDispatchers';
-import { autorize } from '../dispatchers/authDispatchers';
-import { getCookie } from '../utils/auth';
 import '../styles/dashboard.scss';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -37,14 +36,6 @@ type MyProps = {
 }
 
 class Dashboard extends React.Component<MyProps> {
-  static async getInitialProps ({ req, query, store, isServer }) {
-    if (isServer) {
-      const { cookie } = req.headers;
-      cookie && await autorize(getCookie('access_token', cookie))(store.dispatch);
-    }
-    return { ...query }
-  }
-
   componentDidMount = () => {
       this.props.getUserProducts()
   }
@@ -127,4 +118,4 @@ const mapDispatchToProps = dispatch => ({
 
 });
 
-export default connect(state => state, mapDispatchToProps)(Dashboard);
+export default connect(state => state, mapDispatchToProps)(defaultPage(Dashboard));

@@ -1,8 +1,6 @@
 import React from 'react'
 import Layout from '../components/Layout';
-import { autorize } from '../dispatchers/authDispatchers';
-import { getCookie } from '../utils/auth';
-
+import defaultPage from '../components/Auth/defaultPage';
 import { connect } from 'react-redux';
 
 type MyProps = {
@@ -15,18 +13,6 @@ type MyProps = {
 };
 
 class ActivateAccount extends React.Component<MyProps>  {
-  static getInitialProps = async ({ req, query, isServer, store }) => {
-
-    if (isServer) {
-      const { cookie } = req.headers;
-      cookie && await autorize(getCookie('access_token', cookie))(store.dispatch)
-      // to do
-      // redirect to homepage or login page
-    }
-
-    return query.result
-  }
-
   render () {
     return (
           <Layout>
@@ -41,4 +27,4 @@ const mapDispatchToProps = dispatch => ({
 
 });
 
-export default connect(state => state, mapDispatchToProps)(ActivateAccount);
+export default connect(state => state, mapDispatchToProps)(defaultPage(ActivateAccount));

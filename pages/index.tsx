@@ -4,11 +4,10 @@ import { bindActionCreators } from 'redux';
 import { getWebsitesWithProducts } from '../dispatchers/websitesDispatchers';
 import { getCurrentDiscounts } from '../dispatchers/scansDispatchers';
 import { getUserData } from '../dispatchers/userDispatchers';
-import { autorize } from '../dispatchers/authDispatchers';
+import defaultPage from '../components/Auth/defaultPage';
 import Layout from '../components/Layout';
 import CurrentDiscounts from '../components/CurrentDiscounts';
 import HowItWorks from '../components/HowItWorks';
-import { getCookie } from '../utils/auth';
 import '../styles/landingPage.scss'
 
 
@@ -27,13 +26,7 @@ type MyProps = {
 };
 
 class Index extends React.Component<MyProps> {
-  static async getInitialProps ({ req, query, store, isServer }) {
-    if (isServer) {
-      const { cookie } = req.headers;
-      const isAutorized = cookie && await autorize(getCookie('access_token', cookie))(store.dispatch)
-      // to do
-      // redirect to homepage or login page
-    }
+  static async getInitialProps ({ query, store }) {
     await getWebsitesWithProducts()(store.dispatch)
     await getCurrentDiscounts()(store.dispatch)
     return { ...query }
@@ -66,4 +59,4 @@ const mapDispatchToProps = dispatch => ({
   getUserData: bindActionCreators(getUserData, dispatch),
 });
 
-export default connect(state => state, mapDispatchToProps)(Index);
+export default connect(state => state, mapDispatchToProps)(defaultPage(Index));
