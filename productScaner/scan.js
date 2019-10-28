@@ -17,7 +17,10 @@ const scanManagement = {
             // eslint-disable-next-line no-restricted-syntax
             for (const single of flattenedResp) {
               if (single.imgUrl || single.productName) await sqlQuery('updateProductAfterScan', [single.imgUrl, single.productName, single.productId]);
-              await sqlQuery('INSERT INTO scans (productId, createdAt, isPromo, isError) values (?, now(), ?, ?)', [single.productId, single.isPromo, single.isError]);
+              await sqlQuery(
+                'INSERT INTO scans (productId, createdAt, isPromo, isError, productPrice, productDiscountedPrice) values (?, now(), ?, ?, ?, ?)',
+                [single.productId, single.isPromo, single.isError, single.productPrice, single.productDiscountedPrice]
+              ).catch(console.error);
             // to do update all of them in one query
             }
           })
