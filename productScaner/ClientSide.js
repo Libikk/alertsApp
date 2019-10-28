@@ -24,7 +24,7 @@ const executeCheck = async (link, selector, page, options, imageSelector, produc
     // check if product has promo
     await page.waitForSelector(selector, opt);
     const text = await page.$eval(selector, el => el.textContent);
-    result.isPromo = (new RegExp(options.regexCheck, 'ig')).test(text);
+    result.isPromo = options.regexCheck ? (new RegExp(options.regexCheck, 'ig')).test(text) : !!text;
   } catch (err) {
     console.error('err: ', link, err.message);
     result.isError = true;
