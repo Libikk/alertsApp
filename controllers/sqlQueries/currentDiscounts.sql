@@ -6,7 +6,9 @@ SELECT
   prod.imageUrl,
   prod.productName,
   scan.createdAt,
-  1 as "isPromo"
+  1 as "isPromo",
+  scan.productDiscountedPrice,
+  scan.productPrice
 FROM
   discounthero.products AS prod
   LEFT JOIN discounthero.scans scan ON scan.scanid = (
