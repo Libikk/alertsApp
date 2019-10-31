@@ -38,9 +38,9 @@ const emailLayout = (body, to, from = 'notification@DDiscounthero.com') => ({
 const composeUserProductsIntoHTML = ({ userName, products }) => {
   const productsHtml = products.map(({ productUrl, imageUrl, productName, hostNameUrl, productDiscountedPrice, productPrice }) => {
     const productPriceChange = (productDiscountedPrice && productPrice) ? `
-      <div style="font-size: 18px; padding: 10px; font-weight: 500;">
-        <span style="font-size: 16px; text-decoration: line-through;">${productPrice}</span>
-        <span style="margin: 0 5px;">--></span>
+      <div style="font-size: 26px; font-weight: 500;">
+        <span style="font-size: 20px; text-decoration: line-through;">${productPrice}</span>
+        <span style="margin: 0 3px;">--></span>
         <span style="color: #249624;">${productDiscountedPrice}</span>
       </div>` : '';
 
