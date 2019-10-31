@@ -6,7 +6,9 @@ SELECT
 	webSelectors.isDiscountSelector AS "selectorString",
 	webSelectors.isClientSideCheck,
     webSelectors.imageSelector,
-	webSelectors.productNameSelector
+	webSelectors.productNameSelector,
+	webSelectors.productPriceSelector,
+	webSelectors.productDiscountedPriceSelector
 FROM discounthero.products prod
 JOIN discounthero.websites web on prod.websiteId = web.websiteId
 JOIN discounthero.websitesSelectors webSelectors ON webSelectors.websiteId = web.websiteId

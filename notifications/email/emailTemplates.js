@@ -36,14 +36,25 @@ const emailLayout = (body, to, from = 'notification@DDiscounthero.com') => ({
 });
 
 const composeUserProductsIntoHTML = ({ userName, products }) => {
-  const productsHtml = products.map(({ productUrl, imageUrl, productName, hostNameUrl }) => `
-  <div style="box-shadow: -10px 0 25px -15px black, 10px 0 25px -15px black; padding: 10px; max-width: 250px;">
-    <h3 style="width: 75%; margin: 4% auto;">
-      <a href="${productUrl}">${productName}</a>
-    </h3>
-    <img src="${imageUrl}" alt="${productName}" style="width: 100%; max-width: 200px;"/>
-    <p>from: ${hostNameUrl}</p>
-  </div>`);
+  const productsHtml = products.map(({ productUrl, imageUrl, productName, hostNameUrl, productDiscountedPrice, productPrice }) => {
+    const productPriceChange = (productDiscountedPrice && productPrice) ? `
+      <div style="font-size: 26px; font-weight: 500;">
+        <span style="font-size: 20px; text-decoration: line-through;">${productPrice}</span>
+        <span style="margin: 0 3px;">--></span>
+        <span style="color: #249624;">${productDiscountedPrice}</span>
+      </div>` : '';
+
+    return `
+    <div style="box-shadow: -10px 0 25px -15px black, 10px 0 25px -15px black; padding: 10px; max-width: 250px;">
+      <h3 style="width: 75%; margin: 4% auto;">
+        <a href="${productUrl}">${productName}</a>
+      </h3>
+      ${productPriceChange}
+      <img src="${imageUrl}" alt="${productName}" style="width: 100%; max-width: 200px;"/>
+      <p style="margin-top: 0;">from: ${hostNameUrl}</p>
+    </div>`;
+  });
+
   return `
     <div>
     <h1>Hello ${userName}</h1>

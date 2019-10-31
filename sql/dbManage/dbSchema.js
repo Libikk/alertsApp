@@ -99,6 +99,14 @@ const DB_SCHEMA = {
           type: 'bit',
         },
         {
+          columnName: 'productPrice',
+          type: 'varchar(255)',
+        },
+        {
+          columnName: 'productDiscountedPrice',
+          type: 'varchar(255)',
+        },
+        {
           columnName: 'isError',
           type: 'bit',
         },

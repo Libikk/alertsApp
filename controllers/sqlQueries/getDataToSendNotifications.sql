@@ -12,7 +12,9 @@ SELECT
   user.email,
   user.userName,
   user.userId,
-  prod.productId
+  prod.productId,
+  scan.productDiscountedPrice,
+  scan.productPrice
 FROM
   discounthero.products AS prod
   LEFT JOIN discounthero.scans scan ON scan.scanid = (

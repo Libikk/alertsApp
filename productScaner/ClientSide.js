@@ -5,7 +5,7 @@ const opt = {
   timeout: 6000,
 };
 
-const executeCheck = async (link, selector, page, options, imageSelector, productNameSelector) => {
+const executeCheck = async (link, selector, page, options, imageSelector, productNameSelector, productPriceSelector, productDiscountedPriceSelector) => {
   const result = {
     isPromo: false,
   };
@@ -21,10 +21,18 @@ const executeCheck = async (link, selector, page, options, imageSelector, produc
       result.productName = await page.$eval(productNameSelector, el => el.textContent).catch(() => console.log('productNameSelector err', productNameSelector));
     }
 
+    if (productPriceSelector) {
+      result.productPrice = await page.$eval(productPriceSelector, el => el.textContent).catch(() => console.log('productPriceSelector err', productPriceSelector));
+    }
+
+    if (productDiscountedPriceSelector) {
+      result.productDiscountedPrice = await page.$eval(productDiscountedPriceSelector, el => el.textContent).catch(() => console.log('productDiscountedPriceSelector err', productDiscountedPriceSelector));
+    }
+
     // check if product has promo
     await page.waitForSelector(selector, opt);
     const text = await page.$eval(selector, el => el.textContent);
-    result.isPromo = (new RegExp(options.regexCheck, 'ig')).test(text);
+    result.isPromo = options.regexCheck ? (new RegExp(options.regexCheck, 'ig')).test(text) : !!text;
   } catch (err) {
     console.error('err: ', link, err.message);
     result.isError = true;
@@ -49,7 +57,9 @@ const getClientSideCheck = async (listOfProducts) => {
             regexCheck: singleProduct.regex,
           },
           singleProduct.imageSelector,
-          singleProduct.productNameSelector
+          singleProduct.productNameSelector,
+          singleProduct.productPriceSelector,
+          singleProduct.productDiscountedPriceSelector
         );
         prod.push(Object.assign({}, singleProduct, checkResult));
       }

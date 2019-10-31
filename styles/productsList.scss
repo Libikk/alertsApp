@@ -1,3 +1,5 @@
+@import './variables';
+
 .product-list__container {
 
     display: flex;
@@ -83,6 +85,29 @@
 
             body {
                 width: 270px;
+                .body__product-prices {
+                    font-size: 18px;
+                    padding: 10px;
+                    font-weight: 500;
+
+                    .product-prices__current-price {
+                        font-size: 16px;
+                        text-decoration: line-through;
+                    }
+                    .product-prices__arrow {
+                        margin: 0 10px;
+                    }
+                    .product-prices__discounted-price {
+                        color: $primaryColorDark;
+                    }
+                }
+
+                .body__product-prices-unavailable {
+                    font-size: 16px;
+                    margin-top: 12px;
+                    opacity: 0.5;
+
+                }
 
             }
 

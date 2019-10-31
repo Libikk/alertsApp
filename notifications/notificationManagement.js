@@ -13,7 +13,7 @@ const notifications = {
         return acc.map((singlePerson) => {
           if (nextProductData.userId === singlePerson.userId) {
             return Object.assign(singlePerson, {
-              products: singlePerson.products.concat(_.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName', 'productId'])),
+              products: singlePerson.products.concat(_.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName', 'productId', 'productDiscountedPrice', 'productPrice'])),
             });
           }
           return singlePerson;
@@ -23,7 +23,7 @@ const notifications = {
       return acc.concat({
         ..._.pick(nextProductData, ['userId', 'email', 'emailNotifications', 'mobileAppNotifications', 'smsNotifications', 'userName', 'userId']),
         products: [
-          _.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName', 'productId']),
+          _.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName', 'productId', 'productDiscountedPrice', 'productPrice']),
         ],
       });
     }, []);

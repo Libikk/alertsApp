@@ -40,7 +40,7 @@ class ProductsList extends React.Component<MyProps> {
           <section className="product-list__container">
               {
                 products && products.map(singleProduct => {
-                    const { productUrl, hostName, imageUrl, productName, productId, isActive, isPromo } = singleProduct;
+                    const { productUrl, hostName, imageUrl, productName, productId, isActive, isPromo, productDiscountedPrice, productPrice } = singleProduct;
                     return (
                         <section className="container__product" key={productName + productId}>
                             <div className={`product__product-wrapper ${ !isActive && !isLandingPage && 'inactive-product' }`}>
@@ -63,6 +63,18 @@ class ProductsList extends React.Component<MyProps> {
                                             {productName || productUrl}
                                         </a>
                                     </Link>
+                                    {(productDiscountedPrice && productPrice) ?
+                                        <div className="body__product-prices">
+                                            <span className="product-prices__current-price">{productPrice}</span>
+                                            <span className="product-prices__arrow"> --></span>
+                                            <span className="product-prices__discounted-price">{productDiscountedPrice}</span>
+                                        </div> :
+                                        <div className="body__product-prices-unavailable">
+                                            <span>Product prices are not available yet</span>
+                                        </div>
+                                    }
+
+
                                 </body>
                                 <article className="product-wrapper__inactive-message">
                                     <span>This product needs to be verified</span>

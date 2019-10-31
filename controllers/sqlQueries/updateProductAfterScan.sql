@@ -4,5 +4,7 @@ SET
     p.productName = ?
 WHERE
     p.productId = ?
-    AND p.imageUrl IS NULL
-    AND p.productName IS NULL
+    AND (
+        p.imageUrl IS NULL
+        OR p.productName IS NULL
+    )
