@@ -3,7 +3,7 @@ const { env } = require('../appConfig');
 const getQuery = require('../controllers/getQuery');
 const _ = require('lodash');
 const sqlCredential = require('./sqlCredential');
-const sql = require('mysql').createConnection(sqlCredential[env]);
+const sql = require('mysql').createConnection(Object.assign({}, sqlCredential[env], { multipleStatements: true }));
 
 const mysqlQueries = {
   executeRawSQL: (query, params) => new Promise((resolve, reject) => {
