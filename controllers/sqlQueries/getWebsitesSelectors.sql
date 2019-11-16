@@ -1,8 +1,8 @@
 SELECT
 	id,
     case webSel.isClientSideCheck WHEN '0' THEN 0 WHEN '1' THEN 1 END AS 'isClientSideCheck',
-    isDiscountSelector,
     isDiscountSelectorRegex,
+    isDiscountSelector,
     imageSelector,
     productNameSelector,
     productPriceSelector,
