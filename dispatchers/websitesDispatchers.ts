@@ -17,3 +17,12 @@ export const getWebsitesSelectors = () => (dispatch) => {
       return res;
   });
 };
+
+export const updateWebsiteSelector = (data) => (dispatch) => {
+  dispatch({ type: 'UPDATE_WEBSITES_SELECTORS' });
+  return WebsiteService.updateWebsiteSelector(data)
+    .then(res => {
+      dispatch({ type: 'SUCCESS_UPDATE_WEBSITES_SELECTORS' })
+      return res;
+  });
+};
