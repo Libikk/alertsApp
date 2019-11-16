@@ -12,7 +12,7 @@ const { sqlQuery } = require('../../sql/sqlServer');
 const { initialUserData: { emailNotifications, mobileAppNotifications, smsNotifications } } = require('../../appConfig');
 
 const authResponseHandler = (res, user, next) => {
-  const context = { email: user.email, userName: user.userName };
+  const context = { email: user.email, userName: user.userName, role: user.role };
   const token = jwt.sign(context, jwtSecret, { expiresIn: '2d' });
   res.cookie('access_token', token).json(user);
   sqlQuery('updateUserLastLogin', [user.email]).catch(next);
@@ -47,7 +47,7 @@ const login = async (req, res, next) => {
     }
 
     if (bcrypt.compareSync(password, user.password)) {
-      return authResponseHandler(res, { userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.active.readUIntLE() }, next);
+      return authResponseHandler(res, { role: user.role, userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.active.readUIntLE() }, next);
     }
     return next(new Error('Wrong Password'));
   }
