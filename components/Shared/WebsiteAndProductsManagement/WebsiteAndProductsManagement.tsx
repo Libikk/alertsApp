@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import MaterialTable from "material-table";
 import { tableIcons } from './TableConfigs';
-import { getWebsitesSelectors } from '../../../dispatchers/websitesDispatchers';
+import { getWebsitesSelectors, updateWebsiteSelector } from '../../../dispatchers/websitesDispatchers';
 // // interface AuthObj {
 // //   currentUser: {
 // //     userName: string,
@@ -36,6 +36,13 @@ class WebsitesSelectorsManagement extends React.Component<MyProps> {
     this.props.getWebsitesSelectors().then(selectorsData => this.setState({ websitesSelectors: selectorsData }))
   }
 
+  onRowUpdate = (newData) => {
+    return this.props.updateWebsiteSelector(newData)
+      .then(() => {
+        const updatedSelectors = this.state.websitesSelectors.map(selector => selector.id === newData.id ? newData : selector);
+        return this.setState({ websitesSelectors: updatedSelectors });
+      });
+  };
 
     render() {
       console.log(this.props.websites.selectors)
@@ -46,14 +53,7 @@ class WebsitesSelectorsManagement extends React.Component<MyProps> {
             columns={columns}
             data={this.state.websitesSelectors}
             editable={{
-              onRowUpdate: (newData, oldData) =>
-              new Promise(resolve => {
-                setTimeout(() => {
-                  console.log('newData, oldData: ', newData, oldData);
-                  resolve();
-
-                }, 600);
-              }),
+              onRowUpdate: this.onRowUpdate,
             }}
             title="Websites management"
           />
@@ -64,6 +64,7 @@ class WebsitesSelectorsManagement extends React.Component<MyProps> {
 
 const mapDispatchToProps = dispatch => ({
   getWebsitesSelectors: bindActionCreators(getWebsitesSelectors, dispatch),
+  updateWebsiteSelector: bindActionCreators(updateWebsiteSelector, dispatch),
 });
 
 export default connect(state => state, mapDispatchToProps)(WebsitesSelectorsManagement)
