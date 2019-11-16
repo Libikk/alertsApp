@@ -8,3 +8,12 @@ export const getWebsitesWithProducts = () => (dispatch) => {
       websites: res,
     }));
 };
+
+export const getWebsitesSelectors = () => (dispatch) => {
+  dispatch({ type: 'GET_WEBSITES_SELECTORS' });
+  return WebsiteService.getWebsitesSelectors()
+    .then(res => {
+      dispatch({ type: 'SUCCESS_GETTING_WEBSITES_SELECTORS' })
+      return res;
+  });
+};
