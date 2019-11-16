@@ -24,6 +24,10 @@ const mysqlQueries = {
     }, rawSql);
     return mysqlQueries.executeRawSQL(replacedParamsSql);
   },
+  mapKeysToParams: object => Object.keys(object).reduce((acc, nextObj) => {
+    acc[`@${nextObj}`] = object[nextObj];
+    return acc;
+  }, {}),
 };
 
 module.exports = { sql, ...mysqlQueries };
