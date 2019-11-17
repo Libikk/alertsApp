@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import MaterialTable from "material-table";
 import { tableIcons } from './TableConfigs';
 import { getWebsitesSelectors, updateWebsiteSelector } from '../../../dispatchers/websitesDispatchers';
+import { useDispatch, useSelector } from 'react-redux'
 // // interface AuthObj {
 // //   currentUser: {
 // //     userName: string,
@@ -27,44 +28,38 @@ const columns = [
   { title: "productDiscountedPriceSelector", field: "productDiscountedPriceSelector" },
 ]
 
-class WebsitesSelectorsManagement extends React.Component<MyProps> {
-  state = {
-    websitesSelectors: []
-  }
+const WebsitesSelectorsManagement = () => {
+  // const state = useSelector(state => state);
+  const dispatch = useDispatch()
 
-  componentDidMount() {
-    this.props.getWebsitesSelectors().then(selectorsData => this.setState({ websitesSelectors: selectorsData }))
-  }
+  const [websitesSelectors, setWebsitesSelectors] = useState([]);
 
-  onRowUpdate = (newData) => {
-    return this.props.updateWebsiteSelector(newData)
+  useEffect(() => {
+    dispatch(getWebsitesSelectors())
+      .then(selectorsData => setWebsitesSelectors(selectorsData))
+  }, [])
+
+   const onRowUpdate = (newData) => {
+    return dispatch(updateWebsiteSelector(newData))
       .then(() => {
-        const updatedSelectors = this.state.websitesSelectors.map(selector => selector.id === newData.id ? newData : selector);
-        return this.setState({ websitesSelectors: updatedSelectors });
+        const updatedSelectors = websitesSelectors.map(selector => selector.id === newData.id ? newData : selector);
+        return setWebsitesSelectors(updatedSelectors);
       });
   };
 
-    render() {
-      console.log(this.props.websites.selectors)
-      return (
-        <div>
-          <MaterialTable
-            icons={tableIcons}
-            columns={columns}
-            data={this.state.websitesSelectors}
-            editable={{
-              onRowUpdate: this.onRowUpdate,
-            }}
-            title="Websites management"
-          />
-        </div>
-    );
-  }
+  return (
+      <div>
+        <MaterialTable
+          icons={tableIcons}
+          columns={columns}
+          data={websitesSelectors}
+          editable={{
+            onRowUpdate,
+          }}
+          title="Websites management"
+        />
+      </div>
+  );
 }
 
-const mapDispatchToProps = dispatch => ({
-  getWebsitesSelectors: bindActionCreators(getWebsitesSelectors, dispatch),
-  updateWebsiteSelector: bindActionCreators(updateWebsiteSelector, dispatch),
-});
-
-export default connect(state => state, mapDispatchToProps)(WebsitesSelectorsManagement)
+export default WebsitesSelectorsManagement
