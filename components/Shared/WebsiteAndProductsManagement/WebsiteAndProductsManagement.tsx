@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import MaterialTable from "material-table";
 import { tableIcons } from './TableConfigs';
 import { getWebsitesSelectors, updateWebsiteSelector } from '../../../dispatchers/websitesDispatchers';
