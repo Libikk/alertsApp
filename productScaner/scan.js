@@ -30,6 +30,10 @@ const scanManagement = {
           });
       });
   },
+  testScan: (products) => {
+    // const webScan = clientSideScan.getClientSideCheck(allProductsWithWebsites);
+    console.log('products: ', products);
+  },
 };
 
 module.exports = scanManagement;
