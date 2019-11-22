@@ -10,7 +10,10 @@ export const getCurrentDiscounts = () => (dispatch) => {
 };
 
 export const testProductsScan = (productsData) => (dispatch) => {
-  dispatch({ type: 'TEST_PRODUCTS_SCAN' })
+  dispatch({ type: 'TEST_PRODUCTS_SCAN' });
   return ScansService.testProductsScan(productsData)
-    .then(() =>  dispatch({ type: 'SUCCESS_TEST_PRODUCTS_SCAN' }));
+    .then((data) =>  {
+      dispatch({ type: 'SUCCESS_TEST_PRODUCTS_SCAN' });
+      return data;
+    });
 };

@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import MaterialTable from "material-table";
 import { tableIcons } from './TableConfigs';
 import { getWebsitesSelectors, updateWebsiteSelector } from '../../../dispatchers/websitesDispatchers';
-import { testProductsScan } from '../../../dispatchers/scansDispatchers';
 import { useDispatch, useSelector } from 'react-redux'
 import Modal from '@material-ui/core/Modal';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
+import ProductTestScan from './ProductTestScan';
+import '../../../styles/websitesSelectorsManagement.scss'
 // // interface AuthObj {
 // //   currentUser: {
 // //     userName: string,
@@ -62,8 +63,7 @@ const WebsitesSelectorsManagement = () => {
         return Promise.resolve();
   };
 
-  const testProductsScan = (rowData) => {
-    console.log('rowData: ', rowData);
+  const testScan = (rowData) => {
     setTestProductsData(rowData)
   }
 
@@ -76,7 +76,7 @@ const WebsitesSelectorsManagement = () => {
     {
       icon: 'T',
       tooltip: 'Test selectors',
-      onClick: (event, rowData) => testProductsScan(rowData)
+      onClick: (event, rowData) => testScan(rowData)
     }
   ]
 
@@ -85,23 +85,9 @@ const WebsitesSelectorsManagement = () => {
         <Modal
           className="website-products-management__modal-product-test"
           open={testProductsData.length}
-          onClose={() => setTestProductsData([])}
         >
           <Card>
-                <ul>
-                  <li className="">
-                    <div>Product on discount</div>
-                    <div>Product <u>NOT</u> discounted</div>
-                  </li>
-              {
-                testProductsData.map(singleWebData => {
-                    return <li>
-                        <TextField name='Product on discount' label={singleWebData.hostName} value={singleWebData.id}/>
-                        <TextField name='Product not discounted' label={singleWebData.hostName} value={singleWebData.id}/>
-                      </li>
-                })
-              }
-              </ul>
+              <ProductTestScan testProductsData={testProductsData} onRowUpdate={onRowUpdate}/>
           </Card>
         </Modal>
         <MaterialTable

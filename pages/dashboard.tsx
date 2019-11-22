@@ -69,7 +69,7 @@ class Dashboard extends React.Component<MyProps> {
 
   render () {
     const { selectedTabIndex, urlInput } = this.state;
-    const isAdmin = this.props.auth.currentUser.role === 'admin';
+    const isAdmin = this.props.auth.currentUser && this.props.auth.currentUser.role === 'admin';
 
     return (
           <Layout>

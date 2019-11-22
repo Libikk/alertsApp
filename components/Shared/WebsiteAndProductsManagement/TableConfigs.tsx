@@ -1,5 +1,6 @@
 import MaterialTable from "material-table";
 import AddBox from '@material-ui/icons/AddBox';
+import Save from '@material-ui/icons/Save';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import Check from '@material-ui/icons/Check';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
@@ -17,6 +18,7 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 
 import { forwardRef } from 'react';
  const tableIcons = {
+    Save: forwardRef((props, ref) => <Save {...props} ref={ref} />),
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
     Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
