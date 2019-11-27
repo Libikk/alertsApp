@@ -43,6 +43,9 @@ const ProductTestedData = (props: propsTypes) => {
             return acc;
         }
         const findAnotherPair = props.testData.find(({ id, fullUrl }) => nextObj.id === id && fullUrl !== nextObj.fullUrl);
+        // this need to be fixed
+        findAnotherPair.imageUrl = findAnotherPair.imgUrl
+        nextObj.imageUrl = nextObj.imgUrl
 
         const paired = [findAnotherPair, nextObj]
         return acc.concat([paired])
