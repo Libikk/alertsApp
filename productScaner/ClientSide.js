@@ -14,7 +14,7 @@ const executeCheck = async (link, selector, page, options, imageSelector, produc
 
     if (imageSelector) {
       await page.waitForSelector(imageSelector, opt).catch(() => console.log('imageSelector error ', imageSelector));
-      result.imgUrl = await page.$eval(imageSelector, el => el.src).catch(() => console.log('imageSelector err'));
+      result.imgUrl = await page.$eval(imageSelector, el => el.src || el.srcset).catch(() => console.log('imageSelector err'));
     }
 
     if (productNameSelector) {
