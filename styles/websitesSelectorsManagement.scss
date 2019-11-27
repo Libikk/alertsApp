@@ -11,11 +11,19 @@
             .products-url-inputs__single {
                 display: flex;
                 padding: 15px 15px 0;
+
+                .single__input-container {
+                    margin: 10px;
+                }
             }
 
             .products-url-inputs__single.header {
                 justify-content: space-around;
             }
         }
+    }
+
+    .MuiTableCell-alignLeft {
+        padding: 1px 6px 7px 2px;
     }
 }
