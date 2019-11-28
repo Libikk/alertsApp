@@ -41,7 +41,6 @@ const executeCheck = async (link, selector, page, options, imageSelector, produc
 };
 
 const getClientSideCheck = async (listOfProducts) => {
-  console.log('listOfProducts: ', listOfProducts);
   const prod = [];
   try {
     const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });

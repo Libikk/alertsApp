@@ -13,7 +13,6 @@ const getServerSideCheck = (listOfProducts) => {
       const disc = $(listOfProducts.selector);
       if (singleProduct.regex) {
         const isPromo = (new RegExp(listOfProducts.regex, 'gi')).test(disc.text());
-        console.log('isPromo serverSide: ', isPromo, '  ', singleProduct.fullUrl);
         resolve(Object.assign({}, singleProduct, { isPromo }));
       }
     });

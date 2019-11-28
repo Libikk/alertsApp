@@ -24,16 +24,13 @@ const columns = [
   { title: "NOT discounted product url", field: "notDiscountedProductUrl" },
 ]
 
-const testDataaa = [{"id":11,"isClientSideCheck":1,"isDiscountSelectorRegex":"rollback","isDiscountSelector":".pdp-main-details__promo-cntr","imageSelector":".s7staticimage img","productNameSelector":".pdp-main-details__title","productPriceSelector":".pdp-main-details__was-price","productDiscountedPriceSelector":".co-product__price.pdp-main-details__price","hostName":"groceries.asda.com","url":"https://groceries.asda.com","notDiscountedProductUrl":"https://groceries.asda.com/product/910000226861?origin=/product/ham-pork-slices/asda-thick-dry-cured-ham-slices/910000226837","discountedProductUrl":"https://groceries.asda.com/product/1000123650031?origin=/product/ham-pork-slices/asda-thick-dry-cured-ham-slices/910000226837","tableData":{"id":1,"checked":true},"fullUrl":"https://groceries.asda.com/product/1000123650031?origin=/product/ham-pork-slices/asda-thick-dry-cured-ham-slices/910000226837","regex":"rollback","selectorString":".pdp-main-details__promo-cntr","isPromo":true,"imgUrl":"https://ui.assets-asda.com/dm/asdagroceries/5057172103461_T1?defaultImage=asdagroceries/noImage&resMode=sharp2&id=5yESd3&fmt=jpg&fit=constrain,1&wid=288&hei=288","productName":"ASDA Thick Sliced Oven Baked Dry Cured Ham","productPrice":"£4.50 /100g","productDiscountedPrice":"£4.00"},{"id":11,"isClientSideCheck":1,"isDiscountSelectorRegex":"rollback","isDiscountSelector":".pdp-main-details__promo-cntr","imageSelector":".s7staticimage img","productNameSelector":".pdp-main-details__title","productPriceSelector":".pdp-main-details__was-price","productDiscountedPriceSelector":".co-product__price.pdp-main-details__price","hostName":"groceries.asda.com","url":"https://groceries.asda.com","notDiscountedProductUrl":"https://groceries.asda.com/product/910000226861?origin=/product/ham-pork-slices/asda-thick-dry-cured-ham-slices/910000226837","discountedProductUrl":"https://groceries.asda.com/product/1000123650031?origin=/product/ham-pork-slices/asda-thick-dry-cured-ham-slices/910000226837","tableData":{"id":1,"checked":true},"fullUrl":"https://groceries.asda.com/product/910000226861?origin=/product/ham-pork-slices/asda-thick-dry-cured-ham-slices/910000226837","regex":"rollback","selectorString":".pdp-main-details__promo-cntr","isPromo":false,"imgUrl":"","productName":"ASDA Thick Sliced Breaded Dry Cured Ham Slices","productDiscountedPrice":"£3.00"}]
 const WebsitesSelectorsManagement = () => {
-  // const state = useSelector(state => state);
   const dispatch = useDispatch()
 
   const [websitesSelectors, setWebsitesSelectors] = useState([]);
   const [isTesting, setIsTesting] = useState(false);
   const [websitesSelectorsUnchanged, setWebsitesSelectorsUnchanged] = useState([]);
-  const [testData, setTestData] = useState(testDataaa)
-  console.log('testData: ', testData);
+  const [testData, setTestData] = useState([])
 
   useEffect(() => {
     dispatch(getWebsitesSelectors())
@@ -95,6 +92,7 @@ const WebsitesSelectorsManagement = () => {
           </Card>
         </Modal>
         <MaterialTable
+          paging={false}
           isLoading={isTesting}
           icons={tableIcons}
           columns={columns}

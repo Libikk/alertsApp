@@ -19,7 +19,6 @@ const websitesSelectors = (req, res, next) => {
 
 const updateWebsiteSelector = (req, res, next) => {
   const params = mapKeysToParams(req.body);
-  console.log('params: ', params);
   sqlQuery('updateWebsiteSelectors', params)
     .then(response => res.send(response))
     .catch(next);
