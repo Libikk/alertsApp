@@ -17,7 +17,7 @@ FROM
     FROM
       discounthero.scans AS scanLoop
     WHERE
-      scanLoop.productid = prod.productid
+      scanLoop.productid = prod.productid AND prod.deletedAt IS NULL
     ORDER BY
       scanLoop.createdat DESC
     LIMIT 1
@@ -27,3 +27,4 @@ WHERE
   scan.ispromo
   AND website.isActive = '1'
   AND prod.isActive = '1'
+ORDER BY prod.imageUrl DESC
