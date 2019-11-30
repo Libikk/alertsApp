@@ -9,5 +9,5 @@ SELECT
     productDiscountedPriceSelector,
     web.hostName,
     web.url
-FROM websitesselectors webSel
+FROM websitesSelectors webSel
 JOIN websites web on web.websiteId = webSel.websiteId;
