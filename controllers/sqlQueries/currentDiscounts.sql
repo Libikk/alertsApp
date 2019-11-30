@@ -27,3 +27,4 @@ WHERE
   scan.ispromo
   AND website.isActive = '1'
   AND prod.isActive = '1'
+ORDER BY prod.imageUrl DESC
