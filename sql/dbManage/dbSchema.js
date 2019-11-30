@@ -133,6 +133,10 @@ const DB_SCHEMA = {
           type: 'varchar(255)',
         },
         {
+          columnName: 'role',
+          type: 'varchar(55)',
+        },
+        {
           columnName: 'lastLoggedIn',
           type: 'timestamp',
           defaultValue: null,

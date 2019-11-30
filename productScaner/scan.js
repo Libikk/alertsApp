@@ -30,6 +30,18 @@ const scanManagement = {
           });
       });
   },
+  testScan: (products) => {
+    const parsedProducts = products.reduce((acc, nextObj) => {
+      const { discountedProductUrl, notDiscountedProductUrl, isDiscountSelectorRegex, isDiscountSelector } = nextObj;
+      if (discountedProductUrl && notDiscountedProductUrl) {
+        const splittedProducts = [discountedProductUrl, notDiscountedProductUrl].map(fullUrl => ({ ...nextObj, fullUrl, regex: isDiscountSelectorRegex, selectorString: isDiscountSelector }));
+        return acc.concat(splittedProducts);
+      }
+      return acc;
+    }, []);
+
+    return clientSideScan.getClientSideCheck(parsedProducts);
+  },
 };
 
 module.exports = scanManagement;

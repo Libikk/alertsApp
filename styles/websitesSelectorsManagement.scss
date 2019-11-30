@@ -1,0 +1,29 @@
+.website-products-management {
+    &__modal-product-test {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .modal-product-test__products-url-inputs {
+            padding: 0;
+            margin: 0 0 15px;
+
+            .products-url-inputs__single {
+                display: flex;
+                padding: 15px 15px 0;
+
+                .single__input-container {
+                    margin: 10px;
+                }
+            }
+
+            .products-url-inputs__single.header {
+                justify-content: space-around;
+            }
+        }
+    }
+
+    .MuiTableCell-alignLeft {
+        padding: 1px 6px 7px 2px;
+    }
+}

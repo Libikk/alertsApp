@@ -18,9 +18,8 @@ interface ProductsListT {
     isActive: number,
     productId: number,
     isPromo: number,
-
-   // isPromo:
-
+    productDiscountedPrice: string,
+    productPrice: string,
   }
 
 type MyProps = {

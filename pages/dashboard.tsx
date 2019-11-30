@@ -11,9 +11,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Paper from '@material-ui/core/Paper';
 import Tab from '@material-ui/core/Tab';
 import ProductsList from '../components/Shared/ProductsList';
-
+import WebsiteAndProductsManagement from '../components/Shared/WebsiteAndProductsManagement';
 import SwipeableViews from 'react-swipeable-views';
-
 
 interface ProductExistenceObj {
   productId: number,
@@ -32,6 +31,11 @@ type MyProps = {
   products: {
     productExistence: ProductExistenceObj | null,
     userProducts: Array<ProductExistenceObj>,
+  },
+  auth: {
+    currentUser: {
+      role: string
+    }
   }
 }
 
@@ -65,6 +69,8 @@ class Dashboard extends React.Component<MyProps> {
 
   render () {
     const { selectedTabIndex, urlInput } = this.state;
+    const isAdmin = this.props.auth.currentUser && this.props.auth.currentUser.role === 'admin';
+
     return (
           <Layout>
               <div className='dashboard-container'>
@@ -79,6 +85,7 @@ class Dashboard extends React.Component<MyProps> {
                       <Tabs value={selectedTabIndex} onChange={this.handleChange}>
                         <Tab label="My products" />
                         <Tab label="Add product" />
+                        {isAdmin && <Tab label="Website selectors" />}
                       </Tabs>
                       <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex} className="swipeable-views">
                         <div className="my-products">
@@ -88,9 +95,9 @@ class Dashboard extends React.Component<MyProps> {
                           </Paper>
                         </div>
                         <div>
-                        <h2>
-                          {urlInput ? (this.props.products.productExistence ? `This product exist` : 'This product does not exist!') : 'Paste in link to product.'}
-                        </h2>
+                          <h2>
+                            {urlInput ? (this.props.products.productExistence ? `This product exist` : 'This product does not exist!') : 'Paste in link to product.'}
+                          </h2>
                           <TextField
                             label="Product URL"
                             name="urlInput"
@@ -103,6 +110,7 @@ class Dashboard extends React.Component<MyProps> {
                           />
                           <Button disabled={!urlInput} onClick={this.addProduct}> Add product </Button>
                       </div>
+                      {isAdmin && <WebsiteAndProductsManagement />}
                     </SwipeableViews>
                   </div>
               </div>

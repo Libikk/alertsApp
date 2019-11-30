@@ -8,3 +8,12 @@ export const getCurrentDiscounts = () => (dispatch) => {
       currentDiscounts,
     }));
 };
+
+export const testProductsScan = (productsData) => (dispatch) => {
+  dispatch({ type: 'TEST_PRODUCTS_SCAN' });
+  return ScansService.testProductsScan(productsData)
+    .then((data) =>  {
+      dispatch({ type: 'SUCCESS_TEST_PRODUCTS_SCAN' });
+      return data;
+    });
+};
