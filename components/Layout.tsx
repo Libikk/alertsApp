@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import InactiveAccountBar from '../components/InactiveAccountBar';
+import Toast from './Toast';
 
 import '../styles/globals.scss';
 import '../styles/layout.scss';
@@ -18,6 +19,7 @@ class Layout extends React.Component<MyProps> {
 
     return (
       <div className="layout-section">
+        <Toast />
         <InactiveAccountBar />
         <Header />
         <section className="layout-section__content">
