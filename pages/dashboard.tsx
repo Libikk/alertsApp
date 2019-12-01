@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import defaultPage from '../components/Auth/defaultPage';
 import { bindActionCreators } from 'redux';
 import { checkProdExistence, addUserProduct, getUserProducts, deleteUserProduct } from '../dispatchers/productDispatchers';
-import '../styles/dashboard.scss';
+import { toast } from 'react-toastify';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
@@ -14,6 +14,7 @@ import ProductsList from '../components/Shared/ProductsList';
 import WebsiteAndProductsManagement from '../components/Shared/WebsiteAndProductsManagement';
 import SwipeableViews from 'react-swipeable-views';
 
+import '../styles/dashboard.scss';
 interface ProductExistenceObj {
   productId: number,
   productUrl: string,
@@ -65,6 +66,8 @@ class Dashboard extends React.Component<MyProps> {
     })
     .then(() => this.props.getUserProducts())
     .then(() => this.props.checkProdExistence(this.state.urlInput))
+    .then(() => toast.success('Product has been added'))
+    .catch(() => toast.error('Something went wrong'))
   }
 
   render () {
