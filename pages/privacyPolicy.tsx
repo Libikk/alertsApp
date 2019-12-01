@@ -3,11 +3,11 @@ import Layout from '../components/Layout';
 import Paper from '@material-ui/core/Paper';
 import '../styles/privacyPolicy.scss'
 
-const PrivacyPolicy = () => {
+const privacyPolicy = () => {
     return <Layout>
         <div className="privacypolicy-container">
             {PagesTabs(2)}
-            <Paper className="privacypolicy__content">
+            <Paper className="privacypolicy-container__content">
                 <h1>Privacy Policy</h1>
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing
                 elit. Aenean commodo ligula eget dolor. Aenean massa
@@ -37,4 +37,4 @@ const PrivacyPolicy = () => {
     </Layout>
 }
 
-export default PrivacyPolicy;
+export default privacyPolicy;
