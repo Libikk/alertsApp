@@ -10,28 +10,15 @@ const About = () => {
             <Paper className="about-container__content">
                 <h1>About DDiscount hero </h1>
 
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing
-                elit. Aenean commodo ligula eget dolor. Aenean massa
-                <strong>strong</strong></p>
+                <p>As we all know there are lots of products which get discounted for a specific period of time and then after that it get back to normal :(
+                    I think no one like to pay more for something that could get a cheaper, waiting for discount sometimes cost too much attention.</p>
 
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing
-                elit. Aenean commodo ligula eget dolor. Aenean massa
-                <strong>strong</strong>. Cum sociis natoque penatibus
-                et magnis dis parturient montes, nascetur ridiculus
-                mus. Donec quam felis, ultricies nec, pellentesque
-                eu, pretium quis, sem. Nulla consequat massa quis
-                enim. Donec pede justo, fringilla vel, aliquet nec,
-                vulputate eget, arcu. In enim justo, rhoncus ut,
-                imperdiet a, venenatis vitae, justo. Nullam dictum
-                felis eu pede <a class="external ext" href="#">link</a>
-                mollis pretium. Integer tincidunt. Cras dapibus.
-                Curabitur ullamcorper ultricies nisi.</p>
+                <p>As I respect the time I don't want to spend it on this sort of things, there is plenty of the amazing stuff that I want to do... and build :)</p>
 
-                <p>Lorem ipsum nim justo, rhoncus ut,
-                imperdiet a, venenatis vitae, justo. Nullam dictum
-                felis eu pede <a class="external ext" href="#">link</a>
-                mollis pretium. Integer tincidunt. Cras dapibus.
-                Curabitur ullamcorper ultricies nisi.</p>
+                <p>I thought to myself... there must be a way to make this process automated! couple of days later, a very rough, blurry solution came up in my head.
+                    I saw the "whole thing", which was later named as DDiscount hero, pretty much functional. Programming experience and working with the latest technology,
+                    helped me to design the system which automates the entire process!</p>
+
 
                 <p>Marek Kregiel - <a href="https://www.linkedin.com/in/marek-kregiel-259925103" target="_blank">LinkedIn</a></p>
             </Paper>
