@@ -1,0 +1,37 @@
+@import './variables';
+
+.cookie-container {
+    margin-left: 16px;
+    position: fixed;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 1.5em;
+    display: flex;
+    flex-wrap: nowrap;
+    z-index: 9999;
+    right: 16px;
+    bottom: 16px;
+    max-width: 330px;
+    padding: 20px;
+    box-shadow: 0px 0px 12px -3px;
+
+    background: $greyLighter;
+    border-radius: 3px;
+    flex-direction: column;
+
+    &__head {
+        position: relative;
+
+        svg {
+            width: 35px;
+            position: absolute;
+            top: -32px;
+            left: -25px;
+        }
+    }
+    &__body {
+        margin-top: 20px;
+        text-align: center;
+
+    }
+}
