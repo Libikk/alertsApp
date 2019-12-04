@@ -30,7 +30,7 @@ const CookieBar = () => {
 
     return displayCookie && <animated.div className="cookie-container" style={props}>
         <div className="cookie-container__head">
-            <CookieIcon /> This website is using cookie to enhance the user experience. <Link href='/privacypolicy'><a>Privacy Policy</a></Link>
+            <CookieIcon /> This website is using cookie to enhance the user experience. <Link href='/privacyPolicy'><a>Privacy Policy</a></Link>
         </div>
         <div className="cookie-container__body">
          <Button onClick={agreeCookies} variant="contained" color="secondary">Agree</Button>
