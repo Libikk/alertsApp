@@ -2,8 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import DiscountIcon from '../../static/svg/discounted.svg';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useDispatch } from 'react-redux';
 import { deleteUserProduct } from '../../dispatchers/productDispatchers';
 
 import '../../styles/productsList.scss';
@@ -25,15 +24,14 @@ interface ProductsListT {
 type MyProps = {
     products: Array<ProductsListT> | null,
     pageName: string,
-    deleteUserProduct: Function
 };
 
-class ProductsList extends React.Component<MyProps> {
+const ProductsList = (props: MyProps) => {
+    const dispatch = useDispatch()
 
-    deleteUserProduct = (productId :number) => this.props.deleteUserProduct(productId)
+    const onClickDeleteUserProduct = (productId :number) => dispatch(deleteUserProduct(productId))
 
-    render() {
-        const { products, pageName } = this.props
+        const { products, pageName } = props
         const isLandingPage = pageName === 'landingPage';
       return (
           <section className="product-list__container">
@@ -51,7 +49,7 @@ class ProductsList extends React.Component<MyProps> {
                                         {
                                             !isLandingPage &&
                                             <div className="img-wrapper__delete-icon">
-                                                <DeleteOutline onClick={() => this.deleteUserProduct(productId)}/>
+                                                <DeleteOutline onClick={() => onClickDeleteUserProduct(productId)}/>
                                             </div>
                                         }
                                     </div>
@@ -85,10 +83,9 @@ class ProductsList extends React.Component<MyProps> {
               }
           </section>
     );
-  }
 }
-const mapDispatchToProps = dispatch => ({
-    deleteUserProduct: bindActionCreators(deleteUserProduct, dispatch),
-});
+// const mapDispatchToProps = dispatch => ({
+//     deleteUserProduct: bindActionCreators(deleteUserProduct, dispatch),
+// });
 
-export default connect(null, mapDispatchToProps)(ProductsList);
+export default ProductsList //connect(null, mapDispatchToProps)(ProductsList);
