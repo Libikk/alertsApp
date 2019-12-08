@@ -84,8 +84,5 @@ const ProductsList = (props: MyProps) => {
           </section>
     );
 }
-// const mapDispatchToProps = dispatch => ({
-//     deleteUserProduct: bindActionCreators(deleteUserProduct, dispatch),
-// });
 
-export default ProductsList //connect(null, mapDispatchToProps)(ProductsList);
+export default ProductsList;
