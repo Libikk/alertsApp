@@ -1,9 +1,9 @@
 const { envUrl } = require('../../appConfig');
 
-const emailLayout = (body, to, from = 'notification@DDiscounthero.com') => ({
+const emailLayout = (body, to, from = 'notification@DDiscounthero.com', subject) => ({
   from, // Sender address
   to, // List of recipients
-  subject: 'New discounts on DDiscountHero.com!', // Subject line
+  subject: subject || 'New discounts on DDiscountHero.com!', // Subject line
   html: `
         <!DOCTYPE html>
         <html>
@@ -76,4 +76,14 @@ const activationTokenTemplate = (activationToken, email, userName) => `
   </div>
 `;
 
-module.exports = { emailLayout, composeUserProductsIntoHTML, activationTokenTemplate };
+const passwordRestartTemplate = (newPassword, userName) => `
+  <div>
+    <h1>Hello ${userName}</h1>
+    </br>
+    <p>Your DDiscounthero password has been successfully updated.</p>
+    <p>New password is: <b>${newPassword}</b></p>
+    <p>The DDiscounthero Team</p>
+  </div>
+`;
+
+module.exports = { emailLayout, composeUserProductsIntoHTML, activationTokenTemplate, passwordRestartTemplate };

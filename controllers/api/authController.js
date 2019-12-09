@@ -4,12 +4,13 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const moment = require('moment');
 const passport = require('../../passportStrategy');
+const _ = require('lodash');
 const passwordGenerator = require('generate-password');
-const { sendActivationEmail } = require('../../notifications/email/emailService');
+const { sendActivationEmail, sendPasswordRestartEmail } = require('../../notifications/email/emailService');
 
 const jwtSecret = process.env.JWT_SECRET;
 const router = express.Router();
-const { sqlQuery } = require('../../sql/sqlServer');
+const { sqlQuery, mapKeysToParams } = require('../../sql/sqlServer');
 const { initialUserData: { emailNotifications, mobileAppNotifications, smsNotifications } } = require('../../appConfig');
 
 const authResponseHandler = (res, user, next) => {
@@ -91,11 +92,17 @@ const reSendActivationToken = (req, res, next) => {
 
 const passwordReset = async (req, res, next) => {
   const { email } = req.body;
-  const generatedPassword = passwordGenerator.generate({ length: 6, numbers: true });
+  const generatedPassword = passwordGenerator.generate({ length: 7, numbers: true });
   const hashPass = await bcrypt.hash(generatedPassword, 10);
 
-  const { affectedRows } = await sqlQuery('changeUserPassword', [hashPass, email]).catch(next);
-  if (affectedRows) return res.sendStatus(200);
+  const [{ affectedRows }, user] = await sqlQuery('changeUserPassword', mapKeysToParams({ hashPass, email })).catch(next);
+  const userName = _.get(user, '0.userName', '');
+
+  if (affectedRows) {
+    return sendPasswordRestartEmail(generatedPassword, email, userName)
+      .then(() => res.sendStatus(200))
+      .catch(next);
+  }
   return next(new Error('Password couldn\t be changed, make sure provided email is correct.'));
 };
 
