@@ -99,11 +99,9 @@ class LoginRegisterPanel extends React.Component<MyProps> {
         if (formType === 'resetPassword' && email) {
             this.setState({ isButtonDisabled: true })
             this.props.passwordReset(email)
-                .then(() => {
-                    toast.success('Password has been changed and sent on you\'r email. ')
-                    this.setState({ isButtonDisabled: false })
-                })
-            .catch(() => toast.error('Something went wrong'))
+                .then(() => toast.success('Password has been changed and sent on you\'r email. '))
+                .catch(() => toast.error('Something went wrong'))
+                .finally(() => this.setState({ isButtonDisabled: false }));
         }
 
     }
