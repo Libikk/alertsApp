@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const sgTransport = require('nodemailer-sendgrid-transport');
 const { sqlQuery } = require('../../sql/sqlServer');
 const { Sentry } = require('../../middleware/errorHandler');
-const { emailLayout, composeUserProductsIntoHTML, activationTokenTemplate } = require('./emailTemplates');
+const { emailLayout, composeUserProductsIntoHTML, activationTokenTemplate, passwordRestartTemplate } = require('./emailTemplates');
 
 const transporter = nodemailer.createTransport(sgTransport({
   auth: {
@@ -24,6 +24,11 @@ const mailService = {
     return mailService.send(structuredMail, { email, userName })
       .then(() => sqlQuery('UPDATE users SET activationTokenSentDate = NOW() WHERE email = ?', [email]));
   },
+  sendPasswordRestartEmail: (newPassword, email, userName) => {
+    const structuredMail = emailLayout(passwordRestartTemplate(newPassword, userName), email, 'notification@DDiscounthero.com', 'Your new password');
+
+    return mailService.send(structuredMail, { email, userName });
+  },
   send: (structuredMail, userData) => new Promise((resolve, reject) =>
     transporter.sendMail(structuredMail, (error, info) => {
       if (error) {
@@ -36,7 +41,7 @@ const mailService = {
         throw new Error(error);
       } else {
         resolve(resolve);
-        console.log('Successfully sent mail to: ' + JSON.stringify(info)); //eslint-disable-line
+        console.log('Successfully sent mail to: ' + JSON.stringify({ ...info, ...userData })); //eslint-disable-line
       }
       return info;
     })),
