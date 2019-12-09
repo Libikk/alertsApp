@@ -36,6 +36,14 @@ export const register = (personCredential) => (dispatch) => {
     });
   };
 
+export const passwordReset = (email) => (dispatch) => {
+  dispatch({ type: 'PASSWORD_RESET_REQUEST' });
+  return AuthService.passwordReset(email)
+    .then(() => {
+      dispatch({ type: 'PASSWORD_RESET_SUCCESS' });
+    })
+}
+
 export const logout = () => (dispatch) => {
     logoutUser()
     return dispatch({ type: 'LOGOUT' })

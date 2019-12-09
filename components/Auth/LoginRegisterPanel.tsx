@@ -5,8 +5,9 @@ import Button from '@material-ui/core/Button';
 import Router from 'next/router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { login, register } from '../../dispatchers/authDispatchers';
+import { login, register, passwordReset } from '../../dispatchers/authDispatchers';
 import get from 'lodash/get';
+import { toast } from 'react-toastify';
 import AccessAlarmIcon from '@material-ui/icons/LockOpen';
 import ErrorIcon from '@material-ui/icons/ErrorOutline';
 import '../../styles/loginPanel.scss';
@@ -14,7 +15,8 @@ import '../../styles/loginPanel.scss';
 type MyProps = {
     login: Function,
     register: Function,
-    closeModal: Function
+    closeModal: Function,
+    passwordReset: Function
 }
 
 const formTypeOptions = {
@@ -59,6 +61,7 @@ class LoginRegisterPanel extends React.Component<MyProps> {
         emailError: false,
         passwordError: false,
         errorMessages: [],
+        isButtonDisabled: false,
     }
 
     componentDidUpdate = (prevProps, prevState) => {
@@ -93,8 +96,14 @@ class LoginRegisterPanel extends React.Component<MyProps> {
                 })
         }
 
-        if (formType === 'resetpassword' && email) {
-            // todo
+        if (formType === 'resetPassword' && email) {
+            this.setState({ isButtonDisabled: true })
+            this.props.passwordReset(email)
+            .then(() => {
+                toast.success('Password has been changed and sent on you\'r email. ')
+                this.setState({ isButtonDisabled: false })
+            })
+            .catch(() => toast.error('Something went wrong'))
         }
 
     }
@@ -213,7 +222,7 @@ class LoginRegisterPanel extends React.Component<MyProps> {
                 }
             </section>
             <div className='login-panel__button-wrapper'>
-                <Button onClick={this.handleClickLoginOrRegister}>{formTypeOptions[formType].buttonTitle}</Button>
+                <Button disabled={this.isButtonDisabled} onClick={this.handleClickLoginOrRegister}>{formTypeOptions[formType].buttonTitle}</Button>
             </div>
         </Card>
     );
@@ -223,6 +232,7 @@ class LoginRegisterPanel extends React.Component<MyProps> {
 const mapDispatchToProps = dispatch => ({
     login: bindActionCreators(login, dispatch),
     register: bindActionCreators(register, dispatch),
+    passwordReset: bindActionCreators(passwordReset, dispatch),
   });
 
   export default connect(state => state, mapDispatchToProps)(LoginRegisterPanel)
