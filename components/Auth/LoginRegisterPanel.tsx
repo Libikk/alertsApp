@@ -99,10 +99,10 @@ class LoginRegisterPanel extends React.Component<MyProps> {
         if (formType === 'resetPassword' && email) {
             this.setState({ isButtonDisabled: true })
             this.props.passwordReset(email)
-            .then(() => {
-                toast.success('Password has been changed and sent on you\'r email. ')
-                this.setState({ isButtonDisabled: false })
-            })
+                .then(() => {
+                    toast.success('Password has been changed and sent on you\'r email. ')
+                    this.setState({ isButtonDisabled: false })
+                })
             .catch(() => toast.error('Something went wrong'))
         }
 
@@ -222,7 +222,7 @@ class LoginRegisterPanel extends React.Component<MyProps> {
                 }
             </section>
             <div className='login-panel__button-wrapper'>
-                <Button disabled={this.isButtonDisabled} onClick={this.handleClickLoginOrRegister}>{formTypeOptions[formType].buttonTitle}</Button>
+                <Button disabled={this.state.isButtonDisabled} onClick={this.handleClickLoginOrRegister}>{formTypeOptions[formType].buttonTitle}</Button>
             </div>
         </Card>
     );
