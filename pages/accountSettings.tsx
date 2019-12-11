@@ -8,12 +8,13 @@ import SwipeableViews from 'react-swipeable-views';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TextField from '@material-ui/core/TextField';
 import { toast } from 'react-toastify';
 import '../styles/accountSettings.scss';
 
 const AccountSettings = () => {
-    const [selectedTabIndex, setSelectedTabIndex] = useState(1)
-    const onSaveChanges = () => {
+    const [selectedTabIndex, setSelectedTabIndex] = useState(0)
+    const onSaveChanges = (saveType :string) => {
         toast.success('Saved successful');
         toast.error('Saving failed');
     }
@@ -30,15 +31,36 @@ const AccountSettings = () => {
                         <Tab label="Notification preferences" />
                     </Tabs>
                     <SwipeableViews index={selectedTabIndex}  className="swipeable-views">
-                        <Paper className="my-products">
-                            ACCOUNT INFO
+                        <Paper className="container__my-account">
+                            <div className="my-account__text-fields">
+                                <TextField label="Account name *" defaultValue="Hello World" />
+                                <TextField
+                                    label="Email Address *"
+                                    defaultValue="Hello World"
+                                    disabled
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                                <TextField
+                                    label="Password *"
+                                    defaultValue="***********"
+                                    disabled
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                />
+                            </div>
+                            <div className="my-account__save-changes">
+                                <Button onClick={() => onSaveChanges('account')} color="secondary">Save Changes</Button>
+                            </div>
                         </Paper>
-                        <Paper className="my-notifications">
-                            <FormControlLabel control={<Checkbox checked={false} />} label="Email notifications" />
-                            <FormControlLabel control={<Checkbox checked={false} />} label="Push notifications" />
-                            <FormControlLabel control={<Checkbox checked={true} />} label="SMS notifications" />
-                            <div>
-                                <Button onClick={onSaveChanges} color="secondary">Save Changes</Button>
+                        <Paper className="container__my-notifications">
+                            <FormControlLabel disabled control={<Checkbox checked={false} />} label="Email notifications" />
+                            <FormControlLabel disabled control={<Checkbox checked={false} />} label="Push notifications" />
+                            <FormControlLabel disabled control={<Checkbox checked={true} />} label="SMS notifications" />
+                            <div className="my-notifications__save-changes">
+                                <Button disabled onClick={() => onSaveChanges('notifications')} color="secondary">Save Changes</Button>
                             </div>
                         </Paper>
                     </SwipeableViews>
