@@ -18,7 +18,7 @@ export const updateUserDetails = (newUserDetails) => (dispatch) => {
     .then(res => {
       dispatch({
         type: 'SUCCESS_UPDATE_USER_DETAILS',
-        payload: res.data,
+        newUserDetails,
       })
       return res;
     });
