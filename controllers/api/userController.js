@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+
 const router = express.Router();
 const { sqlQuery, mapKeysToParams } = require('../../sql/sqlServer');
 const passport = require('../../passportStrategy');

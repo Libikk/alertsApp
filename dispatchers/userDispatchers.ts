@@ -14,7 +14,6 @@ export const getUserData = () => (dispatch) => {
 export const updateUserDetails = (newUserDetails) => (dispatch) => {
   dispatch({ type: 'REQUEST_UPDATE_USER_DETAILS' });
 
-  console.log('newUserDetails: ', newUserDetails);
   return UserService.updateUserDetails(newUserDetails)
     .then(res => {
       dispatch({
