@@ -19,6 +19,7 @@
     "node": true
   },
   "rules": {
+    "consistent-return": "off",
     "no-await-in-loop": "off",
     "import/no-extraneous-dependencies": "off",
     "linebreak-style": "off",
