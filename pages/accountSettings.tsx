@@ -36,7 +36,11 @@ const AccountSettings = () => {
         if (detailKey === 'userName') userDetailsData.userName = newUserName;
 
         dispatch(updateUserDetails(userDetailsData))
-            .then(() => toast.success('Saved successful'))
+            .then(() => {
+                toast.success('Saved successfully');
+                setNewPassword('');
+                setNewPasswordRepeat('');
+            })
             .catch(() => toast.error('Saving failed'));
     }
 
