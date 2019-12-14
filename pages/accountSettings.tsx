@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Layout from '../components/Layout';
+import { useSelector } from 'react-redux'
 import defaultPage from '../components/Auth/defaultPage';
+import { updateUserDetails } from '../dispatchers/userDispatchers';
 import Tabs from '@material-ui/core/Tabs';
 import Paper from '@material-ui/core/Paper';
 import Tab from '@material-ui/core/Tab';
@@ -10,13 +12,32 @@ import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import Save from '@material-ui/icons/Save';
 import '../styles/accountSettings.scss';
 
 const AccountSettings = () => {
+    const dispatch = useDispatch()
+    const currentUser = useSelector(state => state.auth.currentUser)
+    const [newUserName, setNewUserName] = useState(currentUser.userName)
     const [selectedTabIndex, setSelectedTabIndex] = useState(0)
+
+    const [newPassword, setNewPassword] = useState(null)
+    const [newPasswordRepeat, setNewPasswordRepeat] = useState(null)
     const onSaveChanges = (saveType :string) => {
         toast.success('Saved successful');
         toast.error('Saving failed');
+    }
+
+    const updatePersonDetails = (detailKey) => {
+        const userDetailsData = {}
+        if (detailKey === 'newPassword') userDetailsData.password = newPassword;
+
+        if (detailKey === 'userName') userDetailsData.userName = newUserName;
+
+        dispatch(updateUserDetails(userDetailsData))
+            .then(() => toast.success('Saved successful'))
+            .catch(() => toast.error('Saving failed'));
     }
 
     return (
@@ -33,7 +54,11 @@ const AccountSettings = () => {
                     <SwipeableViews index={selectedTabIndex}  className="swipeable-views">
                         <Paper className="container__my-account">
                             <div className="my-account__text-fields">
-                                <TextField label="Account name *" defaultValue="Hello World" />
+                                <div>
+                                    <TextField label="Account name *" value={newUserName} onChange={({ target }) => setNewUserName(target.value)} />
+                                    {newUserName !== currentUser.userName && <Save onClick={() => updatePersonDetails('userName')}/>}
+                                </div>
+
                                 <TextField
                                     label="Email Address *"
                                     defaultValue="Hello World"
@@ -43,16 +68,19 @@ const AccountSettings = () => {
                                     }}
                                 />
                                 <TextField
-                                    label="Password *"
-                                    defaultValue="***********"
-                                    disabled
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
+                                    label="New Password *"
+                                    type="password"
+                                    value={newPassword}
+                                    onChange={({ target }) => setNewPassword(target.value)}
+                                    />
+                                <TextField
+                                    label="Repeat New Password *"
+                                    type="password"
+                                    value={newPasswordRepeat}
+                                    disabled={!newPassword || newPassword.length < 6}
+                                    onChange={({ target }) => setNewPasswordRepeat(target.value)}
                                 />
-                            </div>
-                            <div className="my-account__save-changes">
-                                <Button onClick={() => onSaveChanges('account')} color="secondary">Save Changes</Button>
+                                {newPassword && newPasswordRepeat && newPassword === newPasswordRepeat && <Save onClick={() => updatePersonDetails('newPassword')} />}
                             </div>
                         </Paper>
                         <Paper className="container__my-notifications">
