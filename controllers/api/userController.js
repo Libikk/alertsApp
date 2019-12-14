@@ -28,9 +28,8 @@ const updateUserDetails = async (req, res, next) => {
   sqlQuery('updateUserDetails', mapKeysToParams(params))
     .then((response) => {
       const isUpdated = response[0].changedRows || response[1].changedRows;
-      if (isUpdated) {
-        res.send(isUpdated);
-      }
+
+      if (isUpdated) return res.sendStatus(200);
       next(new Error('Details are not updated.'));
     })
     .catch(next);
