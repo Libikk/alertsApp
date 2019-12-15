@@ -35,6 +35,15 @@ class Header extends React.Component<MyProps> {
     anchorEl: null
   }
 
+  handleMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    this.handleOpen();
+    this.setState({ anchorEl: e.currentTarget })
+  }
+
+  handleOpen = () => {
+    this.setState({ openMenu: true })
+  }
+
   handleClose = () => {
     this.setState({ openMenu: false })
   }
@@ -83,7 +92,8 @@ class Header extends React.Component<MyProps> {
                     </a>
                   </Link>
                   <Avatar
-                    onClick={() => this.setState({ openMenu: true })}
+                    onClick={this.handleMenuClick}
+                    className="user-buttons-wrapper__avatar"
                     aria-controls='userMenu'
                     aria-haspopup="true"
                   >

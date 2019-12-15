@@ -26,6 +26,11 @@
             display: flex;
             flex-direction: row;
 
+            .user-buttons-wrapper__avatar {
+                cursor: pointer;
+                &:hover { opacity: .75; }
+            }
+
             button {
                 margin-right: 15px;
             }
