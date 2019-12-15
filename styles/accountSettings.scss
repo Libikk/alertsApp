@@ -30,6 +30,19 @@
                     margin-top: 16px;
                     max-width: 400px;
                 }
+
+                .text-fields__with-icon {
+                    display: flex;
+                    align-items: center;
+
+                    .icon {
+                        display: flex;
+                        cursor: pointer;
+                        margin-left: 10px;
+                        svg { font-size: 30px; }
+                        :hover { opacity: .75 }
+                    }
+                }
             }
 
             .my-account__save-changes {

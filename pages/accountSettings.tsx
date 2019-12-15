@@ -58,9 +58,9 @@ const AccountSettings = () => {
                     <SwipeableViews index={selectedTabIndex}  className="swipeable-views">
                         <Paper className="container__my-account">
                             <div className="my-account__text-fields">
-                                <div>
+                                <div className="text-fields__with-icon">
                                     <TextField label="Account name *" value={newUserName} onChange={({ target }) => setNewUserName(target.value)} />
-                                    {newUserName !== currentUser.userName && <Save onClick={() => updatePersonDetails('userName')}/>}
+                                    {newUserName !== currentUser.userName && <div className="icon"><Save color="secondary" onClick={() => updatePersonDetails('userName')}/></div>}
                                 </div>
 
                                 <TextField
@@ -77,14 +77,16 @@ const AccountSettings = () => {
                                     value={newPassword}
                                     onChange={({ target }) => setNewPassword(target.value)}
                                     />
-                                <TextField
-                                    label="Repeat New Password *"
-                                    type="password"
-                                    value={newPasswordRepeat}
-                                    disabled={!newPassword || newPassword.length < 6}
-                                    onChange={({ target }) => setNewPasswordRepeat(target.value)}
-                                />
-                                {newPassword && newPasswordRepeat && newPassword === newPasswordRepeat && <Save onClick={() => updatePersonDetails('newPassword')} />}
+                                <div className="text-fields__with-icon">
+                                    <TextField
+                                        label="Repeat New Password *"
+                                        type="password"
+                                        value={newPasswordRepeat}
+                                        disabled={!newPassword || newPassword.length < 6}
+                                        onChange={({ target }) => setNewPasswordRepeat(target.value)}
+                                    />
+                                    {newPassword && newPasswordRepeat && newPassword === newPasswordRepeat && <div className="icon"><Save color="secondary" onClick={() => updatePersonDetails('newPassword')} /></div>}
+                                </div>
                             </div>
                         </Paper>
                         <Paper className="container__my-notifications">
