@@ -1,4 +1,4 @@
-UPDATE websitesselectors
+UPDATE websitesSelectors
 SET
     isDiscountSelectorRegex = @isDiscountSelectorRegex,
     isClientSideCheck = @isClientSideCheck,

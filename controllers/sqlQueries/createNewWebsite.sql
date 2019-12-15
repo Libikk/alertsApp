@@ -6,7 +6,7 @@ WHERE NOT EXISTS (
 
 /* create selector row template for created website */
 SET @newWebsiteId = @@IDENTITY;
-INSERT INTO websitesselectors (websiteId, isClientSideCheck, deletedAt)
+INSERT INTO websitesSelectors (websiteId, isClientSideCheck, deletedAt)
 SELECT * FROM (SELECT @newWebsiteId, 1, NULL) AS tmp
 WHERE EXISTS (
     SELECT websiteId
