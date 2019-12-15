@@ -29,7 +29,7 @@ export default class Footer extends React.Component {
         <div className="container__footer">
             <nav className="footer_nav">
                 <ul className="nav__link-list">
-                    {navConfig.map(nav => <li>
+                    {navConfig.map(nav => <li key={nav.displayName}>
                       <Link href={nav.url}>
                         <a>
                           {nav.displayName}

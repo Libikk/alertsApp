@@ -28,7 +28,7 @@ class LoginPage extends React.Component {
                       </Link>
                     </div>
                     <div className='content__single-link'>
-                      <Link>
+                      <Link href={{ pathname: 'accountSettings' }} as='accountsettings'>
                         <a>
                           <Button className="global__button--primary">
                             Account settings

@@ -13,6 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Link from 'next/link';
 import { version } from '../appConfig';
 import '../styles/header.scss';
+import Router from 'next/router';
 
 interface AuthObj {
   currentUser: {
@@ -34,9 +35,23 @@ class Header extends React.Component<MyProps> {
     anchorEl: null
   }
 
-  handleClose = (event) => {
-    this.setState({ openMenu: false, anchorEl: event.currentTarget })
-}
+  handleMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    this.handleOpen();
+    this.setState({ anchorEl: e.currentTarget })
+  }
+
+  handleOpen = () => {
+    this.setState({ openMenu: true })
+  }
+
+  handleClose = () => {
+    this.setState({ openMenu: false })
+  }
+
+  navigateToAccSettings = () => {
+    this.handleClose();
+    Router.push({ pathname: '/accountsettings' }, '/accountSettings');
+  }
 
   modalCloseHandler = () => this.setState({ isModalOpen: false })
 
@@ -77,7 +92,8 @@ class Header extends React.Component<MyProps> {
                     </a>
                   </Link>
                   <Avatar
-                    onClick={() => this.setState({ openMenu: true })}
+                    onClick={this.handleMenuClick}
+                    className="user-buttons-wrapper__avatar"
                     aria-controls='userMenu'
                     aria-haspopup="true"
                   >
@@ -91,8 +107,7 @@ class Header extends React.Component<MyProps> {
                     open={this.state.openMenu}
                     onClose={this.handleClose}
                   >
-                    <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                    <MenuItem onClick={this.navigateToAccSettings}>Account Settings</MenuItem>
                     <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
                   </Menu>
                 </div>

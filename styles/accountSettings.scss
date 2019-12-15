@@ -1,0 +1,54 @@
+@import './variables';
+
+.account-settings {
+    background: #f8f8f8;
+    width: 100%;
+
+    &__container {
+        max-width: 1280px;
+        margin:0 auto;
+        width: 100%;
+        justify-content: center;
+        padding: 20px;
+
+        .container__my-notifications {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            .my-notifications__save-changes {
+                margin-top: 6px;
+            }
+        }
+
+        .container__my-account {
+            padding: 24px;
+
+            .my-account__text-fields {
+                display: flex;
+                flex-direction: column;
+                & > div {
+                    margin-top: 16px;
+                    max-width: 400px;
+                }
+
+                .text-fields__with-icon {
+                    display: flex;
+                    align-items: center;
+
+                    .icon {
+                        display: flex;
+                        cursor: pointer;
+                        margin-left: 10px;
+                        svg { font-size: 30px; }
+                        :hover { opacity: .75 }
+                    }
+                }
+            }
+
+            .my-account__save-changes {
+                margin-top: 6px;
+            }
+
+        }
+    }
+}

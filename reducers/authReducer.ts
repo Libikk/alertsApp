@@ -1,4 +1,4 @@
-
+import cloneDeep from 'lodash/cloneDeep';
 interface CurrentUser {
   userName: string,
   userId: number,
@@ -23,6 +23,14 @@ const initialState:InitialState = {
         return Object.assign({}, state, {
             currentUser: null,
         });
+      case 'SUCCESS_UPDATE_USER_DETAILS':
+        if (action.newUserDetails.userName) {
+          const clonedCurrentUser = cloneDeep(state.currentUser)
+          clonedCurrentUser.userName = action.newUserDetails.userName
+          return Object.assign({}, state, {
+              currentUser: clonedCurrentUser,
+          });
+        }
       default: return state;
     }
   };
