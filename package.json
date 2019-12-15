@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon  --verbose server.js ",
+    "dev": "nodemon server.js ",
     "build": "next build",
     "prod": "next build && set NODE_ENV=production&& node server.js",
     "db:seed": "npm run db:backup && node ./sql/dbManage/dbServices.js",
