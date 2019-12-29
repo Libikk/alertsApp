@@ -43,13 +43,13 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
   const { email, password } = req.body;
   if (email && password) {
-    const user = await sqlQuery('select * from users where email = ?', [email]).then(e => e[0]).catch(next);
+    const user = await sqlQuery('select *, case active WHEN "0" THEN 0 WHEN "1" THEN 1 END AS "isActive" from users where email = ?', [email]).then(e => e[0]).catch(next);
     if (!user) {
       return next(new Error('Wrong Email or Password'));
     }
 
     if (bcrypt.compareSync(password, user.password)) {
-      return authResponseHandler(res, { role: user.role, userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.active.readUIntLE() }, next);
+      return authResponseHandler(res, { role: user.role, userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.isActive }, next);
     }
     return next(new Error('Wrong Password'));
   }
@@ -74,10 +74,9 @@ const authorize = async (req, res, next) => {
 };
 
 const reSendActivationToken = (req, res, next) => {
-  const { active, email, userName, activationToken, activationTokenSentDate } = req.user;
+  const { isActive, email, userName, activationToken, activationTokenSentDate } = req.user;
 
-  const isAccActive = active.readUIntLE();
-  if (isAccActive) {
+  if (isActive) {
     return next(new Error('You\'r account is already active.'));
   }
 
