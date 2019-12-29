@@ -18,7 +18,7 @@ const jwtOptions = {
 };
 
 const passportStrategy = new JwtStrategy(jwtOptions, (jwtPayload, next) => {
-  sqlQuery('select * from users where email = ?', [jwtPayload.email])
+  sqlQuery('select *, case active WHEN "0" THEN 0 WHEN "1" THEN 1 END AS "isActive" from users where email = ?', [jwtPayload.email])
     .then((user) => {
       if (user[0]) {
         next(null, user[0]);
