@@ -1,0 +1,15 @@
+{
+    "eslint.workingDirectories": [
+      "packages/core",
+      "packages/storm-ui",
+      "packages/warehouse"
+    ],
+    "eslint.validate": [
+      "javascript", "javascriptreact",
+      { "language": "react", "autoFix": true },
+      { "language": "html", "autoFix": true },
+      { "language": "typescript", "autoFix": true },
+      { "language": "typescriptreact", "autoFix": true }
+    ],
+    "editor.formatOnSave": true
+  }
