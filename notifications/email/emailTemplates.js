@@ -59,7 +59,7 @@ const composeUserProductsIntoHTML = ({ userName, products }) => {
     <div>
     <h1>Hello ${userName}</h1>
     <h3>This is list of current discounts:</h3>
-      <div style="display: flex; margin: 20px 0; padding: 0; flex-wrap: wrap; justify-content: space-around;" >
+      <div style="display: flex; margin: 20px 0; padding: 0; flex-wrap: wrap; justify-content: center;" >
         ${productsHtml.join('')}
       </div>
     </div>
