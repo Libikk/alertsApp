@@ -54,7 +54,7 @@ const ProductsList = (props: MyProps) => {
                                         }
                                     </div>
                                 </header>
-                                <body>
+                                <div className="body">
                                     <Link href={productUrl} >
                                         <a className="body__url">
                                             {productName || productUrl}
@@ -70,9 +70,7 @@ const ProductsList = (props: MyProps) => {
                                             <span>Product prices are not available yet</span>
                                         </div>
                                     }
-
-
-                                </body>
+                                </div>
                                 <article className="product-wrapper__inactive-message">
                                     <span>This product needs to be verified</span>
                                 </article>

@@ -23,7 +23,7 @@
 
             &.inactive-product  {
 
-                header, body {
+                header, .body {
                     opacity: 0.6;
                 }
                 .product-wrapper__inactive-message {
@@ -83,7 +83,7 @@
                 }
             }
 
-            body {
+            .body {
                 width: 270px;
                 .body__product-prices {
                     font-size: 18px;
