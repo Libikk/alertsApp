@@ -13,6 +13,7 @@ import Tab from '@material-ui/core/Tab';
 import ProductsList from '../components/Shared/ProductsList';
 import WebsiteAndProductsManagement from '../components/Shared/WebsiteAndProductsManagement';
 import SwipeableViews from 'react-swipeable-views';
+import url from 'url';
 
 import '../styles/dashboard.scss';
 interface ProductExistenceObj {
@@ -49,12 +50,14 @@ class Dashboard extends React.Component<MyProps> {
     urlInput: '',
     isWebsiteAlreadyUsed: null,
     selectedTabIndex: 1,
+    isProductInputError: false
   }
 
   handleChange = (event: React.ChangeEvent<{}>, value: number) => this.setState({ selectedTabIndex: value });
   handleChangeIndex = (index: number) =>  this.setState({ selectedTabIndex: index });
 
   productUrlChange = (e) => {
+    this.inputValidation(e.target.value);
     this.setState({ urlInput: e.target.value });
     this.props.checkProdExistence(e.target.value)
   }
@@ -70,8 +73,14 @@ class Dashboard extends React.Component<MyProps> {
     .catch(() => toast.error('Something went wrong'))
   }
 
+  inputValidation = (value) => {
+    const { protocol, hostname, href } = url.parse(value)
+    const isValid = protocol && hostname && href;
+    this.setState({ isProductInputError: !isValid });
+  }
+
   render () {
-    const { selectedTabIndex, urlInput } = this.state;
+    const { selectedTabIndex, urlInput, isProductInputError } = this.state;
     const isAdmin = this.props.auth.currentUser && this.props.auth.currentUser.role === 'admin';
 
     return (
@@ -99,7 +108,8 @@ class Dashboard extends React.Component<MyProps> {
                         </div>
                         <div>
                           <h2>
-                            {urlInput ? (this.props.products.productExistence ? `This product exist` : 'This product does not exist!') : 'Paste in link to product.'}
+                            Paste in link to the product.
+                            {/* {urlInput ? (this.props.products.productExistence ? `This product exist` : 'This product does not exist!') : 'Paste in link to product.'} */}
                           </h2>
                           <TextField
                             label="Product URL"
@@ -110,8 +120,10 @@ class Dashboard extends React.Component<MyProps> {
                             value={urlInput}
                             onChange={this.productUrlChange}
                             InputLabelProps={{ shrink: true }}
+                            error={isProductInputError}
+                            helperText="Invalid link."
                           />
-                          <Button disabled={!urlInput} onClick={this.addProduct}> Add product </Button>
+                          <Button disabled={!urlInput || isProductInputError} onClick={this.addProduct}> Add product </Button>
                       </div>
                       {isAdmin && <WebsiteAndProductsManagement />}
                     </SwipeableViews>

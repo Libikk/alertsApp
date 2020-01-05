@@ -1,6 +1,6 @@
 const { envUrl } = require('../../appConfig');
 
-const emailLayout = (body, to, from = 'notification@DDiscounthero.com', subject) => ({
+const emailLayout = (body, to, from = '<DDiscountHero>notification@DDiscounthero.com', subject) => ({
   from, // Sender address
   to, // List of recipients
   subject: subject || 'New discounts on DDiscountHero.com!', // Subject line
