@@ -19,13 +19,13 @@ const mailService = {
       .then(() => mailService.updatePersonNotificationsData(userData));
   },
   sendActivationEmail: (activationToken, email, userName) => {
-    const structuredMail = emailLayout(activationTokenTemplate(activationToken, email, userName), email);
+    const structuredMail = emailLayout(activationTokenTemplate(activationToken, email, userName), email, '<DDiscountHero><DDiscountHero>notification@DDiscounthero.com', 'Activate your account');
 
     return mailService.send(structuredMail, { email, userName })
       .then(() => sqlQuery('UPDATE users SET activationTokenSentDate = NOW() WHERE email = ?', [email]));
   },
   sendPasswordRestartEmail: (newPassword, email, userName) => {
-    const structuredMail = emailLayout(passwordRestartTemplate(newPassword, userName), email, 'notification@DDiscounthero.com', 'Your new password');
+    const structuredMail = emailLayout(passwordRestartTemplate(newPassword, userName), email, '<DDiscountHero>notification@DDiscounthero.com', 'Your new password');
 
     return mailService.send(structuredMail, { email, userName });
   },
