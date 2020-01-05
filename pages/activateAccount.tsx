@@ -1,6 +1,7 @@
 import React from 'react'
 import Layout from '../components/Layout';
 import defaultPage from '../components/Auth/defaultPage';
+import '../styles/activateAccount.scss';
 
 type MyProps = {
   result: {
@@ -15,8 +16,10 @@ type MyProps = {
 
 const ActivateAccount = (props: MyProps) => (
   <Layout>
-      <div>
+      <div className="activate-account">
+        <div className="activate-account__container">
           <h1>{props.result.messageData.msg}</h1>
+        </div>
       </div>
   </Layout>
 )
