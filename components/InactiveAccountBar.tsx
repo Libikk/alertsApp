@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { reSendActivationToken } from '../dispatchers/authDispatchers';
+import { toast } from 'react-toastify';
 import ErrorIcon from '@material-ui/icons/ErrorOutline';
 import '../styles/globals.scss';
 import '../styles/inactiveAccountBar.scss';
@@ -22,7 +23,11 @@ type MyProps = {
 
 class InactiveAccountBar extends React.Component<MyProps> {
 
-    sendEmailAgain = () => this.props.reSendActivationToken();
+    sendEmailAgain = () => {
+        this.props.reSendActivationToken()
+            .then(() => toast.success('Email has been sent.'))
+            .catch(() => toast.error('Something went wrong'))
+    };
 
     render() {
         return (
