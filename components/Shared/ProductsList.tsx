@@ -31,6 +31,12 @@ const ProductsList = (props: MyProps) => {
 
     const onClickDeleteUserProduct = (productId :number) => dispatch(deleteUserProduct(productId))
 
+    function truncate(url: string) {
+        const maxUrlLength = 65;
+        if (url.length > maxUrlLength) return url.substring(0, maxUrlLength) + '...';
+        return url;
+    };
+
         const { products, pageName } = props
         const isLandingPage = pageName === 'landingPage';
       return (
