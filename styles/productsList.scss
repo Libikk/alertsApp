@@ -85,6 +85,13 @@
 
             .body {
                 width: 270px;
+
+                .body__url {
+                    display: flex;
+                    justify-content: center;
+                    text-align: center;
+                }
+
                 .body__product-prices {
                     font-size: 18px;
                     padding: 10px;

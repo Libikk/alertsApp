@@ -31,6 +31,12 @@ const ProductsList = (props: MyProps) => {
 
     const onClickDeleteUserProduct = (productId :number) => dispatch(deleteUserProduct(productId))
 
+    function truncate(url: string) {
+        const maxUrlLength = 65;
+        if (url.length > maxUrlLength) return url.substring(0, maxUrlLength) + '...';
+        return url;
+    };
+
         const { products, pageName } = props
         const isLandingPage = pageName === 'landingPage';
       return (
@@ -45,7 +51,7 @@ const ProductsList = (props: MyProps) => {
                                     <h2 className="header__host-name">{hostName}</h2>
                                     <div className="header__img-wrapper">
                                         <img src={imageUrl || 'https://via.placeholder.com/200x200'} alt={'productName'} />
-                                        {isPromo && <DiscountIcon />}
+                                        {isPromo ? <DiscountIcon /> : ''}
                                         {
                                             !isLandingPage &&
                                             <div className="img-wrapper__delete-icon">
@@ -57,7 +63,7 @@ const ProductsList = (props: MyProps) => {
                                 <div className="body">
                                     <Link href={productUrl} >
                                         <a className="body__url">
-                                            {productName || productUrl}
+                                            {productName || truncate(productUrl)}
                                         </a>
                                     </Link>
                                     {(productDiscountedPrice && productPrice) ?
