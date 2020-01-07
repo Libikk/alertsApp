@@ -63,7 +63,7 @@ const ProductsList = (props: MyProps) => {
                                 <div className="body">
                                     <Link href={productUrl} >
                                         <a className="body__url">
-                                            {productName || productUrl}
+                                            {productName || truncate(productUrl)}
                                         </a>
                                     </Link>
                                     {(productDiscountedPrice && productPrice) ?
