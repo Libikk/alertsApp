@@ -44,15 +44,18 @@ type MyProps = {
 class Dashboard extends React.Component<MyProps> {
   componentDidMount = () => {
       this.props.getUserProducts()
-  }
 
-  state = {
-    urlInput: '',
-    isWebsiteAlreadyUsed: null,
-    selectedTabIndex: 1,
-    isProductInputError: false
-  }
-
+    }
+    
+    state = {
+      urlInput: '',
+      isWebsiteAlreadyUsed: null,
+      selectedTabIndex: 1,
+      isProductInputError: false
+    }
+    
+  handleKeyPress = (event) => event.key === 'Enter' && this.addProduct();
+  
   handleChange = (event: React.ChangeEvent<{}>, value: number) => this.setState({ selectedTabIndex: value });
   handleChangeIndex = (index: number) =>  this.setState({ selectedTabIndex: index });
 
@@ -125,6 +128,7 @@ class Dashboard extends React.Component<MyProps> {
                             InputLabelProps={{ shrink: true }}
                             error={isProductInputError}
                             helperText="Invalid link."
+                            onKeyPress={this.handleKeyPress}
                           />
                           <Button disabled={!urlInput || isProductInputError} onClick={this.addProduct}> Add product </Button>
                       </div>
