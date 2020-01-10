@@ -69,7 +69,10 @@ class Dashboard extends React.Component<MyProps> {
     })
     .then(() => this.props.getUserProducts())
     .then(() => this.props.checkProdExistence(this.state.urlInput))
-    .then(() => toast.success('Product has been added'))
+    .then(() => {
+      this.setState({ urlInput: '' });
+      toast.success('Product has been added')
+    })
     .catch(() => toast.error('Something went wrong'))
   }
 
