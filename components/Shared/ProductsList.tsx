@@ -33,7 +33,7 @@ const ProductsList = (props: MyProps) => {
 
     function truncate(url: string) {
         const maxUrlLength = 65;
-        if (url.length > maxUrlLength) return url.substring(0, maxUrlLength) + '...';
+        if (url && url.length > maxUrlLength) return url.substring(0, maxUrlLength) + '...';
         return url;
     };
 
