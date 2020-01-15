@@ -14,11 +14,11 @@ export default class Footer extends React.Component {
         },
         {
           displayName: 'terms & conditions',
-          url: '/termsandconditions'
+          url: '/termsAndConditions'
         },
         {
           displayName: 'privacy policy',
-          url: '/privacypolicy'
+          url: '/privacyPolicy'
         }
     ]
       return (
