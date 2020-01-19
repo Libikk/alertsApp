@@ -55,7 +55,7 @@ class Header extends React.Component<MyProps> {
 
   onSignInUpClick = () => {
     this.setState({ isModalOpen: true })
-    event({ category: 'User', action: 'click: SIGN IN / SIGN UP' })
+    event({ category: 'landing-page', action: 'click', label: 'SIGN IN / SIGN UP' })
   }
 
   modalCloseHandler = () => this.setState({ isModalOpen: false })

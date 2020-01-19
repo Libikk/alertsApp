@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import AccessAlarmIcon from '@material-ui/icons/LockOpen';
 import ErrorIcon from '@material-ui/icons/ErrorOutline';
 import '../../styles/loginPanel.scss';
+import { event } from 'react-ga';
 
 type MyProps = {
     login: Function,
@@ -72,6 +73,8 @@ class LoginRegisterPanel extends React.Component<MyProps> {
 
     handleClickLoginOrRegister = () => {
         const { userName, email, password, formType } = this.state;
+        event({ category: 'register-form', action: 'click', label: formType });
+
         if (formType === 'register' && userName && email && password ) {
             this.validateFields({ userName, email, password });
             this.props.register({userName, email, password})
