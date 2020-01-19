@@ -35,7 +35,7 @@ const ProductsList = (props: MyProps) => {
         return dispatch(deleteUserProduct(productId))
     }
 
-    function truncate(url: string) {
+    const truncate = (url: string) => {
         const maxUrlLength = 65;
         if (url.length > maxUrlLength) return url.substring(0, maxUrlLength) + '...';
         return url;
