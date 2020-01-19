@@ -53,8 +53,13 @@ class Dashboard extends React.Component<MyProps> {
     isProductInputError: false
   }
 
-  handleChange = (event: React.ChangeEvent<{}>, value: number) => this.setState({ selectedTabIndex: value });
-  handleChangeIndex = (index: number) =>  this.setState({ selectedTabIndex: index });
+  handleChange = (e: React.ChangeEvent<{}>, value: number) => {
+    event({ category: 'dashboard', action: 'click', label: 'tab-change', value: value });
+    this.setState({ selectedTabIndex: value });
+  }
+
+  handleChangeIndex = (index: number) => this.setState({ selectedTabIndex: index });
+
 
   productUrlChange = (e) => {
     this.inputValidation(e.target.value);
