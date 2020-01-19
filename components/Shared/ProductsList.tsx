@@ -5,6 +5,7 @@ import DiscountIcon from '../../static/svg/discounted.svg';
 import { useDispatch } from 'react-redux';
 import { deleteUserProduct } from '../../dispatchers/productDispatchers';
 
+import { event } from 'react-ga';
 import '../../styles/productsList.scss';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 
@@ -29,7 +30,10 @@ type MyProps = {
 const ProductsList = (props: MyProps) => {
     const dispatch = useDispatch()
 
-    const onClickDeleteUserProduct = (productId :number) => dispatch(deleteUserProduct(productId))
+    const onClickDeleteUserProduct = (productId :number) => {
+        event({ category: 'product-list', action: 'click', label: 'delete-user-product' });
+        return dispatch(deleteUserProduct(productId))
+    }
 
     function truncate(url: string) {
         const maxUrlLength = 65;
