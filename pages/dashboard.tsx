@@ -14,7 +14,7 @@ import ProductsList from '../components/Shared/ProductsList';
 import WebsiteAndProductsManagement from '../components/Shared/WebsiteAndProductsManagement';
 import SwipeableViews from 'react-swipeable-views';
 import url from 'url';
-
+import { event } from 'react-ga';
 import '../styles/dashboard.scss';
 interface ProductExistenceObj {
   productId: number,
@@ -63,6 +63,7 @@ class Dashboard extends React.Component<MyProps> {
   }
 
   addProduct = () => {
+    event({ category: 'dashboard', action: 'click', label: 'add-product' });
     this.props.addUserProduct({
       productUrl: this.state.urlInput,
       productId: this.props.products.productExistence && this.props.products.productExistence.productId
