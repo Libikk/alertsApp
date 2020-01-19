@@ -44,7 +44,7 @@ type MyProps = {
 class Dashboard extends React.Component<MyProps> {
   componentDidMount = () => {
       this.props.getUserProducts()
-  }
+    }
 
   state = {
     urlInput: '',
@@ -53,13 +53,14 @@ class Dashboard extends React.Component<MyProps> {
     isProductInputError: false
   }
 
+  handleKeyPress = (event) => event.key === 'Enter' && this.addProduct();
+  
   handleChange = (e: React.ChangeEvent<{}>, value: number) => {
     event({ category: 'dashboard', action: 'click', label: 'tab-change', value: value });
     this.setState({ selectedTabIndex: value });
   }
 
   handleChangeIndex = (index: number) => this.setState({ selectedTabIndex: index });
-
 
   productUrlChange = (e) => {
     this.inputValidation(e.target.value);
@@ -75,7 +76,10 @@ class Dashboard extends React.Component<MyProps> {
     })
     .then(() => this.props.getUserProducts())
     .then(() => this.props.checkProdExistence(this.state.urlInput))
-    .then(() => toast.success('Product has been added'))
+    .then(() => {
+      this.setState({ urlInput: '' });
+      toast.success('Product has been added')
+    })
     .catch(() => toast.error('Something went wrong'))
   }
 
@@ -128,6 +132,7 @@ class Dashboard extends React.Component<MyProps> {
                             InputLabelProps={{ shrink: true }}
                             error={isProductInputError}
                             helperText="Invalid link."
+                            onKeyPress={this.handleKeyPress}
                           />
                           <Button disabled={!urlInput || isProductInputError} onClick={this.addProduct}> Add product </Button>
                       </div>

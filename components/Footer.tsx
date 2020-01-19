@@ -10,19 +10,15 @@ export default class Footer extends React.Component {
       const navConfig = [
         {
           displayName: 'about us',
-          url: ''
+          url: '/about'
         },
         {
-          displayName: 'support',
-          url: ''
+          displayName: 'terms & conditions',
+          url: '/termsAndConditions'
         },
         {
-          displayName: 'language',
-          url: ''
-        },
-        {
-          displayName: 'privacy',
-          url: ''
+          displayName: 'privacy policy',
+          url: '/privacyPolicy'
         }
     ]
       return (
