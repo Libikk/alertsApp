@@ -150,6 +150,7 @@ class LoginRegisterPanel extends React.Component<MyProps> {
     handleInputChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
     changeFormType = (formType) => {
+        event({ category: 'register-form', action: 'click', label: `change-form-type: ${formType}` });
         if (formType) this.setState({ formType })
     }
 
