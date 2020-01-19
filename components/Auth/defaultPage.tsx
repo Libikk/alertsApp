@@ -1,6 +1,8 @@
 import React from 'react';
+import '../../analytics';
 import { autorize } from '../../dispatchers/authDispatchers';
 import { getCookie } from '../../utils/auth';
+import '../../analytics';
 
 const defaultPage = Page => class DefaultPage extends React.Component {
   static async getInitialProps(ctx) {
