@@ -14,7 +14,7 @@ import ProductsList from '../components/Shared/ProductsList';
 import WebsiteAndProductsManagement from '../components/Shared/WebsiteAndProductsManagement';
 import SwipeableViews from 'react-swipeable-views';
 import url from 'url';
-
+import { event } from 'react-ga';
 import '../styles/dashboard.scss';
 interface ProductExistenceObj {
   productId: number,
@@ -44,20 +44,23 @@ type MyProps = {
 class Dashboard extends React.Component<MyProps> {
   componentDidMount = () => {
       this.props.getUserProducts()
+    }
 
-    }
-    
-    state = {
-      urlInput: '',
-      isWebsiteAlreadyUsed: null,
-      selectedTabIndex: 1,
-      isProductInputError: false
-    }
-    
+  state = {
+    urlInput: '',
+    isWebsiteAlreadyUsed: null,
+    selectedTabIndex: 1,
+    isProductInputError: false
+  }
+
   handleKeyPress = (event) => event.key === 'Enter' && this.addProduct();
   
-  handleChange = (event: React.ChangeEvent<{}>, value: number) => this.setState({ selectedTabIndex: value });
-  handleChangeIndex = (index: number) =>  this.setState({ selectedTabIndex: index });
+  handleChange = (e: React.ChangeEvent<{}>, value: number) => {
+    event({ category: 'dashboard', action: 'click', label: 'tab-change', value: value });
+    this.setState({ selectedTabIndex: value });
+  }
+
+  handleChangeIndex = (index: number) => this.setState({ selectedTabIndex: index });
 
   productUrlChange = (e) => {
     this.inputValidation(e.target.value);
@@ -66,6 +69,7 @@ class Dashboard extends React.Component<MyProps> {
   }
 
   addProduct = () => {
+    event({ category: 'dashboard', action: 'click', label: 'add-product' });
     this.props.addUserProduct({
       productUrl: this.state.urlInput,
       productId: this.props.products.productExistence && this.props.products.productExistence.productId

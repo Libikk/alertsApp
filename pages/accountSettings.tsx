@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import Save from '@material-ui/icons/Save';
 import '../styles/accountSettings.scss';
+import { event } from 'react-ga';
 
 const AccountSettings = () => {
     const dispatch = useDispatch()
@@ -30,6 +31,7 @@ const AccountSettings = () => {
     }
 
     const updatePersonDetails = (detailKey) => {
+        event({ category: 'account-settings', action: 'click', label: `update person details: ${detailKey}` })
         const userDetailsData = {}
         if (detailKey === 'newPassword') userDetailsData.password = newPassword;
 
@@ -53,7 +55,7 @@ const AccountSettings = () => {
                     <h1>Account Settings</h1>
                     <Tabs value={selectedTabIndex} onChange={(e, index) => setSelectedTabIndex(index)}>
                         <Tab label="Account information" />
-                        <Tab label="Notification preferences" />
+                        <Tab label="Notification preferences" disabled />
                     </Tabs>
                     <SwipeableViews index={selectedTabIndex}  className="swipeable-views">
                         <Paper className="container__my-account">

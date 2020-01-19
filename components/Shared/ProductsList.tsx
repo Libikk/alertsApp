@@ -5,6 +5,7 @@ import DiscountIcon from '../../static/svg/discounted.svg';
 import { useDispatch } from 'react-redux';
 import { deleteUserProduct } from '../../dispatchers/productDispatchers';
 
+import ReactGA, { event } from 'react-ga';
 import '../../styles/productsList.scss';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 
@@ -29,13 +30,21 @@ type MyProps = {
 const ProductsList = (props: MyProps) => {
     const dispatch = useDispatch()
 
-    const onClickDeleteUserProduct = (productId :number) => dispatch(deleteUserProduct(productId))
+    const onClickDeleteUserProduct = (productId :number) => {
+        event({ category: 'product-list', action: 'click', label: 'delete-user-product' });
+        return dispatch(deleteUserProduct(productId))
+    }
 
-    function truncate(url: string) {
+    const truncate = (url: string) => {
         const maxUrlLength = 65;
         if (url && url.length > maxUrlLength) return url.substring(0, maxUrlLength) + '...';
         return url;
     };
+
+    const onProductClick = (productId: number) => {
+        console.log('productId: ', productId, typeof productId);
+        event({ category: 'product-list', action: 'click', label: 'delete-user-product', value: productId });
+    }
 
         const { products, pageName } = props
         const isLandingPage = pageName === 'landingPage';
@@ -61,11 +70,11 @@ const ProductsList = (props: MyProps) => {
                                     </div>
                                 </header>
                                 <div className="body">
-                                    <Link href={productUrl} >
+                                    <ReactGA.OutboundLink eventLabel="product" to={productUrl} target="_blank">
                                         <a className="body__url">
                                             {productName || truncate(productUrl)}
                                         </a>
-                                    </Link>
+                                    </ReactGA.OutboundLink>
                                     {(productDiscountedPrice && productPrice) ?
                                         <div className="body__product-prices">
                                             <span className="product-prices__current-price">{productPrice}</span>

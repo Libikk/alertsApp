@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import AccessAlarmIcon from '@material-ui/icons/LockOpen';
 import ErrorIcon from '@material-ui/icons/ErrorOutline';
 import '../../styles/loginPanel.scss';
+import { event } from 'react-ga';
 
 type MyProps = {
     login: Function,
@@ -72,6 +73,8 @@ class LoginRegisterPanel extends React.Component<MyProps> {
 
     handleClickLoginOrRegister = () => {
         const { userName, email, password, formType } = this.state;
+        event({ category: 'register-form', action: 'click', label: formType });
+
         if (formType === 'register' && userName && email && password ) {
             this.validateFields({ userName, email, password });
             this.props.register({userName, email, password})
@@ -138,6 +141,7 @@ class LoginRegisterPanel extends React.Component<MyProps> {
         }
 
         if (errorMessages.length) {
+            event({ category: 'register-form', action: 'validate-fields', label: 'error-messages', value: errorMessages.length });
             this.setState({ errorMessages })
             throw 'Validation failed'
         }
@@ -147,6 +151,7 @@ class LoginRegisterPanel extends React.Component<MyProps> {
     handleInputChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
     changeFormType = (formType) => {
+        event({ category: 'register-form', action: 'click', label: `change-form-type: ${formType}` });
         if (formType) this.setState({ formType })
     }
 

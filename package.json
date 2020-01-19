@@ -51,6 +51,7 @@
     "puppeteer": "^1.17.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-ga": "^2.7.0",
     "react-redux": "^7.1.0",
     "react-spring": "^8.0.27",
     "react-swipeable-views": "^0.13.3",
