@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { version } from '../appConfig';
 import '../styles/header.scss';
 import Router from 'next/router';
-
+import { event } from 'react-ga';
 interface AuthObj {
   currentUser: {
     userName: string,
@@ -51,6 +51,11 @@ class Header extends React.Component<MyProps> {
   navigateToAccSettings = () => {
     this.handleClose();
     Router.push({ pathname: '/accountsettings' }, '/accountSettings');
+  }
+
+  onSignInUpClick = () => {
+    this.setState({ isModalOpen: true })
+    event({ category: 'User', action: 'click: SIGN IN / SIGN UP' })
   }
 
   modalCloseHandler = () => this.setState({ isModalOpen: false })
@@ -111,7 +116,7 @@ class Header extends React.Component<MyProps> {
                     <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
                   </Menu>
                 </div>
-                : <Button onClick={() => this.setState({ isModalOpen: true })}  className="global__button--primary">SIGN IN / SIGN UP</Button>
+                : <Button onClick={this.onSignInUpClick}  className="global__button--primary">SIGN IN / SIGN UP</Button>
                 }
               </div>
 
