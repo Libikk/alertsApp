@@ -141,6 +141,7 @@ class LoginRegisterPanel extends React.Component<MyProps> {
         }
 
         if (errorMessages.length) {
+            event({ category: 'register-form', action: 'validate-fields', label: 'error-messages', value: errorMessages.length });
             this.setState({ errorMessages })
             throw 'Validation failed'
         }
