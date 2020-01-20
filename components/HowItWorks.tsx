@@ -15,12 +15,12 @@ export default class HowItWorks extends React.Component {
         },
         {
           headerText: 'WAIT FOR DISCOUNT PRODUCT NOTIFICATION',
-          bodyText: 'Notification should arrive on you email or phone as soon as product will be discounted',
+          bodyText: 'Notification should arrive to your email or phone as soon as the product will be discounted',
           SvgIcon: BellIcon
         },
         {
           headerText: 'SAVE ON AVERAGE 30% ON EACH PRODUCT!',
-          bodyText: 'Saving is cheap, enjoy it',
+          bodyText: 'Enjoy your savings',
           SvgIcon: PiggyBankIcon
         }
     ]
