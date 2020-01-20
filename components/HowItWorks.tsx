@@ -10,17 +10,17 @@ export default class HowItWorks extends React.Component {
       const navConfig = [
         {
           headerText: 'FIND AND ADD PRODUCT TO YOUR ACCOUNT',
-          bodyText: 'We work for the customer to make sure that shoppers get the best value for their household',
+          bodyText: 'We work for the customer to make sure that shoppers get the best value for their products',
           SvgIcon: FindIcon
         },
         {
-          headerText: 'WAIT FOR DISCOUNT NOTIFICATION',
-          bodyText: 'We work for the customer to make sure that shoppers get the best value for their household',
+          headerText: 'WAIT FOR DISCOUNT PRODUCT NOTIFICATION',
+          bodyText: 'Notification should arrive on you email or phone as soon as product will be discounted',
           SvgIcon: BellIcon
         },
         {
-          headerText: 'SAVE ON AVERAGE 30% ON EACH SHOP!',
-          bodyText: 'Join the thousands of households in the UK that are shopping regularly with mySupermarket',
+          headerText: 'SAVE ON AVERAGE 30% ON EACH PRODUCT!',
+          bodyText: 'Saving is cheap, enjoy it',
           SvgIcon: PiggyBankIcon
         }
     ]
