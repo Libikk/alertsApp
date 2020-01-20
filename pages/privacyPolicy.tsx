@@ -19,6 +19,7 @@ const privacyPolicy = () => {
 
                 <h2>Gathering of Personally-Identifying Information</h2>
                 <p>Certain visitors to DDiscountHero's websites choose to interact with DDiscountHero in ways that require DDiscountHero to gather personally-identifying information. The amount and type of information that DDiscountHero gathers depends on the nature of the interaction. For example, we ask visitors who sign up at https://ddiscounthero.com to provide a username and email address.</p>
+                <p>Web analytics service providers (which help us collect statistics and other information, about the behavior of users of the Website and the Service. Google Analytics tracks the visitor across devices and marketing channels.</p>
 
                 <h2>Security</h2>
                 <p>The security of your Personal Information is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is secure. While we strive to use commercially acceptable means to protect your Personal Information, we cannot guarantee its absolute security.</p>
