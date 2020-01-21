@@ -37,14 +37,9 @@ const ProductsList = (props: MyProps) => {
 
     const truncate = (url: string) => {
         const maxUrlLength = 65;
-        if (url && url.length > maxUrlLength) return url.substring(0, maxUrlLength) + '...';
+        if (url && url.length > maxUrlLength) return '...' + url.substring(url.length - maxUrlLength, url.length);
         return url;
     };
-
-    const onProductClick = (productId: number) => {
-        console.log('productId: ', productId, typeof productId);
-        event({ category: 'product-list', action: 'click', label: 'delete-user-product', value: productId });
-    }
 
         const { products, pageName } = props
         const isLandingPage = pageName === 'landingPage';
