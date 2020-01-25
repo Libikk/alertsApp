@@ -160,6 +160,11 @@ const DB_SCHEMA = {
           type: 'timestamp',
           defaultValue: null,
         },
+        {
+          columnName: 'pushNotificationsToken',
+          type: 'varchar(255)',
+          defaultValue: null,
+        },
       ],
     },
     {
