@@ -36,7 +36,20 @@ const updateUserDetails = async (req, res, next) => {
     .catch(next);
 };
 
+const updateUserPushNotificationToken = (req, res, next) => {
+  const { body: { token }, user: { userId } } = req;
+
+  const tokenRegex = new RegExp('(ExponentPushToken\\[)(?<=\\[)(.*)(?=\\])(\\])');
+  const isTokenValid = tokenRegex.test(token);
+  if (!isTokenValid) return next(Object.assign(new Error(), { message: 'Token is invalid', status: 415 }));
+
+  sqlQuery('updateUserPushNotificationToken', mapKeysToParams({ token, userId }))
+    .then(() => res.sendStatus(200))
+    .catch(next);
+};
+
 router.get('/getUserData', getUserData);
 router.post('/updateUserDetails', passport.authenticate('jwt', { session: false }), updateUserDetails);
+router.post('/updateUserPushNotificationToken', passport.authenticate('jwt', { session: false }), updateUserPushNotificationToken);
 
 module.exports = router;
