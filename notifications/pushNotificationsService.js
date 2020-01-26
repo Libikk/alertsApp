@@ -5,7 +5,7 @@ const expo = new Expo();
 const pushNotifications = {
   structurePushNotifications: (peopleData) => {
     const structuresPushNotifications = peopleData.map(singlePerson => ({
-      to: singlePerson.pushNotificationsToken,
+      to: singlePerson.pushNotificationsToken, // if there is no token then skip
       sound: 'default',
       title: singlePerson.productName || 'Discounted Product!',
       body: `This is body message  ${singlePerson.products[1].productUrl}`,
