@@ -7,10 +7,10 @@ const pushNotifications = {
     const onlyPeopleWithToken = peopleData.filter(({ pushNotificationsToken }) => pushNotificationsToken);
 
     const structuredPushNotifications = onlyPeopleWithToken.map(singlePerson => ({
-      to: singlePerson.pushNotificationsToken, // if there is no token then skip
+      to: singlePerson.pushNotificationsToken,
       sound: 'default',
       title: 'Discounted Products! 🚀',
-      body: `Hello ${singlePerson.userName}, there is  ${singlePerson.products.length} discounted products! 😍`,
+      body: `Hello ${singlePerson.userName}, there is new ${singlePerson.products.length} discounted products! 😍`,
       data: {
         products: singlePerson.products,
       },
@@ -50,6 +50,7 @@ const pushNotifications = {
         }
       }
     })();
+    console.log('chunks: ', chunks);
 
 
     // Later, after the Expo push notification service has delivered the
@@ -75,8 +76,10 @@ const pushNotifications = {
         receiptIds.push(ticket.id);
       }
     }
+    console.log('receiptIds: ', receiptIds);
 
     const receiptIdChunks = expo.chunkPushNotificationReceiptIds(receiptIds);
+    console.log('receiptIdChunks: ', receiptIdChunks);
     (async () => {
       // Like sending notifications, there are different strategies you could use
       // to retrieve batches of receipts from the Expo service.
@@ -87,6 +90,7 @@ const pushNotifications = {
 
           // The receipts specify whether Apple or Google successfully received the
           // notification and information about an error, if one occurred.
+          console.log('receipts: ', receipts);
           for (const receipt of receipts) {
             if (receipt.status === 'ok') {
               continue;
