@@ -1,3 +1,4 @@
+const { Sentry } = require('../middleware/errorHandler');
 const { Expo } = require('expo-server-sdk');
 
 const expo = new Expo();
@@ -47,6 +48,10 @@ const pushNotifications = {
           // https://docs.expo.io/versions/latest/guides/push-notifications#response-format
         } catch (error) {
           console.error(error);
+          Sentry.withScope((scope) => {
+            scope.setExtra('data', { chunk });
+            Sentry.captureException(error);
+          });
         }
       }
     })();
@@ -76,26 +81,29 @@ const pushNotifications = {
         receiptIds.push(ticket.id);
       }
     }
-    console.log('receiptIds: ', receiptIds);
 
     const receiptIdChunks = expo.chunkPushNotificationReceiptIds(receiptIds);
-    console.log('receiptIdChunks: ', receiptIdChunks);
+
     (async () => {
       // Like sending notifications, there are different strategies you could use
       // to retrieve batches of receipts from the Expo service.
       for (const chunk of receiptIdChunks) {
         try {
           const receipts = await expo.getPushNotificationReceiptsAsync(chunk);
-          console.log(receipts);
 
           // The receipts specify whether Apple or Google successfully received the
           // notification and information about an error, if one occurred.
-          console.log('receipts: ', receipts);
           for (const receipt of receipts) {
             if (receipt.status === 'ok') {
               continue;
             } else if (receipt.status === 'error') {
               console.error(`There was an error sending a notification: ${receipt.message}`);
+
+              Sentry.withScope((scope) => {
+                scope.setExtra('data', { receipt });
+                Sentry.captureException(error);
+              });
+
               if (receipt.details && receipt.details.error) {
                 // The error codes are listed in the Expo documentation:
                 // https://docs.expo.io/versions/latest/guides/push-notifications#response-format
