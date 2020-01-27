@@ -32,7 +32,9 @@ const notifications = {
   },
   sendNotifications: async () => {
     const peopleData = await notifications.getPeopleToSendNotifications();
+
     sendPushNotifications(peopleData);
+
     return peopleData.map((singlePerson) => {
       if (singlePerson.emailNotifications) {
         return sendProductsNotifications(singlePerson);
