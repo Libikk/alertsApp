@@ -1,26 +1,29 @@
-const Expo = require('expo-server-sdk').Expo;
+const { Expo } = require('expo-server-sdk');
 
 const expo = new Expo();
 
 const pushNotifications = {
   structurePushNotifications: (peopleData) => {
-    const structuresPushNotifications = peopleData.map(singlePerson => ({
+    const onlyPeopleWithToken = peopleData.filter(({ pushNotificationsToken }) => pushNotificationsToken);
+
+    const structuredPushNotifications = onlyPeopleWithToken.map(singlePerson => ({
       to: singlePerson.pushNotificationsToken, // if there is no token then skip
       sound: 'default',
-      title: singlePerson.productName || 'Discounted Product!',
-      body: `This is body message  ${singlePerson.products[1].productUrl}`,
-      data: singlePerson.products[1],
+      title: 'Discounted Products! 🚀',
+      body: `Hello ${singlePerson.userName}, there is  ${singlePerson.products.length} discounted products! 😍`,
+      data: {
+        products: singlePerson.products,
+      },
     }));
 
-    return structuresPushNotifications;
+    return structuredPushNotifications;
   },
   sendPushNotifications: (peopleData) => {
-    console.log('peopleData: ', JSON.stringify(peopleData, null, 4));
-    const structuresPushNotifications = pushNotifications.structurePushNotifications(peopleData);
-    console.log('structuredPushNotifications: ', structuresPushNotifications);
+    const structuredPushNotifications = pushNotifications.structurePushNotifications(peopleData);
+    console.log('structuredPushNotifications: ', structuredPushNotifications);
+    
 
-
-    return pushNotifications.send(structuresPushNotifications);
+    return pushNotifications.send(structuredPushNotifications);
   },
   send: (messages) => {
     /* eslint-disable */
