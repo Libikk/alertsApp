@@ -2,6 +2,7 @@ const { sqlQuery } = require('../sql/sqlServer');
 const _ = require('lodash');
 const { sendProductNotificationsAgain } = require('../appConfig');
 const { sendProductsNotifications } = require('./email/emailService');
+const { sendPushNotifications } = require('./pushNotificationsService');
 
 const notifications = {
   getPeopleToSendNotifications: async () => {
@@ -21,7 +22,7 @@ const notifications = {
       }
 
       return acc.concat({
-        ..._.pick(nextProductData, ['userId', 'email', 'emailNotifications', 'mobileAppNotifications', 'smsNotifications', 'userName', 'userId']),
+        ..._.pick(nextProductData, ['userId', 'email', 'emailNotifications', 'mobileAppNotifications', 'smsNotifications', 'userName', 'userId', 'pushNotificationsToken']),
         products: [
           _.pick(nextProductData, ['productUrl', 'hostNameUrl', 'imageUrl', 'productName', 'productId', 'productDiscountedPrice', 'productPrice']),
         ],
@@ -31,6 +32,9 @@ const notifications = {
   },
   sendNotifications: async () => {
     const peopleData = await notifications.getPeopleToSendNotifications();
+
+    sendPushNotifications(peopleData);
+
     return peopleData.map((singlePerson) => {
       if (singlePerson.emailNotifications) {
         return sendProductsNotifications(singlePerson);
