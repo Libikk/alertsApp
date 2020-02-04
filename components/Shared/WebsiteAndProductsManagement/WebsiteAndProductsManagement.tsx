@@ -85,7 +85,7 @@ const WebsitesSelectorsManagement = () => {
       <div className="website-products-management">
         <Modal
           className="website-products-management__modal-product-test"
-          open={testData.length}
+          open={!!testData.length}
         >
           <Card>
               <ProductTestedData testData={testData} onModalClose={onModalClose}/>
