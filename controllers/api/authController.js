@@ -28,7 +28,7 @@ const register = async (req, res, next) => {
 
     sqlQuery('createNewUserData', { '@userName': userName, '@email': email, '@hashPass': hashPass, '@activationToken': activationToken })
       .then((response) => {
-        if (!response.insertId) return next(new Error('This user already exist'));
+        if (!response.insertId) return next(Object.assign(new Error(), { name: 'USER_ALREADY_EXIST' }));
         sendActivationEmail(activationToken, email, userName);
         authResponseHandler(res, { userName, email, userId: response.insertId }, next);
         return response.insertId;
@@ -36,7 +36,7 @@ const register = async (req, res, next) => {
       .then(userId => userId && sqlQuery('createUserNotificationSettings', [emailNotifications, mobileAppNotifications, smsNotifications, userId]))
       .catch(next);
   } else {
-    next(new Error('Invalid data'));
+    next(Object.assign(new Error(), { name: 'INVALID_VALUE' }));
   }
 };
 
@@ -45,15 +45,15 @@ const login = async (req, res, next) => {
   if (email && password) {
     const user = await sqlQuery('select *, case active WHEN "0" THEN 0 WHEN "1" THEN 1 END AS "isActive" from users where email = ?', [email]).then(e => e[0]).catch(next);
     if (!user) {
-      return next(new Error('Wrong Email or Password'));
+      return next(Object.assign(new Error(), { name: 'WRONG_PASSWORD_OR_EMAIL' }));
     }
 
     if (bcrypt.compareSync(password, user.password)) {
       return authResponseHandler(res, { role: user.role, userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.isActive }, next);
     }
-    return next(new Error('Wrong Password'));
+    return next(Object.assign(new Error(), { name: 'WRONG_PASSWORD' }));
   }
-  return next(new Error('Invalid data'));
+  return next(Object.assign(new Error(), { name: 'INVALID_VALUE' }));
 };
 
 const authorize = async (req, res, next) => {
@@ -69,7 +69,7 @@ const authorize = async (req, res, next) => {
     const user = await sqlQuery('getUserData', [email]).then(e => e.pop()).catch(next);
     authResponseHandler(res, user, next);
   } else {
-    next(new Error('User not found'));
+    next(Object.assign(new Error(), { name: 'USER_NOT_FOUND' }));
   }
 };
 
@@ -77,7 +77,7 @@ const reSendActivationToken = (req, res, next) => {
   const { isActive, email, userName, activationToken, activationTokenSentDate } = req.user;
 
   if (isActive) {
-    return next(new Error('You\'r account is already active.'));
+    return next(Object.assign(new Error(), { name: 'ACCOUNT_ALREADY_ACTIVE' }));
   }
 
   const isSendToday = moment().diff(activationTokenSentDate, 'days') === 0;
@@ -86,7 +86,7 @@ const reSendActivationToken = (req, res, next) => {
       .then(() => res.sendStatus(200))
       .catch(next);
   }
-  return next(new Error('Email has been sent already'));
+  return next(Object.assign(new Error(), { name: 'EMAIL_ALREADY_SENT' }));
 };
 
 const passwordReset = async (req, res, next) => {
@@ -102,7 +102,7 @@ const passwordReset = async (req, res, next) => {
       .then(() => res.sendStatus(200))
       .catch(next);
   }
-  return next(new Error('Password couldn\t be changed, make sure provided email is correct.'));
+  return next(Object.assign(new Error(), { name: 'PASSWORDS_CHANGE' }));
 };
 
 router.post('/authorize', authorize);

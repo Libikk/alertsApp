@@ -20,7 +20,7 @@ const updateUserDetails = async (req, res, next) => {
   };
 
   if (password && password.length < 6) {
-    return next(new Error('Password is too short'));
+    return next(Object.assign(new Error(), { name: 'PASSWORD_WRONG_FORMAT' }));
   }
 
   if (password) params.password = await bcrypt.hash(password, 10);
@@ -31,7 +31,7 @@ const updateUserDetails = async (req, res, next) => {
       const isUpdated = response[0].changedRows || response[1].changedRows;
 
       if (isUpdated) return res.sendStatus(200);
-      next(new Error('Details are not updated.'));
+      next(Object.assign(new Error(), { name: 'INVALID_VALUE' }));
     })
     .catch(next);
 };
@@ -41,7 +41,7 @@ const updateUserPushNotificationToken = (req, res, next) => {
 
   const tokenRegex = new RegExp('(ExponentPushToken\\[)(?<=\\[)(.*)(?=\\])(\\])');
   const isTokenValid = tokenRegex.test(token);
-  if (!isTokenValid) return next(Object.assign(new Error(), { message: 'Token is invalid', status: 415 }));
+  if (!isTokenValid) return next(Object.assign(new Error(), { name: 'INVALID_TOKEN' }));
 
   sqlQuery('updateUserPushNotificationToken', mapKeysToParams({ token, userId }))
     .then(() => res.sendStatus(200))
