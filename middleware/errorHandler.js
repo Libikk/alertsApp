@@ -14,8 +14,7 @@ const errorFormatter = (err) => {
   if (!errors[err.name]) {
     return Object.assign(Error(), {
       name: err.name || 'Unhandled error',
-      message: 'Oops, something went wrong',
-      errorMessage: 'Sorry! An unknown error occurred',
+      message: 'Sorry! An unknown error occurred',
       code: 500,
       stack: err.stack,
       options: err.options,
@@ -47,10 +46,7 @@ const errorHandler = (err, req, res, next) => {
   
 
   res.status(formattedError.code);
-  return res.json({
-    ...formattedError,
-    msg: formattedError.message, // deprecated
-  });
+  return res.json(formattedError);
 };
 
 module.exports = { errorHandler, Sentry };
