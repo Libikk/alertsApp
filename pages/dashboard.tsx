@@ -16,6 +16,7 @@ import SwipeableViews from 'react-swipeable-views';
 import url from 'url';
 import { event } from 'react-ga';
 import '../styles/dashboard.scss';
+import get from 'lodash/get';
 interface ProductExistenceObj {
   productId: number,
   productUrl: string,
@@ -80,7 +81,9 @@ class Dashboard extends React.Component<MyProps> {
       this.setState({ urlInput: '' });
       toast.success('Product has been added')
     })
-    .catch(() => toast.error('Something went wrong'))
+    .catch((err) => {
+      toast.error(get(err, 'response.data.message'))
+    })
   }
 
   inputValidation = (value) => {

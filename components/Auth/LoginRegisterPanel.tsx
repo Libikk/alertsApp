@@ -83,7 +83,7 @@ class LoginRegisterPanel extends React.Component<MyProps> {
                     this.props.closeModal()
                 })
                 .catch((err) => {
-                    this.setState({ errorMessages: [get(err, 'response.data.msg', null)] || ['Unexpected error'] })
+                    this.setState({ errorMessages: [get(err, 'response.data.message', null)] || ['Unexpected error'] })
                 })
         }
 
@@ -95,7 +95,7 @@ class LoginRegisterPanel extends React.Component<MyProps> {
                     this.props.closeModal()
                 })
                 .catch((err) => {
-                    this.setState({ errorMessages: [get(err, 'response.data.msg', null)] || ['Unexpected error'] })
+                    this.setState({ errorMessages: [get(err, 'response.data.message', null)] || ['Unexpected error'] })
                 })
         }
 

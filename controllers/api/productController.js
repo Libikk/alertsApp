@@ -25,17 +25,13 @@ const addUserProduct = async (req, res, next) => {
 
     const newProduct = await sqlQuery('createNewProduct', { '@productUrl': parsedUrl.href, '@hostName': hostName }).catch(next);
     if (!newProduct.affectedRows) {
-      return next(new Error('This product already exist'));
+      return next(Object.assign(new Error(), { name: 'PRODUCT_ALREADY_EXIST' }));
     }
 
     productId = newProduct.insertId;
   }
 
-  const userProduct = await sqlQuery('addUserProduct', { '@productId': productId, '@userId': req.user.userId });
-
-  if (!userProduct.affectedRows) {
-    return next(new Error('This product is already in your product list'));
-  }
+  const userProduct = await sqlQuery('addUserProduct', { '@productId': productId, '@userId': req.user.userId }).catch(next);
 
   res.send({ productId: userProduct.insertId });
 };
