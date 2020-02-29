@@ -13,9 +13,11 @@ const router = express.Router();
 const { sqlQuery, mapKeysToParams } = require('../../sql/sqlServer');
 const { initialUserData: { emailNotifications, mobileAppNotifications, smsNotifications } } = require('../../appConfig');
 
-const authResponseHandler = (res, user, next) => {
+const authResponseHandler = (req, res, user, next) => {
   const context = { email: user.email, userName: user.userName, role: user.role };
-  const token = jwt.sign(context, jwtSecret, { expiresIn: '2d' });
+  const isFromMobileReq = req.headers.mobile;
+  const token = jwt.sign(context, jwtSecret, { expiresIn: isFromMobileReq ? '365d' : '2d' });
+
   res.cookie('access_token', token).json(user);
   sqlQuery('updateUserLastLogin', [user.email]).catch(next);
 };
@@ -30,7 +32,7 @@ const register = async (req, res, next) => {
       .then((response) => {
         if (!response.insertId) return next(Object.assign(new Error(), { name: 'USER_ALREADY_EXIST' }));
         sendActivationEmail(activationToken, email, userName);
-        authResponseHandler(res, { userName, email, userId: response.insertId }, next);
+        authResponseHandler(req, res, { userName, email, userId: response.insertId }, next);
         return response.insertId;
       })
       .then(userId => userId && sqlQuery('createUserNotificationSettings', [emailNotifications, mobileAppNotifications, smsNotifications, userId]))
@@ -49,7 +51,7 @@ const login = async (req, res, next) => {
     }
 
     if (bcrypt.compareSync(password, user.password)) {
-      return authResponseHandler(res, { role: user.role, userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.isActive }, next);
+      return authResponseHandler(req, res, { role: user.role, userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.isActive }, next);
     }
     return next(Object.assign(new Error(), { name: 'WRONG_PASSWORD' }));
   }
@@ -67,7 +69,7 @@ const authorize = async (req, res, next) => {
   if (verified) {
     const { payload: { email } } = jwt.decode(requestToken, { complete: true });
     const user = await sqlQuery('getUserData', [email]).then(e => e.pop()).catch(next);
-    authResponseHandler(res, user, next);
+    authResponseHandler(req, res, user, next);
   } else {
     next(Object.assign(new Error(), { name: 'USER_NOT_FOUND' }));
   }
