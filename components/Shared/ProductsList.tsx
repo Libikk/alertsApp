@@ -54,7 +54,7 @@ const ProductsList = (props: MyProps) => {
                                 <header>
                                     <h2 className="header__host-name">{hostName}</h2>
                                     <div className="header__img-wrapper">
-                                        <img src={imageUrl || 'https://via.placeholder.com/200x200'} alt={'productName'} />
+                                        <img src={imageUrl || '../../static/images/no-image.jpg'} alt={'productName'} />
                                         {isPromo ? <DiscountIcon /> : ''}
                                         {
                                             !isLandingPage &&
