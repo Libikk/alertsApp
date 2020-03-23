@@ -9,6 +9,11 @@ const errors = {
     message: 'Invalid value',
     code: 422,
   },
+  SCHEMA_VALIDATION_FAILED: {
+    name: 'SCHEMA_VALIDATION_FAILED',
+    message: 'Wrong request',
+    code: 403,
+  },
   WRONG_PASSWORD_OR_EMAIL: {
     name: 'WRONG_PASSWORD_OR_EMAIL',
     message: 'Wrong Email or Password',
