@@ -131,11 +131,6 @@ class LoginRegisterPanel extends React.Component<MyProps> {
                 isErr = true
                 errorMessages.push('Password too short. (min 6 characters)')
             }
-            // use formik lib for validation lib
-            if (password.length > 16) {
-                isErr = true
-                errorMessages.push('Password too long. (max 16 characters)')
-            }
 
             this.setState({ passwordError: isErr })
         }
