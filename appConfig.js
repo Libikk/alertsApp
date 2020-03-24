@@ -12,6 +12,10 @@ const config = {
     mobileAppNotifications: 0, // BIT
     smsNotifications: 0, // BIT
   },
+  validatePatterns: {
+    passwordPattern: /^(?=.*\d)(?=.*[a-z])[0-9a-zA-Z\d$@$!%*#?&]{6,}$/, // Minimum 6 characters, at least one letter and one number
+    userNamePattern: /^[_A-z0-9]*((-|\s)*[_A-z0-9])*$/,
+  },
 };
 
 module.exports = config;

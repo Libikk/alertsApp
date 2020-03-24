@@ -7,6 +7,8 @@ const passport = require('../../passportStrategy');
 const _ = require('lodash');
 const passwordGenerator = require('generate-password');
 const { sendActivationEmail, sendPasswordRestartEmail } = require('../../notifications/email/emailService');
+const { validate, schema } = require('../../middleware/requestValidators/requestSchema');
+const throwInvalid = require('../../middleware/requestValidators/requestValidator');
 
 const jwtSecret = process.env.JWT_SECRET;
 const router = express.Router();
@@ -24,22 +26,18 @@ const authResponseHandler = (req, res, user, next) => {
 
 const register = async (req, res, next) => {
   const { userName, email, password } = req.body;
-  if (userName && email && password) {
-    const hashPass = await bcrypt.hash(password, 10);
-    const activationToken = crypto.randomBytes(20).toString('hex');
+  const hashPass = await bcrypt.hash(password, 10);
+  const activationToken = crypto.randomBytes(20).toString('hex');
 
-    sqlQuery('createNewUserData', { '@userName': userName, '@email': email, '@hashPass': hashPass, '@activationToken': activationToken })
-      .then((response) => {
-        if (!response.insertId) return next(Object.assign(new Error(), { name: 'USER_ALREADY_EXIST' }));
-        sendActivationEmail(activationToken, email, userName);
-        authResponseHandler(req, res, { userName, email, userId: response.insertId }, next);
-        return response.insertId;
-      })
-      .then(userId => userId && sqlQuery('createUserNotificationSettings', [emailNotifications, mobileAppNotifications, smsNotifications, userId]))
-      .catch(next);
-  } else {
-    next(Object.assign(new Error(), { name: 'INVALID_VALUE' }));
-  }
+  sqlQuery('createNewUserData', { '@userName': userName, '@email': email, '@hashPass': hashPass, '@activationToken': activationToken })
+    .then((response) => {
+      if (!response.insertId) return next(Object.assign(new Error(), { name: 'USER_ALREADY_EXIST' }));
+      sendActivationEmail(activationToken, email, userName);
+      authResponseHandler(req, res, { userName, email, userId: response.insertId }, next);
+      return response.insertId;
+    })
+    .then(userId => userId && sqlQuery('createUserNotificationSettings', [emailNotifications, mobileAppNotifications, smsNotifications, userId]))
+    .catch(next);
 };
 
 const login = async (req, res, next) => {
@@ -110,7 +108,7 @@ const passwordReset = async (req, res, next) => {
 router.post('/authorize', authorize);
 router.post('/login', login);
 router.post('/passwordReset', passwordReset);
-router.post('/register', register);
+router.post('/register', validate(schema['POST:/api/auth/register']), throwInvalid, register);
 router.post('/reSendActivationToken', passport.authenticate('jwt', { session: false }), reSendActivationToken);
 
 module.exports = router;
