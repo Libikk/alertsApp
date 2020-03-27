@@ -1,7 +1,7 @@
 const Sentry = require('@sentry/node');
 const { version, env } = require('../appConfig');
 const errors = require('./errors');
-const pick = require('lodash/pick');
+const _ = require('lodash');
 
 Sentry.init({
   dsn: `https://${process.env.SENTRY_PUBLIC_KEY}@sentry.io/${process.env.SENTRY_PROJECT_ID}`,
@@ -22,9 +22,9 @@ const errorFormatter = (err) => {
   }
 
   const errData = {
-    ...pick(preDefinedError, ['name', 'code']),
-    ...pick(err, ['stack', 'options', 'token']),
-    message: err.options.message || preDefinedError.message,
+    ..._.pick(preDefinedError, ['name', 'code']),
+    ..._.pick(err, ['stack', 'options', 'token']),
+    message: _.get(err, 'options.message', preDefinedError.message),
   };
 
   return Object.assign(Error(), errData);
