@@ -75,7 +75,17 @@ const requestSchema = {
         options: [validatePatterns.passwordPattern],
       },
     },
-  }
+  },
+  'POST:/api/user/updateUserPushNotificationToken': {
+    token: {
+      notEmpty: true,
+      isString: true,
+      matches: {
+        options: [/(ExponentPushToken\[(.*)])/],
+      },
+      errorMessage: 'Invalid push token',
+    },
+  },
 };
 
 const validate = schema => checkSchema(schema);

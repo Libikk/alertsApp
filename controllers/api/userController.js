@@ -21,10 +21,6 @@ const updateUserDetails = async (req, res, next) => {
     userName: null,
   };
 
-  if (password && password.length < 6) {
-    return next(Object.assign(new Error(), { name: 'PASSWORD_WRONG_FORMAT' }));
-  }
-
   if (password) params.password = await bcrypt.hash(password, 10);
   if (userName) params.userName = userName;
 
@@ -41,10 +37,6 @@ const updateUserDetails = async (req, res, next) => {
 const updateUserPushNotificationToken = (req, res, next) => {
   const { body: { token }, user: { userId } } = req;
 
-  const tokenRegex = new RegExp('(ExponentPushToken\\[)(?<=\\[)(.*)(?=\\])(\\])');
-  const isTokenValid = tokenRegex.test(token);
-  if (!isTokenValid) return next(Object.assign(new Error(), { name: 'INVALID_TOKEN' }));
-
   sqlQuery('updateUserPushNotificationToken', mapKeysToParams({ token, userId }))
     .then(() => res.sendStatus(200))
     .catch(next);
@@ -52,6 +44,6 @@ const updateUserPushNotificationToken = (req, res, next) => {
 
 router.get('/getUserData', getUserData);
 router.post('/updateUserDetails', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/user/updateUserDetails']), throwInvalid, updateUserDetails);
-router.post('/updateUserPushNotificationToken', passport.authenticate('jwt', { session: false }), updateUserPushNotificationToken);
+router.post('/updateUserPushNotificationToken', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/user/updateUserPushNotificationToken']), throwInvalid, updateUserPushNotificationToken);
 
 module.exports = router;
