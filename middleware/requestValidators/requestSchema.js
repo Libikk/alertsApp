@@ -50,6 +50,13 @@ const requestSchema = {
       isEmail: true,
     },
   },
+  'POST:/api/auth/authorize': {
+    token: {
+      notEmpty: true,
+      isString: true,
+      errorMessage: 'Authorization failed',
+    },
+  },
 };
 
 const validate = schema => checkSchema(schema);

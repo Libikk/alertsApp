@@ -102,7 +102,7 @@ const passwordReset = async (req, res, next) => {
   return next(Object.assign(new Error(), { name: 'PASSWORDS_CHANGE' }));
 };
 
-router.post('/authorize', authorize);
+router.post('/authorize', validate(schema['POST:/api/auth/authorize']), throwInvalid, authorize);
 router.post('/login', validate(schema['POST:/api/auth/login']), throwInvalid, login);
 router.post('/passwordReset', validate(schema['POST:/api/auth/passwordReset']), throwInvalid, passwordReset);
 router.post('/register', validate(schema['POST:/api/auth/register']), throwInvalid, register);
