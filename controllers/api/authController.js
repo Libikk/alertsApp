@@ -104,7 +104,7 @@ const passwordReset = async (req, res, next) => {
 
 router.post('/authorize', authorize);
 router.post('/login', validate(schema['POST:/api/auth/login']), throwInvalid, login);
-router.post('/passwordReset', passwordReset);
+router.post('/passwordReset', validate(schema['POST:/api/auth/passwordReset']), throwInvalid, passwordReset);
 router.post('/register', validate(schema['POST:/api/auth/register']), throwInvalid, register);
 router.post('/reSendActivationToken', passport.authenticate('jwt', { session: false }), reSendActivationToken);
 

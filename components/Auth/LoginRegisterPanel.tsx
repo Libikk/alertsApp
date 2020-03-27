@@ -103,7 +103,7 @@ class LoginRegisterPanel extends React.Component<MyProps> {
             this.setState({ isButtonDisabled: true })
             this.props.passwordReset(email)
                 .then(() => toast.success('Password has been changed and sent on you\'r email. '))
-                .catch(() => toast.error('Something went wrong'))
+                .catch((err) => this.setState({ errorMessages: [get(err, 'response.data.message', null)] || ['Unexpected error'] }))
                 .finally(() => this.setState({ isButtonDisabled: false }));
         }
 

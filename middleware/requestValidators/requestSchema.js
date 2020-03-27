@@ -42,7 +42,14 @@ const requestSchema = {
         options: [validatePatterns.passwordPattern],
       },
     },
-  }
+  },
+  'POST:/api/auth/passwordReset': {
+    email: {
+      notEmpty: true,
+      errorMessage: 'Enter correct email address',
+      isEmail: true,
+    },
+  },
 };
 
 const validate = schema => checkSchema(schema);
