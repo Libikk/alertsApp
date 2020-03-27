@@ -42,18 +42,15 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
-  if (email && password) {
-    const user = await sqlQuery('select *, case active WHEN "0" THEN 0 WHEN "1" THEN 1 END AS "isActive" from users where email = ?', [email]).then(e => e[0]).catch(next);
-    if (!user) {
-      return next(Object.assign(new Error(), { name: 'WRONG_PASSWORD_OR_EMAIL' }));
-    }
-
-    if (bcrypt.compareSync(password, user.password)) {
-      return authResponseHandler(req, res, { role: user.role, userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.isActive }, next);
-    }
-    return next(Object.assign(new Error(), { name: 'WRONG_PASSWORD' }));
+  const user = await sqlQuery('select *, case active WHEN "0" THEN 0 WHEN "1" THEN 1 END AS "isActive" from users where email = ?', [email]).then(e => e[0]).catch(next);
+  if (!user) {
+    return next(Object.assign(new Error(), { name: 'WRONG_PASSWORD_OR_EMAIL' }));
   }
-  return next(Object.assign(new Error(), { name: 'INVALID_VALUE' }));
+
+  if (bcrypt.compareSync(password, user.password)) {
+    return authResponseHandler(req, res, { role: user.role, userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.isActive }, next);
+  }
+  return next(Object.assign(new Error(), { name: 'WRONG_PASSWORD' }));
 };
 
 const authorize = async (req, res, next) => {
@@ -106,7 +103,7 @@ const passwordReset = async (req, res, next) => {
 };
 
 router.post('/authorize', authorize);
-router.post('/login', login);
+router.post('/login', validate(schema['POST:/api/auth/login']), throwInvalid, login);
 router.post('/passwordReset', passwordReset);
 router.post('/register', validate(schema['POST:/api/auth/register']), throwInvalid, register);
 router.post('/reSendActivationToken', passport.authenticate('jwt', { session: false }), reSendActivationToken);

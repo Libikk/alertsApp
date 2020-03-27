@@ -26,6 +26,23 @@ const requestSchema = {
       },
     },
   },
+  'POST:/api/auth/login': {
+    email: {
+      notEmpty: true,
+      errorMessage: 'Enter correct email address',
+      isEmail: true,
+    },
+    password: {
+      notEmpty: true,
+      errorMessage: 'Password should be at least 6 chars long, at least one letter and one number',
+      isLength: {
+        options: { min: 6, max: 100 },
+      },
+      matches: {
+        options: [validatePatterns.passwordPattern],
+      },
+    },
+  }
 };
 
 const validate = schema => checkSchema(schema);
