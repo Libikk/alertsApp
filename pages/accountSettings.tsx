@@ -16,11 +16,12 @@ import { useDispatch } from 'react-redux';
 import Save from '@material-ui/icons/Save';
 import '../styles/accountSettings.scss';
 import { event } from 'react-ga';
+import get from 'lodash/get';
 
 const AccountSettings = () => {
     const dispatch = useDispatch()
-    const currentUser = useSelector(state => state.auth.currentUser)
-    const [newUserName, setNewUserName] = useState(currentUser.userName)
+    const currentUser = useSelector(state => get(state, 'auth.currentUser')) || {}
+    const [newUserName, setNewUserName] = useState(currentUser.userName);
     const [selectedTabIndex, setSelectedTabIndex] = useState(0)
 
     const [newPassword, setNewPassword] = useState(null)
@@ -43,7 +44,7 @@ const AccountSettings = () => {
                 setNewPassword('');
                 setNewPasswordRepeat('');
             })
-            .catch(() => toast.error('Saving failed'));
+            .catch((err) => toast.error(get(err, 'response.data.message', 'Saving failed')));
     }
 
     return (
@@ -67,11 +68,9 @@ const AccountSettings = () => {
 
                                 <TextField
                                     label="Email Address *"
-                                    defaultValue="Hello World"
+                                    value={currentUser.email}
                                     disabled
-                                    InputProps={{
-                                        readOnly: true,
-                                    }}
+                                    InputProps={{ readOnly: true }}
                                 />
                                 <TextField
                                     label="New Password *"

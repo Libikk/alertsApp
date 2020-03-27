@@ -1,5 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const { validate, schema } = require('../../middleware/requestValidators/requestSchema');
+const throwInvalid = require('../../middleware/requestValidators/requestValidator');
 
 const router = express.Router();
 const { sqlQuery, mapKeysToParams } = require('../../sql/sqlServer');
@@ -49,7 +51,7 @@ const updateUserPushNotificationToken = (req, res, next) => {
 };
 
 router.get('/getUserData', getUserData);
-router.post('/updateUserDetails', passport.authenticate('jwt', { session: false }), updateUserDetails);
+router.post('/updateUserDetails', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/user/updateUserDetails']), throwInvalid, updateUserDetails);
 router.post('/updateUserPushNotificationToken', passport.authenticate('jwt', { session: false }), updateUserPushNotificationToken);
 
 module.exports = router;

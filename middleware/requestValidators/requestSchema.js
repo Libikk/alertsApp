@@ -57,6 +57,25 @@ const requestSchema = {
       errorMessage: 'Authorization failed',
     },
   },
+  'POST:/api/user/updateUserDetails': {
+    userName: {
+      optional: { options: { nullable: true } },
+      trim: true,
+      matches: {
+        options: [validatePatterns.userNamePattern],
+      },
+    },
+    password: {
+      optional: { options: { nullable: true } },
+      errorMessage: 'Password should be at least 6 chars long, at least one letter and one number',
+      isLength: {
+        options: { min: 6, max: 100 },
+      },
+      matches: {
+        options: [validatePatterns.passwordPattern],
+      },
+    },
+  }
 };
 
 const validate = schema => checkSchema(schema);
