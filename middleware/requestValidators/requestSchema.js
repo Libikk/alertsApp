@@ -10,8 +10,8 @@ const requestSchema = {
     },
     password: {
       notEmpty: true,
+      errorMessage: 'Password should be at least 6 chars long, at least one letter and one number',
       isLength: {
-        errorMessage: 'Password should be at least 6 chars long',
         options: { min: 6, max: 100 },
       },
       matches: {
