@@ -86,6 +86,13 @@ const requestSchema = {
       errorMessage: 'Invalid push token',
     },
   },
+  'POST:/api/product/deleteUserProduct': {
+    productId: {
+      notEmpty: true,
+      isInt: true,
+      errorMessage: 'Invalid product id',
+    },
+  },
 };
 
 const validate = schema => checkSchema(schema);

@@ -8,6 +8,7 @@ const { sqlQuery, mapKeysToParams } = require('../../sql/sqlServer');
 const passport = require('../../passportStrategy');
 
 const getUserData = (req, res, next) => {
+  // validate this shit to allow only for logged in users
   sqlQuery('SELECT userId, email, lastLoggedIn, userName, createdAt FROM discounthero.users where email = ?', [req.user.email])
     .then(response => res.send(response[0]))
     .catch(next);
