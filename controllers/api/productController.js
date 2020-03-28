@@ -48,7 +48,7 @@ const deleteUserProduct = async (req, res, next) => {
   res.send(deletedProduct);
 };
 
-router.get('/productExistence', checkProdExistence);
+router.get('/productExistence', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/product/productExistence']), throwInvalid, checkProdExistence);
 router.post('/addUserProduct', passport.authenticate('jwt', { session: false }), addUserProduct);
 router.get('/getUserProducts', passport.authenticate('jwt', { session: false }), getUserProducts);
 router.delete('/deleteUserProduct/:productId', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/product/deleteUserProduct']), throwInvalid, deleteUserProduct);
