@@ -81,7 +81,7 @@ const requestSchema = {
       notEmpty: true,
       isString: true,
       matches: {
-        options: [/(ExponentPushToken\[(.*)])/],
+        options: [validatePatterns.pushNotificationTokenPattern],
       },
       errorMessage: 'Invalid push token',
     },
@@ -96,7 +96,7 @@ const requestSchema = {
   'POST:/api/product/productExistence': {
     productUrlData: {
       custom: {
-        options: value => /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([/\-\\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(value),
+        options: value => validatePatterns.urlPattern.test(value),
       },
       errorMessage: 'Invalid url',
     },

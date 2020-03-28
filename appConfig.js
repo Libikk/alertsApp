@@ -15,6 +15,8 @@ const config = {
   validatePatterns: {
     passwordPattern: /^(?=.*\d)(?=.*[a-z])[0-9a-zA-Z\d$@$!%*#?&]{6,}$/, // Minimum 6 characters, at least one letter and one number
     userNamePattern: /^[_A-z0-9]*((-|\s)*[_A-z0-9])*$/,
+    urlPattern: /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([/\-\\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
+    pushNotificationTokenPattern: /(ExponentPushToken\[(.*)])/,
   },
 };
 
