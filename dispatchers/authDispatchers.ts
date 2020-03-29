@@ -2,7 +2,7 @@
 import AuthService  from '../api/authService';
 import { logoutUser } from '../utils/auth'
 
-export const autorize = (token) => (dispatch) => {
+export const authorize = (token) => (dispatch) => {
   return AuthService.authorize(token)
     .then(payload => dispatch({
       type: 'LOGIN',
@@ -22,7 +22,6 @@ export const login = (personCredential) => (dispatch) => {
 export const reSendActivationToken = () => (dispatch) => {
   return AuthService.reSendActivationToken()
     .then(() =>  dispatch({ type: 'RESEND_ACTIVATION_TOKEN' }));
-    // add toast
 };
 
 export const register = (personCredential) => (dispatch) => {

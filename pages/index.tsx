@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getWebsitesWithProducts } from '../dispatchers/websitesDispatchers';
 import { getCurrentDiscounts } from '../dispatchers/scansDispatchers';
-import { getUserData } from '../dispatchers/userDispatchers';
 import defaultPage from '../components/Auth/defaultPage';
 import Layout from '../components/Layout';
 import CurrentDiscounts from '../components/CurrentDiscounts';
@@ -32,10 +31,6 @@ class Index extends React.Component<MyProps> {
     return { ...query }
 }
 
-componentWillMount = () => {
- // this.props.getUserData();
-}
-
   test = (): object => this.props.getWebsitesWithProducts();
 
   render() {
@@ -56,7 +51,6 @@ componentWillMount = () => {
 
 const mapDispatchToProps = dispatch => ({
   getWebsitesWithProducts: bindActionCreators(getWebsitesWithProducts, dispatch),
-  getUserData: bindActionCreators(getUserData, dispatch),
 });
 
 export default connect(state => state, mapDispatchToProps)(defaultPage(Index));

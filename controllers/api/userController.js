@@ -7,13 +7,6 @@ const router = express.Router();
 const { sqlQuery, mapKeysToParams } = require('../../sql/sqlServer');
 const passport = require('../../passportStrategy');
 
-const getUserData = (req, res, next) => {
-  // validate this shit to allow only for logged in users
-  sqlQuery('SELECT userId, email, lastLoggedIn, userName, createdAt FROM discounthero.users where email = ?', [req.user.email])
-    .then(response => res.send(response[0]))
-    .catch(next);
-};
-
 const updateUserDetails = async (req, res, next) => {
   const { body: { password, userName }, user: { userId } } = req;
   const params = {
@@ -43,7 +36,6 @@ const updateUserPushNotificationToken = (req, res, next) => {
     .catch(next);
 };
 
-router.get('/getUserData', getUserData);
 router.post('/updateUserDetails', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/user/updateUserDetails']), throwInvalid, updateUserDetails);
 router.post('/updateUserPushNotificationToken', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/user/updateUserPushNotificationToken']), throwInvalid, updateUserPushNotificationToken);
 
