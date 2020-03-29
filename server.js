@@ -17,7 +17,7 @@ const { activateAccount } = require('./utils/authHelpers');
 const schedule = require('node-schedule');
 const { errorHandler } = require('./middleware/errorHandler');
 
-const websitesController = require('./controllers/api/websitesController2');
+const websitesController = require('./controllers/api/websitesController');
 const scansController = require('./controllers/api/scansController');
 const authController = require('./controllers/api/authController');
 const userController = require('./controllers/api/userController');

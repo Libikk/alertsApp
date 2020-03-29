@@ -1,15 +1,11 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const { validate, schema } = require('../../middleware/requestValidators/requestSchema');
+const throwInvalid = require('../../middleware/requestValidators/requestValidator');
 
 const router = express.Router();
 const { sqlQuery, mapKeysToParams } = require('../../sql/sqlServer');
 const passport = require('../../passportStrategy');
-
-const getUserData = (req, res, next) => {
-  sqlQuery('SELECT userId, email, lastLoggedIn, userName, createdAt FROM discounthero.users where email = ?', [req.user.email])
-    .then(response => res.send(response[0]))
-    .catch(next);
-};
 
 const updateUserDetails = async (req, res, next) => {
   const { body: { password, userName }, user: { userId } } = req;
@@ -18,10 +14,6 @@ const updateUserDetails = async (req, res, next) => {
     password: null,
     userName: null,
   };
-
-  if (password && password.length < 6) {
-    return next(Object.assign(new Error(), { name: 'PASSWORD_WRONG_FORMAT' }));
-  }
 
   if (password) params.password = await bcrypt.hash(password, 10);
   if (userName) params.userName = userName;
@@ -39,17 +31,12 @@ const updateUserDetails = async (req, res, next) => {
 const updateUserPushNotificationToken = (req, res, next) => {
   const { body: { token }, user: { userId } } = req;
 
-  const tokenRegex = new RegExp('(ExponentPushToken\\[)(?<=\\[)(.*)(?=\\])(\\])');
-  const isTokenValid = tokenRegex.test(token);
-  if (!isTokenValid) return next(Object.assign(new Error(), { name: 'INVALID_TOKEN' }));
-
   sqlQuery('updateUserPushNotificationToken', mapKeysToParams({ token, userId }))
     .then(() => res.sendStatus(200))
     .catch(next);
 };
 
-router.get('/getUserData', getUserData);
-router.post('/updateUserDetails', passport.authenticate('jwt', { session: false }), updateUserDetails);
-router.post('/updateUserPushNotificationToken', passport.authenticate('jwt', { session: false }), updateUserPushNotificationToken);
+router.post('/updateUserDetails', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/user/updateUserDetails']), throwInvalid, updateUserDetails);
+router.post('/updateUserPushNotificationToken', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/user/updateUserPushNotificationToken']), throwInvalid, updateUserPushNotificationToken);
 
 module.exports = router;

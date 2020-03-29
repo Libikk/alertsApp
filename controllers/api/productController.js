@@ -1,23 +1,18 @@
 const express = require('express');
 const url = require('url');
 const passport = require('../../passportStrategy');
+const { validate, schema } = require('../../middleware/requestValidators/requestSchema');
+const throwInvalid = require('../../middleware/requestValidators/requestValidator');
+const _ = require('lodash');
 
 const router = express.Router();
 const { sqlQuery } = require('../../sql/sqlServer');
 
-const checkProdExistence = (req, res, next) => {
-  sqlQuery('checkProductExistence', [req.query.productUrlData])
-    .then(response => res.send(response.pop()))
-    .catch(next);
-};
-
-
 const addUserProduct = async (req, res, next) => {
-  // VALIDATE PAYLOAD
-  // eslint-disable-next-line prefer-const
-  let { productId, productUrl } = req.body;
+  const { productUrl } = req.body;
+  let productId = await sqlQuery('checkProductExistence', [productUrl]).then(response => _.get(response, '0.productId', null)).catch(next);
 
-  if (productUrl && !productId) {
+  if (!productId) {
     const parsedUrl = url.parse(productUrl);
 
     const hostName = parsedUrl.host.replace(/(?:www\.)?/i, '');
@@ -33,6 +28,8 @@ const addUserProduct = async (req, res, next) => {
 
   const userProduct = await sqlQuery('addUserProduct', { '@productId': productId, '@userId': req.user.userId }).catch(next);
 
+  if (!userProduct.affectedRows) return next(Object.assign(new Error(), { name: 'PRODUCT_IS_ALREADY_ADDED' }));
+
   res.send({ productId: userProduct.insertId });
 };
 
@@ -46,9 +43,8 @@ const deleteUserProduct = async (req, res, next) => {
   res.send(deletedProduct);
 };
 
-router.get('/productExistence', checkProdExistence);
-router.post('/addUserProduct', passport.authenticate('jwt', { session: false }), addUserProduct);
+router.post('/addUserProduct', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/product/addUserProduct']), throwInvalid, addUserProduct);
 router.get('/getUserProducts', passport.authenticate('jwt', { session: false }), getUserProducts);
-router.delete('/deleteUserProduct/:productId', passport.authenticate('jwt', { session: false }), deleteUserProduct);
+router.delete('/deleteUserProduct/:productId', passport.authenticate('jwt', { session: false }), validate(schema['DELETE:/api/product/deleteUserProduct']), throwInvalid, deleteUserProduct);
 
 module.exports = router;

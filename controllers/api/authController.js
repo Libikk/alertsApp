@@ -7,6 +7,8 @@ const passport = require('../../passportStrategy');
 const _ = require('lodash');
 const passwordGenerator = require('generate-password');
 const { sendActivationEmail, sendPasswordRestartEmail } = require('../../notifications/email/emailService');
+const { validate, schema } = require('../../middleware/requestValidators/requestSchema');
+const throwInvalid = require('../../middleware/requestValidators/requestValidator');
 
 const jwtSecret = process.env.JWT_SECRET;
 const router = express.Router();
@@ -24,38 +26,31 @@ const authResponseHandler = (req, res, user, next) => {
 
 const register = async (req, res, next) => {
   const { userName, email, password } = req.body;
-  if (userName && email && password) {
-    const hashPass = await bcrypt.hash(password, 10);
-    const activationToken = crypto.randomBytes(20).toString('hex');
+  const hashPass = await bcrypt.hash(password, 10);
+  const activationToken = crypto.randomBytes(20).toString('hex');
 
-    sqlQuery('createNewUserData', { '@userName': userName, '@email': email, '@hashPass': hashPass, '@activationToken': activationToken })
-      .then((response) => {
-        if (!response.insertId) return next(Object.assign(new Error(), { name: 'USER_ALREADY_EXIST' }));
-        sendActivationEmail(activationToken, email, userName);
-        authResponseHandler(req, res, { userName, email, userId: response.insertId }, next);
-        return response.insertId;
-      })
-      .then(userId => userId && sqlQuery('createUserNotificationSettings', [emailNotifications, mobileAppNotifications, smsNotifications, userId]))
-      .catch(next);
-  } else {
-    next(Object.assign(new Error(), { name: 'INVALID_VALUE' }));
-  }
+  sqlQuery('createNewUserData', { '@userName': userName, '@email': email, '@hashPass': hashPass, '@activationToken': activationToken })
+    .then((response) => {
+      if (!response.insertId) return next(Object.assign(new Error(), { name: 'USER_ALREADY_EXIST' }));
+      sendActivationEmail(activationToken, email, userName);
+      authResponseHandler(req, res, { userName, email, userId: response.insertId }, next);
+      return response.insertId;
+    })
+    .then(userId => userId && sqlQuery('createUserNotificationSettings', [emailNotifications, mobileAppNotifications, smsNotifications, userId]))
+    .catch(next);
 };
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
-  if (email && password) {
-    const user = await sqlQuery('select *, case active WHEN "0" THEN 0 WHEN "1" THEN 1 END AS "isActive" from users where email = ?', [email]).then(e => e[0]).catch(next);
-    if (!user) {
-      return next(Object.assign(new Error(), { name: 'WRONG_PASSWORD_OR_EMAIL' }));
-    }
-
-    if (bcrypt.compareSync(password, user.password)) {
-      return authResponseHandler(req, res, { role: user.role, userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.isActive }, next);
-    }
-    return next(Object.assign(new Error(), { name: 'WRONG_PASSWORD' }));
+  const user = await sqlQuery('select *, case active WHEN "0" THEN 0 WHEN "1" THEN 1 END AS "isActive" from users where email = ?', [email]).then(e => e[0]).catch(next);
+  if (!user) {
+    return next(Object.assign(new Error(), { name: 'WRONG_PASSWORD_OR_EMAIL' }));
   }
-  return next(Object.assign(new Error(), { name: 'INVALID_VALUE' }));
+
+  if (bcrypt.compareSync(password, user.password)) {
+    return authResponseHandler(req, res, { role: user.role, userName: user.userName, email: user.email, lastLoggedIn: new Date(), isActive: user.isActive }, next);
+  }
+  return next(Object.assign(new Error(), { name: 'WRONG_PASSWORD' }));
 };
 
 const authorize = async (req, res, next) => {
@@ -107,10 +102,10 @@ const passwordReset = async (req, res, next) => {
   return next(Object.assign(new Error(), { name: 'PASSWORDS_CHANGE' }));
 };
 
-router.post('/authorize', authorize);
-router.post('/login', login);
-router.post('/passwordReset', passwordReset);
-router.post('/register', register);
+router.post('/authorize', validate(schema['POST:/api/auth/authorize']), throwInvalid, authorize);
+router.post('/login', validate(schema['POST:/api/auth/login']), throwInvalid, login);
+router.post('/passwordReset', validate(schema['POST:/api/auth/passwordReset']), throwInvalid, passwordReset);
+router.post('/register', validate(schema['POST:/api/auth/register']), throwInvalid, register);
 router.post('/reSendActivationToken', passport.authenticate('jwt', { session: false }), reSendActivationToken);
 
 module.exports = router;

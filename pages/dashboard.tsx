@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 import { connect } from 'react-redux';
 import defaultPage from '../components/Auth/defaultPage';
 import { bindActionCreators } from 'redux';
-import { checkProdExistence, addUserProduct, getUserProducts, deleteUserProduct } from '../dispatchers/productDispatchers';
+import { addUserProduct, getUserProducts, deleteUserProduct } from '../dispatchers/productDispatchers';
 import { toast } from 'react-toastify';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -28,7 +28,6 @@ interface ProductExistenceObj {
 }
 
 type MyProps = {
-  checkProdExistence: Function,
   addUserProduct: Function,
   getUserProducts: Function,
   products: {
@@ -66,17 +65,12 @@ class Dashboard extends React.Component<MyProps> {
   productUrlChange = (e) => {
     this.inputValidation(e.target.value);
     this.setState({ urlInput: e.target.value });
-    this.props.checkProdExistence(e.target.value)
   }
 
   addProduct = () => {
     event({ category: 'dashboard', action: 'click', label: 'add-product' });
-    this.props.addUserProduct({
-      productUrl: this.state.urlInput,
-      productId: this.props.products.productExistence && this.props.products.productExistence.productId
-    })
+    this.props.addUserProduct({ productUrl: this.state.urlInput })
     .then(() => this.props.getUserProducts())
-    .then(() => this.props.checkProdExistence(this.state.urlInput))
     .then(() => {
       this.setState({ urlInput: '' });
       toast.success('Product has been added')
@@ -148,7 +142,6 @@ class Dashboard extends React.Component<MyProps> {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  checkProdExistence: bindActionCreators(checkProdExistence, dispatch),
   addUserProduct: bindActionCreators(addUserProduct, dispatch),
   getUserProducts: bindActionCreators(getUserProducts, dispatch),
   deleteUserProduct: bindActionCreators(deleteUserProduct, dispatch),

@@ -1,7 +1,7 @@
 const Sentry = require('@sentry/node');
 const { version, env } = require('../appConfig');
 const errors = require('./errors');
-const pick = require('lodash/pick');
+const _ = require('lodash');
 
 Sentry.init({
   dsn: `https://${process.env.SENTRY_PUBLIC_KEY}@sentry.io/${process.env.SENTRY_PROJECT_ID}`,
@@ -10,8 +10,8 @@ Sentry.init({
 });
 
 const errorFormatter = (err) => {
-
-  if (!errors[err.name]) {
+  const preDefinedError = errors[err.name];
+  if (!preDefinedError) {
     return Object.assign(Error(), {
       name: err.name || 'Unhandled error',
       message: 'Sorry! An unknown error occurred',
@@ -21,7 +21,13 @@ const errorFormatter = (err) => {
     });
   }
 
-  return Object.assign(Error(), pick(errors[err.name], ['name', 'message', 'code']), pick(err, ['stack', 'options', 'token']));
+  const errData = {
+    ..._.pick(preDefinedError, ['name', 'code']),
+    ..._.pick(err, ['stack', 'options', 'token']),
+    message: _.get(err, 'options.message', preDefinedError.message),
+  };
+
+  return Object.assign(Error(), errData);
 };
 
 const sentryLogError = (err, req) => {
@@ -34,7 +40,7 @@ const sentryLogError = (err, req) => {
     console.error('User Data', req.user);
     console.error('Err message ', err.message);
   }
-}
+};
 
 const errorHandler = (err, req, res, next) => {
   if (!err) {
@@ -43,7 +49,7 @@ const errorHandler = (err, req, res, next) => {
 
   sentryLogError(err, req);
   const formattedError = errorFormatter(err);
-  
+
 
   res.status(formattedError.code);
   return res.json(formattedError);
