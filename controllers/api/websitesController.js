@@ -1,11 +1,31 @@
-const { sqlQuery } = require('../../sql/sqlServer');
-const fs = require('fs');
+const express = require('express');
 
-const websites = {
-  getWebsitesWithProducts: (params) => {
-    const sqlString = fs.readFileSync('./controllers/sqlQueries/getDataForScan.sql').toString();
-    return sqlQuery(sqlString, params);
-  },
+const router = express.Router();
+const { sqlQuery, mapKeysToParams } = require('../../sql/sqlServer');
+const passport = require('../../passportStrategy');
+const { authenticateUser } = require('../../middleware/middleware');
+
+const getWebsites = (req, res, next) => {
+  sqlQuery('SELECT * FROM discounthero.websites where isActive = 1')
+    .then(response => res.send(response))
+    .catch(next);
 };
 
-module.exports = websites;
+const websitesSelectors = (req, res, next) => {
+  sqlQuery('getWebsitesSelectors')
+    .then(response => res.send(response))
+    .catch(next);
+};
+
+const updateWebsiteSelector = (req, res, next) => {
+  const params = mapKeysToParams(req.body);
+  sqlQuery('updateWebsiteSelectors', params)
+    .then(response => res.send(response))
+    .catch(next);
+};
+
+router.get('/', getWebsites);
+router.get('/websitesSelectors', passport.authenticate('jwt', { session: false }), authenticateUser('admin'), websitesSelectors);
+router.post('/updateWebsiteSelector', passport.authenticate('jwt', { session: false }), authenticateUser('admin'), updateWebsiteSelector);
+
+module.exports = router;
