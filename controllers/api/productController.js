@@ -28,6 +28,8 @@ const addUserProduct = async (req, res, next) => {
 
   const userProduct = await sqlQuery('addUserProduct', { '@productId': productId, '@userId': req.user.userId }).catch(next);
 
+  if (!userProduct.affectedRows) return next(Object.assign(new Error(), { name: 'PRODUCT_IS_ALREADY_ADDED' }));
+
   res.send({ productId: userProduct.insertId });
 };
 
