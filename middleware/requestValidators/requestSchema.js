@@ -93,8 +93,19 @@ const requestSchema = {
       errorMessage: 'Invalid product id',
     },
   },
-  'POST:/api/product/productExistence': {
+  'GET:/api/product/productExistence': {
     productUrlData: {
+      custom: {
+        options: value => validatePatterns.urlPattern.test(value),
+      },
+      errorMessage: 'Invalid url',
+    },
+  },
+  'POST:/api/product/addUserProduct': {
+    productUrl: {
+      trim: true,
+      notEmpty: true,
+      isString: true,
       custom: {
         options: value => validatePatterns.urlPattern.test(value),
       },

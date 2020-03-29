@@ -66,15 +66,12 @@ class Dashboard extends React.Component<MyProps> {
   productUrlChange = (e) => {
     this.inputValidation(e.target.value);
     this.setState({ urlInput: e.target.value });
-    this.props.checkProdExistence(e.target.value)
+    // this.props.checkProdExistence(e.target.value)
   }
 
   addProduct = () => {
     event({ category: 'dashboard', action: 'click', label: 'add-product' });
-    this.props.addUserProduct({
-      productUrl: this.state.urlInput,
-      productId: this.props.products.productExistence && this.props.products.productExistence.productId
-    })
+    this.props.addUserProduct({ productUrl: this.state.urlInput })
     .then(() => this.props.getUserProducts())
     .then(() => this.props.checkProdExistence(this.state.urlInput))
     .then(() => {
