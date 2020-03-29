@@ -86,7 +86,7 @@ const requestSchema = {
       errorMessage: 'Invalid push token',
     },
   },
-  'POST:/api/product/deleteUserProduct': {
+  'DELETE:/api/product/deleteUserProduct': {
     productId: {
       notEmpty: true,
       isInt: true,

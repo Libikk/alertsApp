@@ -43,6 +43,6 @@ const deleteUserProduct = async (req, res, next) => {
 
 router.post('/addUserProduct', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/product/addUserProduct']), throwInvalid, addUserProduct);
 router.get('/getUserProducts', passport.authenticate('jwt', { session: false }), getUserProducts);
-router.delete('/deleteUserProduct/:productId', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/product/deleteUserProduct']), throwInvalid, deleteUserProduct);
+router.delete('/deleteUserProduct/:productId', passport.authenticate('jwt', { session: false }), validate(schema['DELETE:/api/product/deleteUserProduct']), throwInvalid, deleteUserProduct);
 
 module.exports = router;
