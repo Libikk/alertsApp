@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import Tab from '@material-ui/core/Tab';
 import ProductsList from '../components/Shared/ProductsList';
 import WebsiteAndProductsManagement from '../components/Shared/WebsiteAndProductsManagement';
+import ProductsManagement from '../components/Shared/ProductsManagement';
 import SwipeableViews from 'react-swipeable-views';
 import url from 'url';
 import { event } from 'react-ga';
@@ -104,7 +105,8 @@ class Dashboard extends React.Component<MyProps> {
                       <Tabs value={selectedTabIndex} onChange={this.handleChange}>
                         <Tab label="My products" />
                         <Tab label="Add product" />
-                        {isAdmin && <Tab label="Website selectors" />}
+                        {isAdmin && <Tab label="Websites" />}
+                        {isAdmin && <Tab label="Products" />}
                       </Tabs>
                       <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex} className="swipeable-views">
                         <div className="my-products">
@@ -134,6 +136,7 @@ class Dashboard extends React.Component<MyProps> {
                           <Button disabled={!urlInput || isProductInputError} onClick={this.addProduct}> Add product </Button>
                       </div>
                       {isAdmin && <WebsiteAndProductsManagement />}
+                      {isAdmin && <ProductsManagement />}
                     </SwipeableViews>
                   </div>
               </div>
@@ -144,6 +147,7 @@ class Dashboard extends React.Component<MyProps> {
 const mapDispatchToProps = dispatch => ({
   addUserProduct: bindActionCreators(addUserProduct, dispatch),
   getUserProducts: bindActionCreators(getUserProducts, dispatch),
+  deleteUserProduct: bindActionCreators(deleteUserProduct, dispatch),
   deleteUserProduct: bindActionCreators(deleteUserProduct, dispatch),
 
 });
