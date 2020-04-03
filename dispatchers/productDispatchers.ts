@@ -10,6 +10,14 @@ export const getUserProducts = () => (dispatch) => {
     .then(res => dispatch({ type: 'GET_USER_PRODUCTS', prodData: res })
 )};
 
+export const getProductsForManagement = () => (dispatch) => {
+  return ProductService.getProductsForManagement()
+    .then(res => {
+      dispatch({ type: 'GET_PRODUCTS_FOR_MANAGEMENT' })
+      return res;
+    })
+};
+
 export const deleteUserProduct = (productId :number) => (dispatch) => {
   return ProductService.deleteUserProduct(productId)
     .then(res => dispatch({ type: 'DELETE_USER_PRODUCT', productId: productId })

@@ -4,6 +4,7 @@ const passport = require('../../passportStrategy');
 const { validate, schema } = require('../../middleware/requestValidators/requestSchema');
 const throwInvalid = require('../../middleware/requestValidators/requestValidator');
 const _ = require('lodash');
+const { authenticateUser } = require('../../middleware/middleware');
 
 const router = express.Router();
 const { sqlQuery } = require('../../sql/sqlServer');
@@ -43,8 +44,14 @@ const deleteUserProduct = async (req, res, next) => {
   res.send(deletedProduct);
 };
 
+const getProductsForManagement = async (req, res, next) => {
+  const productsData = await sqlQuery('getProductsForManagement').catch(next);
+  res.send(productsData);
+};
+
 router.post('/addUserProduct', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/product/addUserProduct']), throwInvalid, addUserProduct);
 router.get('/getUserProducts', passport.authenticate('jwt', { session: false }), getUserProducts);
+router.get('/getProductsForManagement', passport.authenticate('jwt', { session: false }), authenticateUser('admin'), getProductsForManagement);
 router.delete('/deleteUserProduct/:productId', passport.authenticate('jwt', { session: false }), validate(schema['DELETE:/api/product/deleteUserProduct']), throwInvalid, deleteUserProduct);
 
 module.exports = router;
