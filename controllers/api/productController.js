@@ -55,7 +55,7 @@ const activateProducts = async (req, res, next) => {
   res.send(productsData);
 };
 
-router.post('/activateProducts', activateProducts);
+router.post('/activateProducts', passport.authenticate('jwt', { session: false }), authenticateUser('admin'), validate(schema['POST:/api/product/activateProducts']), throwInvalid, activateProducts);
 router.post('/addUserProduct', passport.authenticate('jwt', { session: false }), validate(schema['POST:/api/product/addUserProduct']), throwInvalid, addUserProduct);
 router.get('/getUserProducts', passport.authenticate('jwt', { session: false }), getUserProducts);
 router.get('/getProductsForManagement', passport.authenticate('jwt', { session: false }), authenticateUser('admin'), getProductsForManagement);

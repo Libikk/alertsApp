@@ -112,6 +112,17 @@ const requestSchema = {
       errorMessage: 'Invalid url',
     },
   },
+  'POST:/api/product/activateProducts': {
+    productsIdList: {
+      custom: {
+        options: (val) => {
+          const isAllNumbers = val.reduce((acc, nextVal) => typeof nextVal === 'number' && acc, true);
+          return val.length && isAllNumbers;
+        },
+      },
+      errorMessage: 'Invalid products list id',
+    },
+  },
 };
 
 const validate = schema => checkSchema(schema);
