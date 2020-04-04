@@ -1,4 +1,4 @@
-import MaterialTable from "material-table";
+import { forwardRef } from 'react';
 import AddBox from '@material-ui/icons/AddBox';
 import Save from '@material-ui/icons/Save';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
@@ -15,9 +15,29 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+interface Icons {
+  Save?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  Add?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  Check?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  Clear?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  Delete?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  DetailPanel?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  Edit?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  Export?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  Filter?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  FirstPage?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  SortArrow?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  LastPage?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  NextPage?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  PreviousPage?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  ResetSearch?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  Search?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  ThirdStateCheck?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+  ViewColumn?: React.ForwardRefExoticComponent<React.RefAttributes<SVGSVGElement>>;
+}
 
-import { forwardRef } from 'react';
- const tableIcons = {
+
+ const tableIcons: Icons = {
     Save: forwardRef((props, ref) => <Save {...props} ref={ref} />),
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
