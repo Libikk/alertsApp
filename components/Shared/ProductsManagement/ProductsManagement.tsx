@@ -73,9 +73,6 @@ const ProductsManagement = (props) => {
           icons={tableIcons}
           columns={columns}
           data={products}
-        //   editable={{
-        //     onRowUpdate,
-        //   }}
           options={{
             selection: true,
           }}
