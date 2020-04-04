@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { getProductsForManagement } from '../../../dispatchers/productDispatchers';
 import { useDispatch } from 'react-redux'
 import MaterialTable from "material-table";
+import { activateProducts } from '../../../dispatchers/productDispatchers'
 import { tableIcons } from '../WebsiteAndProductsManagement/TableConfigs';
+import { toast } from 'react-toastify';
 
 interface Columns {
     title: string,
@@ -50,8 +52,16 @@ const ProductsManagement = (props) => {
           icon: tableIcons.Save ,
           tooltip: 'Activate products',
           onClick: (event: void, rowData:GetProductsForManagement[]) => {
-              console.log('rowData: ', rowData);
-
+              const productsIdList = rowData.map(({ productId }) => productId);
+              dispatch(activateProducts({ productsIdList }))
+                .then(() => {
+                  setProducts(products.filter(({productId}) => !productsIdList.includes(productId)))
+                  toast.success('Saved successfully');
+                })
+                .catch(err => {
+                  console.error(err);
+                  toast.error(`Saving failed, ${err.message}`)
+                })
           }
         },
       ];

@@ -18,6 +18,15 @@ export const getProductsForManagement = () => (dispatch) => {
     })
 };
 
+export const activateProducts = (productIds) => (dispatch) => {
+  dispatch({ type: 'POST_ACTIVATE_PRODUCTS' })
+  return ProductService.activateProducts(productIds)
+    .then(res => {
+      dispatch({ type: 'ACTIVATE_PRODUCTS' })
+      return res;
+    })
+};
+
 export const deleteUserProduct = (productId :number) => (dispatch) => {
   return ProductService.deleteUserProduct(productId)
     .then(res => dispatch({ type: 'DELETE_USER_PRODUCT', productId: productId })
