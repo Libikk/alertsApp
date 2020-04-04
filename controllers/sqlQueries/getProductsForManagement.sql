@@ -1,5 +1,5 @@
-SELECT 
-	productid, 
+SELECT
+	productid AS 'productId',
 	prod.producturl AS "fullUrl",
     prod.createdAt,
     web.url AS "websiteUrl"
