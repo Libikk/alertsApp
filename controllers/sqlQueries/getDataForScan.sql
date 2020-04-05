@@ -16,4 +16,3 @@ LEFT JOIN discounthero.productsselectors ps ON ps.productId = prod.productId
 WHERE web.isActive = 1
     AND prod.isActive = 1
     AND (CASE WHEN @productId IS NULL THEN true ELSE prod.productId = @productId END)
-    and prod.productId = 81
