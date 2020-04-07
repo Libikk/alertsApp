@@ -12,7 +12,7 @@ SELECT
 FROM discounthero.products prod
 JOIN discounthero.websites web on prod.websiteId = web.websiteId
 JOIN discounthero.websitesSelectors ws ON ws.websiteId = web.websiteId
-LEFT JOIN discounthero.productsselectors ps ON ps.productId = prod.productId 
+LEFT JOIN discounthero.productsSelectors ps ON ps.productId = prod.productId 
 WHERE web.isActive = 1
     AND prod.isActive = 1
     AND (CASE WHEN @productId IS NULL THEN true ELSE prod.productId = @productId END)
