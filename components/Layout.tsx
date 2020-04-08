@@ -8,14 +8,15 @@ import CookieBar from '../components/CookieBar';
 import ReactGA from 'react-ga';
 import Router from 'next/router';
 import { gaTrackingId } from '../appConfig';
-
+import Head from 'next/head';
+import MetaTags from '../MetaTags/MetaTags';
 import '../styles/globals.scss';
 import '../styles/layout.scss';
 
 
 type MyProps = {
-    // using `interface` is also ok
     children: JSX.Element;
+    title: string,
   };
 
 class Layout extends React.Component<MyProps> {
@@ -30,6 +31,10 @@ class Layout extends React.Component<MyProps> {
 
     return (
       <div className="layout-section">
+        <Head>
+          <title>{this.props.title}</title>
+          <MetaTags customLdObject={this.props.customLdObject} />
+        </Head>
         <Toast />
         <CookieBar />
         <InactiveAccountBar />
