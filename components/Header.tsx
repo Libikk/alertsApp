@@ -77,7 +77,7 @@ class Header extends React.Component<MyProps> {
                       <LogoIcon />
                   </a>
                   </Link>
-                <Button className="global__button--secondary">How it works?</Button>
+                  { auth && auth.currentUser && <Button className="global__button--secondary" onClick={() => Router.push({ pathname: '/dashboard' }, '/dashboard')}>Add product</Button>}
                 <Modal
                   className="modal-container"
                   open={this.state.isModalOpen}
