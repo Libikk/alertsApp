@@ -15,7 +15,7 @@ type MyProps = {
 };
 
 const ActivateAccount = (props: MyProps) => (
-  <Layout>
+  <Layout title="DDiscount Hero  | Activate account">
       <div className="activate-account">
         <div className="activate-account__container">
           <h1>{props.result.messageData.msg}</h1>

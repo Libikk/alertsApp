@@ -10,7 +10,7 @@ class LoginPage extends React.Component {
   render () {
     const { currentUser } = this.props.auth;
     return (
-          <Layout>
+          <Layout title="DDiscount Hero  | Login">
               <div className='loginPage-container'>
                   <div className='header'>
                     <h1>

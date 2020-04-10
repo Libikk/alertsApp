@@ -48,7 +48,7 @@ const AccountSettings = () => {
     }
 
     return (
-        <Layout>
+        <Layout title="DDiscount Hero  | Account settings">
             <div className="account-settings">
                 <div className="account-settings__container">
 

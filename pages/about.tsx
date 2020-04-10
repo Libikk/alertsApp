@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import '../styles/about.scss'
 
 const About = () => {
-    return <Layout>
+    return <Layout title="DDiscount Hero  | About">
             <div className="about-container">
             {PagesTabs(0)}
             <Paper className="about-container__content">
