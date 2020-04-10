@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import '../styles/termsAndConditions.scss'
 
 const termsAndConditions = () => {
-    return <Layout>
+    return <Layout title="DDiscount Hero  | Terms & Conditions">
         <div className="termsandconditions-container">
             {PagesTabs(1)}
             <Paper className="termsandconditions-container__content">

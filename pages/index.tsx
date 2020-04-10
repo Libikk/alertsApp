@@ -36,7 +36,7 @@ class Index extends React.Component<MyProps> {
   render() {
     const { websites, scans } = this.props;
     return (
-      <Layout title="DDiscountHero - track discounts">
+      <Layout title="DDiscount Hero  | Track discounts">
         <div className="landing-page">
           <HowItWorks />
           <CurrentDiscounts currentDiscounts={scans.currentDiscounts}/>

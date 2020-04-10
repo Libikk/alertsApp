@@ -92,7 +92,7 @@ class Dashboard extends React.Component<MyProps> {
     const isAdmin = this.props.auth.currentUser && this.props.auth.currentUser.role === 'admin';
 
     return (
-          <Layout>
+          <Layout title="DDiscount Hero  | Dashboard">
               <div className='dashboard-container'>
                   <div className='header'>
                     <h1>

@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import '../styles/privacyPolicy.scss'
 
 const privacyPolicy = () => {
-    return <Layout>
+    return <Layout title="DDiscount Hero  | Privacy Policy">
         <div className="privacypolicy-container">
             {PagesTabs(2)}
             <Paper className="privacypolicy-container__content">
