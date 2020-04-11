@@ -88,7 +88,7 @@ const reSendActivationToken = (req, res, next) => {
 
 const passwordReset = async (req, res, next) => {
   const { email } = req.body;
-  const generatedPassword = passwordGenerator.generate({ length: 7, numbers: true });
+  const generatedPassword = passwordGenerator.generate({ length: 7, numbers: true, strict: true });
   const hashPass = await bcrypt.hash(generatedPassword, 10);
 
   const [{ affectedRows }, user] = await sqlQuery('changeUserPassword', mapKeysToParams({ hashPass, email })).catch(next);
