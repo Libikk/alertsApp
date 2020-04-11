@@ -25,6 +25,7 @@
         .tool-bar__user-buttons-wrapper {
             display: flex;
             flex-direction: row;
+            a {  display: flex }
 
             .user-buttons-wrapper__avatar {
                 cursor: pointer;
