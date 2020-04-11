@@ -16,8 +16,11 @@ import '../styles/header.scss';
 import Router from 'next/router';
 import { event } from 'react-ga';
 import { useDispatch } from 'react-redux';
+import useWindowWidth from '../hooks/windowWidthHook';
 
 const Header = () => {
+  const { isDesktopView, isLaptopView, isMobileView, isTabletView } = useWindowWidth();
+
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch()
   const [isModalOpen, setIsModalOpen] = useState(false);
