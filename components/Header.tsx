@@ -1,6 +1,5 @@
 import React, { useState, } from 'react';
 import { useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { logout } from '../dispatchers/authDispatchers';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -19,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import useWindowWidth from '../hooks/windowWidthHook';
 
 const Header = () => {
-  const { isDesktopView, isLaptopView, isMobileView, isTabletView } = useWindowWidth();
+  const { isMobileView } = useWindowWidth();
 
   const auth = useSelector(state => state.auth);
   const dispatch = useDispatch()
@@ -53,11 +52,11 @@ const Header = () => {
           >
             <div className="header__tool-bar">
               <div className="tool-bar__options">
-              <Link href={{ pathname: '/' }} >
+              {!isMobileView && <Link href={{ pathname: '/' }} >
                   <a>
                       <LogoIcon />
                   </a>
-                  </Link>
+                  </Link>}
                   { auth && auth.currentUser && <Button className="global__button--secondary" onClick={() => Router.push({ pathname: '/dashboard' }, '/dashboard')}>Add product</Button>}
                 <Modal
                   className="modal-container"
