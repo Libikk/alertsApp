@@ -24,7 +24,7 @@ interface ProductsListT {
 
 type MyProps = {
     products: Array<ProductsListT> | null,
-    pageName: string,
+    pageName?: string,
 };
 
 const ProductsList = (props: MyProps) => {

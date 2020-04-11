@@ -17,6 +17,8 @@ import url from 'url';
 import { event } from 'react-ga';
 import '../styles/dashboard.scss';
 import get from 'lodash/get';
+import useWindowWidth from '../hooks/windowWidthHook';
+
 interface ProductExistenceObj {
   productId: number,
   productUrl: string,
@@ -45,6 +47,7 @@ const Dashboard = () =>  {
   const auth = useSelector(state => state.auth);
   const products = useSelector<Products>(state => state.products);
   const isAdmin = auth.currentUser && auth.currentUser.role === 'admin';
+  const { isMobileView } = useWindowWidth();
 
   const handleKeyPress = (event) => event.key === 'Enter' && addProduct();
   
@@ -90,7 +93,7 @@ const Dashboard = () =>  {
               <div className='content'>
               </div>
                 <div>
-                  <Tabs value={selectedTabIndex} onChange={handleChange}>
+                  <Tabs value={selectedTabIndex} onChange={handleChange} {...(isMobileView ? { orientation: "vertical", centered: true, variant: 'fullWidth' } : {})}>
                     <Tab label="My products" />
                     <Tab label="Add product" />
                     {isAdmin && <Tab label="Websites" />}
@@ -110,7 +113,7 @@ const Dashboard = () =>  {
                         name="urlInput"
                         type="email"
                         fullWidth
-                        placeholder='https://groceries.asda.com/product/milk-drinks/yazoo-chocolate-flavoured-milk/910002182124'
+                        placeholder='Enter direct url to the product'
                         value={urlInput}
                         onChange={productUrlChange}
                         InputLabelProps={{ shrink: true }}
