@@ -53,6 +53,11 @@ class Header extends React.Component<MyProps> {
     Router.push({ pathname: '/accountsettings' }, '/accountSettings');
   }
 
+  navigateToDashboard = () => {
+    this.handleClose();
+    Router.push({ pathname: '/dashboard' }, '/dashboard');
+  }
+
   onSignInUpClick = () => {
     this.setState({ isModalOpen: true })
     event({ category: 'landing-page', action: 'click', label: 'SIGN IN / SIGN UP' })
@@ -113,6 +118,7 @@ class Header extends React.Component<MyProps> {
                     onClose={this.handleClose}
                   >
                     <MenuItem onClick={this.navigateToAccSettings}>Account Settings</MenuItem>
+                    <MenuItem onClick={this.navigateToDashboard}>Dashboard</MenuItem>
                     <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
                   </Menu>
                 </div>
