@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Layout from '../components/Layout';
-import { connect } from 'react-redux';
 import defaultPage from '../components/Auth/defaultPage';
-import { bindActionCreators } from 'redux';
-import { addUserProduct, getUserProducts, deleteUserProduct } from '../dispatchers/productDispatchers';
+import { addUserProduct, getUserProducts } from '../dispatchers/productDispatchers';
 import { toast } from 'react-toastify';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -18,6 +17,8 @@ import url from 'url';
 import { event } from 'react-ga';
 import '../styles/dashboard.scss';
 import get from 'lodash/get';
+import useWindowWidth from '../hooks/windowWidthHook';
+
 interface ProductExistenceObj {
   productId: number,
   productUrl: string,
@@ -28,128 +29,107 @@ interface ProductExistenceObj {
   isPromo: number
 }
 
-type MyProps = {
-  addUserProduct: Function,
-  getUserProducts: Function,
-  products: {
-    productExistence: ProductExistenceObj | null,
-    userProducts: Array<ProductExistenceObj>,
-  },
-  auth: {
-    currentUser: {
-      role: string
-    }
-  }
+type Products = {
+  productExistence: ProductExistenceObj | null,
+  userProducts: Array<ProductExistenceObj>,
 }
 
-class Dashboard extends React.Component<MyProps> {
-  componentDidMount = () => {
-      this.props.getUserProducts()
-    }
+const Dashboard = () =>  {  
+  const dispatch = useDispatch()
 
-  state = {
-    urlInput: '',
-    isWebsiteAlreadyUsed: null,
-    selectedTabIndex: 1,
-    isProductInputError: false
-  }
+  useEffect(() => {
+    dispatch(getUserProducts());
+  }, [])
 
-  handleKeyPress = (event) => event.key === 'Enter' && this.addProduct();
+  const [urlInput, setUrlInput] = useState<string>('')
+  const [selectedTabIndex, setSelectedTabIndex] = useState<number>(1);
+  const [isProductInputError, setIsProductInputError] = useState<boolean>(false);
+  const auth = useSelector(state => state.auth);
+  const products = useSelector<Products>(state => state.products);
+  const isAdmin = auth.currentUser && auth.currentUser.role === 'admin';
+  const { isMobileView } = useWindowWidth();
+
+  const handleKeyPress = (event) => event.key === 'Enter' && addProduct();
   
-  handleChange = (e: React.ChangeEvent<{}>, value: number) => {
+  const handleChange = (e: React.ChangeEvent<{}>, value: number) => {
     event({ category: 'dashboard', action: 'click', label: 'tab-change', value: value });
-    this.setState({ selectedTabIndex: value });
+    setSelectedTabIndex(value);
   }
 
-  handleChangeIndex = (index: number) => this.setState({ selectedTabIndex: index });
+  const handleChangeIndex = (index: number) => setSelectedTabIndex(index)
 
-  productUrlChange = (e) => {
-    this.inputValidation(e.target.value);
-    this.setState({ urlInput: e.target.value });
+  const productUrlChange = (e) => {
+    inputValidation(e.target.value);
+    setUrlInput(e.target.value);
   }
 
-  addProduct = () => {
+  const addProduct = () => {
     event({ category: 'dashboard', action: 'click', label: 'add-product' });
-    this.props.addUserProduct({ productUrl: this.state.urlInput })
-    .then(() => this.props.getUserProducts())
-    .then(() => {
-      this.setState({ urlInput: '' });
-      toast.success('Product has been added')
-    })
-    .catch((err) => {
-      toast.error(get(err, 'response.data.message'))
-    })
+    dispatch(addUserProduct({ productUrl: urlInput }))
+      .then(() => dispatch(getUserProducts()))
+      .then(() => {
+        setUrlInput('');
+        toast.success('Product has been added')
+      })
+      .catch((err) => {
+        toast.error(get(err, 'response.data.message'))
+      })
   }
 
-  inputValidation = (value) => {
+  const inputValidation = (value) => {
     const { protocol, hostname, href } = url.parse(value)
     const isValid = protocol && hostname && href;
-    this.setState({ isProductInputError: !isValid });
+    setIsProductInputError(!isValid);
   }
-
-  render () {
-    const { selectedTabIndex, urlInput, isProductInputError } = this.state;
-    const isAdmin = this.props.auth.currentUser && this.props.auth.currentUser.role === 'admin';
 
     return (
-          <Layout title="DDiscount Hero  | Dashboard">
-              <div className='dashboard-container'>
-                  <div className='header'>
-                    <h1>
-                        Dashboard
-                    </h1>
-                  </div>
-                  <div className='content'>
-                  </div>
-                    <div>
-                      <Tabs value={selectedTabIndex} onChange={this.handleChange}>
-                        <Tab label="My products" />
-                        <Tab label="Add product" />
-                        {isAdmin && <Tab label="Websites" />}
-                        {isAdmin && <Tab label="Products" />}
-                      </Tabs>
-                      <SwipeableViews index={selectedTabIndex} onChangeIndex={this.handleChangeIndex} className="swipeable-views">
-                        <div className="my-products">
-                          My products:  {this.props.products.userProducts.length}
-                          <Paper>
-                            <ProductsList products={this.props.products.userProducts}/>
-                          </Paper>
-                        </div>
-                        <div>
-                          <h2>
-                            Paste in link to the product.
-                            {/* {urlInput ? (this.props.products.productExistence ? `This product exist` : 'This product does not exist!') : 'Paste in link to product.'} */}
-                          </h2>
-                          <TextField
-                            label="Product URL"
-                            name="urlInput"
-                            type="email"
-                            fullWidth
-                            placeholder='https://groceries.asda.com/product/milk-drinks/yazoo-chocolate-flavoured-milk/910002182124'
-                            value={urlInput}
-                            onChange={this.productUrlChange}
-                            InputLabelProps={{ shrink: true }}
-                            error={isProductInputError}
-                            helperText="Invalid link."
-                            onKeyPress={this.handleKeyPress}
-                          />
-                          <Button disabled={!urlInput || isProductInputError} onClick={this.addProduct}> Add product </Button>
-                      </div>
-                      {isAdmin && <WebsiteAndProductsManagement />}
-                      {isAdmin && <ProductsManagement />}
-                    </SwipeableViews>
-                  </div>
+      <Layout title="DDiscount Hero  | Dashboard">
+          <div className='dashboard-container'>
+              <div className='header'>
+                <h1>
+                    Dashboard
+                </h1>
               </div>
-          </Layout>
+              <div className='content'>
+              </div>
+                <div>
+                  <Tabs value={selectedTabIndex} onChange={handleChange} {...(isMobileView ? { orientation: "vertical", centered: true, variant: 'fullWidth' } : {})}>
+                    <Tab label="My products" />
+                    <Tab label="Add product" />
+                    {isAdmin && <Tab label="Websites" />}
+                    {isAdmin && <Tab label="Products" />}
+                  </Tabs>
+                  <SwipeableViews index={selectedTabIndex} onChangeIndex={handleChangeIndex} className="swipeable-views">
+                    <div className="my-products">
+                      My products:  {products.userProducts.length}
+                      <Paper>
+                        <ProductsList products={products.userProducts}/>
+                      </Paper>
+                    </div>
+                    <div>
+                      <h2>Paste in link to the product.</h2>
+                      <TextField
+                        label="Product URL"
+                        name="urlInput"
+                        type="email"
+                        fullWidth
+                        placeholder='Enter direct url to the product'
+                        value={urlInput}
+                        onChange={productUrlChange}
+                        InputLabelProps={{ shrink: true }}
+                        error={isProductInputError}
+                        helperText="Invalid link."
+                        onKeyPress={handleKeyPress}
+                      />
+                      <Button disabled={!urlInput || isProductInputError} onClick={addProduct}> Add product </Button>
+                  </div>
+                  {isAdmin && <WebsiteAndProductsManagement />}
+                  {isAdmin && <ProductsManagement />}
+                </SwipeableViews>
+              </div>
+          </div>
+      </Layout>
     )
-  }
 }
-const mapDispatchToProps = dispatch => ({
-  addUserProduct: bindActionCreators(addUserProduct, dispatch),
-  getUserProducts: bindActionCreators(getUserProducts, dispatch),
-  deleteUserProduct: bindActionCreators(deleteUserProduct, dispatch),
-  deleteUserProduct: bindActionCreators(deleteUserProduct, dispatch),
 
-});
-
-export default connect(state => state, mapDispatchToProps)(defaultPage(Dashboard));
+export default defaultPage(Dashboard);

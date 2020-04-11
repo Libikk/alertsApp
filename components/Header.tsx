@@ -1,6 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { useState, } from 'react';
+import { useSelector } from 'react-redux';
 import { logout } from '../dispatchers/authDispatchers';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -15,56 +14,37 @@ import { version } from '../appConfig';
 import '../styles/header.scss';
 import Router from 'next/router';
 import { event } from 'react-ga';
-interface AuthObj {
-  currentUser: {
-    userName: string,
-    userId: number,
-    email: string
-  }
-}
+import { useDispatch } from 'react-redux';
+import useWindowWidth from '../hooks/windowWidthHook';
 
-type MyProps = {
-  logout: Function,
-  auth: AuthObj | null,
-};
+const Header = () => {
+  const { isMobileView } = useWindowWidth();
 
-class Header extends React.Component<MyProps> {
-  state = {
-    isModalOpen: false,
-    openMenu: false,
-    anchorEl: null
+  const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch()
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setOpenMenu(true);
+    setAnchorEl(e.currentTarget);
   }
 
-  handleMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    this.handleOpen();
-    this.setState({ anchorEl: e.currentTarget })
-  }
-
-  handleOpen = () => {
-    this.setState({ openMenu: true })
-  }
-
-  handleClose = () => {
-    this.setState({ openMenu: false })
-  }
-
-  navigateToAccSettings = () => {
-    this.handleClose();
+  const navigateToAccSettings = () => {
+    setOpenMenu(false);
     Router.push({ pathname: '/accountsettings' }, '/accountSettings');
   }
 
-  onSignInUpClick = () => {
-    this.setState({ isModalOpen: true })
-    event({ category: 'landing-page', action: 'click', label: 'SIGN IN / SIGN UP' })
+  const navigateToDashboard = () => {
+    setOpenMenu(false);
+    Router.push({ pathname: '/dashboard' }, '/dashboard');
   }
 
-  modalCloseHandler = () => this.setState({ isModalOpen: false })
-
-
-    render() {
-      const { anchorEl } = this.state;
-      const { auth } = this.props
-
+  const onSignInUpClick = () => {
+    setIsModalOpen(true);
+    event({ category: 'landing-page', action: 'click', label: 'SIGN IN / SIGN UP' })
+  }
       return (
         <div className="container__header" app-version={version}>
           <AppBar
@@ -72,18 +52,18 @@ class Header extends React.Component<MyProps> {
           >
             <div className="header__tool-bar">
               <div className="tool-bar__options">
-              <Link href={{ pathname: '/' }} >
+              {!isMobileView && <Link href={{ pathname: '/' }} >
                   <a>
                       <LogoIcon />
                   </a>
-                  </Link>
+                  </Link>}
                   { auth && auth.currentUser && <Button className="global__button--secondary" onClick={() => Router.push({ pathname: '/dashboard' }, '/dashboard')}>Add product</Button>}
                 <Modal
                   className="modal-container"
-                  open={this.state.isModalOpen}
-                  onClose={() => this.setState({ isModalOpen: false })}
+                  open={isModalOpen}
+                  onClose={() => setIsModalOpen(false)}
                 >
-                  <LoginRegisterPanel closeModal={this.modalCloseHandler}/>
+                  <LoginRegisterPanel closeModal={() => setIsModalOpen(false)}/>
                 </Modal>
               </div>
               <div>
@@ -97,7 +77,7 @@ class Header extends React.Component<MyProps> {
                     </a>
                   </Link>
                   <Avatar
-                    onClick={this.handleMenuClick}
+                    onClick={handleMenuClick}
                     className="user-buttons-wrapper__avatar"
                     aria-controls='userMenu'
                     aria-haspopup="true"
@@ -109,14 +89,15 @@ class Header extends React.Component<MyProps> {
                     id='userMenu'
                     anchorOrigin={{ vertical: 'top', horizontal: 'right'}}
                     anchorEl={anchorEl}
-                    open={this.state.openMenu}
-                    onClose={this.handleClose}
+                    open={openMenu}
+                    onClose={() => setIsModalOpen(false)}
                   >
-                    <MenuItem onClick={this.navigateToAccSettings}>Account Settings</MenuItem>
-                    <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
+                    <MenuItem onClick={navigateToAccSettings}>Account Settings</MenuItem>
+                    <MenuItem onClick={navigateToDashboard}>Dashboard</MenuItem>
+                    <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
                   </Menu>
                 </div>
-                : <Button onClick={this.onSignInUpClick}  className="global__button--primary">SIGN IN / SIGN UP</Button>
+                : <Button onClick={onSignInUpClick}  className="global__button--primary">SIGN IN / SIGN UP</Button>
                 }
               </div>
 
@@ -124,11 +105,6 @@ class Header extends React.Component<MyProps> {
           </AppBar>
         </div>
     );
-  }
 }
 
-const mapDispatchToProps = dispatch => ({
-  logout: bindActionCreators(logout, dispatch),
-});
-
-export default connect(state => state, mapDispatchToProps)(Header)
+export default Header
