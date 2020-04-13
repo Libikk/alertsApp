@@ -27,8 +27,8 @@ const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenuClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setOpenMenu(true);
     setAnchorEl(e.currentTarget);
+    setOpenMenu(true);
   }
 
   const navigateToAccSettings = () => {
@@ -44,6 +44,11 @@ const Header = () => {
   const onSignInUpClick = () => {
     setIsModalOpen(true);
     event({ category: 'landing-page', action: 'click', label: 'SIGN IN / SIGN UP' })
+  }
+
+  const onMenuClose = () => {
+    setOpenMenu(false);
+    setAnchorEl(null);
   }
       return (
         <div className="container__header" app-version={version}>
@@ -90,7 +95,7 @@ const Header = () => {
                     anchorOrigin={{ vertical: 'top', horizontal: 'right'}}
                     anchorEl={anchorEl}
                     open={openMenu}
-                    onClose={() => setIsModalOpen(false)}
+                    onClose={onMenuClose}
                   >
                     <MenuItem onClick={navigateToAccSettings}>Account Settings</MenuItem>
                     <MenuItem onClick={navigateToDashboard}>Dashboard</MenuItem>
