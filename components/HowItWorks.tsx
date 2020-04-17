@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/howItWorks.scss';
 import FindIcon from '../static/svg/find.svg';
-import PiggyBankIcon from '../static/svg/piggybank.svg';
+import PiggyBankIcon from '../static/svg/pig.svg';
 import BellIcon from '../static/svg/notification-bell.svg';
 
 export default class HowItWorks extends React.Component {
