@@ -7,15 +7,15 @@
     display: flex;
     flex-direction: row;
     padding: 38px 30px;
-
+    justify-content: center;
 
     .footer_nav {
+        max-width: 1280px;
         width: 100%;
         display: flex;
         font-size: 12px;
         justify-content: space-around;
         align-items: center;
-        
 
         @media only screen and (max-width: 480px) {
             flex-direction: column;
