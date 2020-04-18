@@ -37,6 +37,8 @@ const emailLayout = (body, to, from = '<DDiscountHero>notification@DDiscounthero
 
 const composeUserProductsIntoHTML = ({ userName, products }) => {
   const productsHtml = products.map(({ productUrl, imageUrl, productName, hostNameUrl, productDiscountedPrice, productPrice }) => {
+    const defaultImage = 'https://ddiscounthero.com/static/images/no-image.jpg';
+
     const productPriceChange = (productDiscountedPrice && productPrice) ? `
       <div style="font-size: 26px; font-weight: 500;">
         <span style="font-size: 20px; text-decoration: line-through;">${productPrice}</span>
@@ -50,7 +52,7 @@ const composeUserProductsIntoHTML = ({ userName, products }) => {
         <a href="${productUrl}">${productName}</a>
       </h3>
       ${productPriceChange}
-      <img src="${imageUrl}" alt="${productName}" style="width: 100%; max-width: 200px;"/>
+      <img src="${imageUrl || defaultImage}" alt="${productName}" style="width: 100%; max-width: 200px;"/>
       <p style="margin-top: 0;">from: ${hostNameUrl}</p>
     </div>`;
   });
